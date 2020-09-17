@@ -2,17 +2,26 @@ import styled from 'styled-components'
 
 export const mainContainer = styled.div`
     display: flex;
-    margin: 0px 392px 50px 392px;
-    justify-content : space-between;
-    
+    margin : ${props => {
+        if (props.small) return '0px 392px 0px 392px';
+        else return '0px 392px 50px 392px;';
+      }};
+    justify-content : space-between;  
 `;
 
 export const mainSection  = styled.section`
     width : 100%;
     background-color : #ffffff;
     box-shadow: 0 0 6px #00000004;
-    padding : 30px;
-    margin-top 60px;
+    padding : ${props => {
+        if (props.small) return '0px 30px 0px 30px';
+        else return '30px';
+      }};
+    
+    margin-top : ${props => {
+        if (props.small) return '30px';
+        else return '60px';
+      }};
 `;
 
 export const writerInfoBox = styled.div`
