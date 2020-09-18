@@ -4,7 +4,7 @@ import * as C from '../../assets/style/PostDetail/Comment'
 
 const Comment = () => {
     return (
-        <S.mainContainer small>
+            <S.mainContainer detailPost>
             <S.mainSection small>
                 <C.commentBox>
                 <S.profileImg></S.profileImg>
@@ -16,8 +16,8 @@ const Comment = () => {
                         <C.contents>이렇게 쓰면 댓글이 된다네요</C.contents>
                     </C.div>
                 </C.commentBox>
-            </S.mainSection>          
-        </S.mainContainer>
+            </S.mainSection>
+            </S.mainContainer>
     );
 };
 

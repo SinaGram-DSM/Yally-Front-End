@@ -1,5 +1,12 @@
 import styled from 'styled-components'
 
+export const commentContainer = styled.div`
+    box-shadow : 0 0 6px #00000004;
+    background-color : #ffffff;
+    width : 100%;
+    padding : 0px 30px 0px 30px;
+`;
+
 export const commentBox = styled.div`
     display : flex;
     align-items : center;
