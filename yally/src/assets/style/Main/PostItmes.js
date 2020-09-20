@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+export const div = styled.div``;
+
 export const postInfoContainer = styled.div`
     display: flex;
 `;
@@ -56,6 +58,14 @@ export const reactionContainer = styled.div`
     margin-top : 20px;
     display: flex;
     align-items: center;
+    padding-bottom : ${props => {
+        if (props.detailPost) return '25px';
+        else return 'none';
+      }};
+    border-bottom : ${props => {
+        if (props.detailPost) return '1px solid #EFEFEF';
+        else return 'none';
+      }};
 `;
 
 export const reactionBox = styled.div`
