@@ -5,8 +5,7 @@ import { playButton, yallyOff, repl } from '../../assets/img'
 
 const PostItem = () => {
     return (
-        <S.mainContainer>
-            <S.mainSection>
+            <P.div>
                 <P.postInfoContainer>
                     <S.profileImg>
                     </S.profileImg>
@@ -24,8 +23,10 @@ const PostItem = () => {
                         </P.playInfoBox>
                         
                     </P.postArticle>
+                    
                 </P.postSection>
-                <P.reactionContainer>
+                
+                <P.reactionContainer detailPost>
                     <P.reactionBox>
                         <P.reactionIcon src={yallyOff}></P.reactionIcon>
                         <P.reactionCount>19개</P.reactionCount>
@@ -34,9 +35,9 @@ const PostItem = () => {
                         <P.reactionIcon src={repl}></P.reactionIcon>
                         <P.reactionCount>21개</P.reactionCount>
                     </P.reactionBox>
-                </P.reactionContainer>    
-            </S.mainSection>
-        </S.mainContainer>
+                </P.reactionContainer>   
+                
+            </P.div>
     );
 };
 
