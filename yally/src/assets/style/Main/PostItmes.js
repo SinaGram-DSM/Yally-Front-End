@@ -38,8 +38,20 @@ export const postArticle = styled.article`
     width: 440px;
 `;
 
-export const playIcon = styled.img`
-
+export const Icon = styled.img`
+    width : ${props => {
+    if (props.delete) return '20px';
+    else return '45px';
+  }};
+    height : ${props => {
+        if(props.delete) return '20px';
+        else return '50px';
+    }};
+    margin : ${props => {
+        if(props.delete) return '5px 0px 0px 5px';
+        else return '0px';
+    }};
+    cursor : pointer;
 `;
 
 export const playInfoBox = styled.div`
