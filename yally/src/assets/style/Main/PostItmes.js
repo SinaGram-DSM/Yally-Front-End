@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+export const div = styled.div``;
+
 export const postInfoContainer = styled.div`
     display: flex;
 `;
@@ -36,8 +38,20 @@ export const postArticle = styled.article`
     width: 440px;
 `;
 
-export const playIcon = styled.img`
-
+export const Icon = styled.img`
+    width : ${props => {
+    if (props.delete) return '20px';
+    else return '45px';
+  }};
+    height : ${props => {
+        if(props.delete) return '20px';
+        else return '50px';
+    }};
+    margin : ${props => {
+        if(props.delete) return '5px 0px 0px 5px';
+        else return '0px';
+    }};
+    cursor : pointer;
 `;
 
 export const playInfoBox = styled.div`
@@ -56,6 +70,14 @@ export const reactionContainer = styled.div`
     margin-top : 20px;
     display: flex;
     align-items: center;
+    padding-bottom : ${props => {
+        if (props.detailPost) return '25px';
+        else return 'none';
+      }};
+    border-bottom : ${props => {
+        if (props.detailPost) return '1px solid #EFEFEF';
+        else return 'none';
+      }};
 `;
 
 export const reactionBox = styled.div`
