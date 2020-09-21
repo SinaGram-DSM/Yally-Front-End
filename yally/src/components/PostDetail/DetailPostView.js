@@ -15,7 +15,7 @@ const DetailPostView = () => {
             <CommentView></CommentView>
             </S.mainSection>
         </S.mainContainer>
-        <Background></Background>
+        <Background></Background> 
         </P.div>
     );
 };
