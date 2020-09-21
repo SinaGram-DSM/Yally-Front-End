@@ -2,24 +2,42 @@ import styled from 'styled-components'
 
 export const mainContainer = styled.div`
     display: flex;
-    margin: ${props => props.profile? '0px 392px 0px 392px' : '0px 392px 50px 392px'};
-    justify-content : space-between;
-    
+    margin : ${props => {
+        if (props.small) return '0px 392px 0px 392px';
+        else if(props.detailPost) return '0px';
+        else if(props.profile) return '0px 392px 0px 392px';
+        else return '0px 392px 50px 392px;';
+      }};
+    justify-content : space-between;  
+    justify-content : center;
 `;
 
 export const mainSection  = styled.section`
     width : 100%;
     background-color : #ffffff;
-    box-shadow: ${props => props.profile? 'none' : '0 0 6px #00000004'};
-    padding :  ${props => props.profile? 'none' : '40px'};
-    margin-top: ${props => props.feed? 'none' : '60px'};
+    box-shadow: ${props => {
+        if (props.small) return 'none';
+        else if (props.profile) return 'none';
+        else return '0 0 6px #00000004;';
+      }};
+    padding : ${props => {
+        if (props.small) return '0px 30px 0px 30px';
+        else if (props.profile) return 'none';
+        else return '30px';
+      }};
+    
+    margin-top : ${props => {
+        if (props.small) return '30px';
+        else if(props.feed) return 'none';
+        else return '60px';
+      }};
 `;
 
 export const writerInfoBox = styled.div`
     height: 106px;
     display: flex;
     align-items: center;
-    border-bottom: ${props=>props.profile? 'none' : '1px solid #EFEFEF' };
+    border-bottom: ${props => props.profile ? 'none' : '1px solid #EFEFEF'};
     margin : 0px 0px 25px 0px;
     padding-bottom : 20px;
 `;
@@ -39,7 +57,7 @@ export const writerInput = styled.input`
 
 export const profileImg = styled.img`
     width: ${props => props.profile ? '130px': '70px' };
-    height:  ${props => props.profile ? '130px': '70px' };
+    height: ${props => props.profile ? '130px': '70px' };
     border-radius: 9999px;
     border: none;
     background-color: rgb(211, 183, 183);
@@ -66,6 +84,7 @@ export const buttonBox = styled.button`
     color: #707070;
     font-size: 15px;
     padding: 10px;
+
     &:hover {
         background-color : #D1D1D1;
         transition : 0.3s

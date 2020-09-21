@@ -2,7 +2,6 @@ import React from 'react';
 import * as M from '../../assets/style/UserPage/PageStyle';
 import * as S from '../../assets/style/Main/AddTimeLine'
 import MyFeed from './MyFeed';
-import profileImg from '../../assets/img/test.jpg';
 
 const MyPage = () => {
     return(
