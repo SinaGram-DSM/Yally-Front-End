@@ -75,6 +75,12 @@ export const listenBtn = styled.button`
     border-radius: 100px;
     margin: 20px 40px 0px 0px;
     &:hover{
-        border: 1.5px solid #333393;
+        border: 1.5px solid white;
     }
+`
+
+
+export const unlistenBtn = styled(listenBtn)`
+    background-color: #333393;
+
 `

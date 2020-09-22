@@ -1,21 +1,37 @@
 import React from 'react';
-import * as L from '../../assets/style/UserPage/Listen';
-import * as M from '../../assets/style/Main/AddTimeLine';
-import ListenerList from './ListenerList';
+import * as T from '../../assets/style/UserPage/Listen';
+import * as L from '../../assets/style/UserPage/PageStyle';
 
 const Listener = () => {
+    const isListen = true;
     return(
-        <div>
-        <M.mainContainer>
-            <L.mainSection>
-            <L.profileSection>
-            <L.profileImg></L.profileImg>
-            <L.comment>3명이 마멜공주 님의 이야기를 듣고 있습니다.</L.comment>
-            </L.profileSection>
-            <ListenerList/>
-            </L.mainSection>
-        </M.mainContainer>
-        </div>
+        <T.listenSection>
+            <T.containerBox>
+                <T.itemBox>
+                  <T.boxImg/>  
+                <T.userBox>
+                    <T.name>최수빈</T.name>
+                    <L.Listen list>
+                        <L.Listening listen>리스닝 123</L.Listening>
+                        <L.Listener listen>리스너 456</L.Listener>
+                    </L.Listen>
+                </T.userBox>
+                
+                </T.itemBox>
+                {isListen ? 
+                <T.listenBtn>리스닝</T.listenBtn> :
+                <T.unlistenBtn>언리스닝</T.unlistenBtn> }
+            </T.containerBox>
+            <T.containerBox>
+                
+                </T.containerBox>
+                
+            <T.containerBox>
+                
+                </T.containerBox>
+      
+                
+        </T.listenSection>
     )
 }
 
