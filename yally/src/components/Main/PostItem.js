@@ -20,7 +20,7 @@ const PostItem = () => {
                     <P.postArticle>
                         <P.postWritten>글 작성 어쩌구저쩌구~~ #첫게시물 #LIKE #얄리</P.postWritten>
                         <P.playInfoBox>
-                            <P.playIcon src={playButton}></P.playIcon>
+                            <P.Icon src={playButton}></P.Icon>
                         </P.playInfoBox>
                         
                     </P.postArticle>
