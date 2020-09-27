@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const mainSection = styled.section`
     width: 100%;
-    margin-top: 70px;
+    margin-top: 30px;
 `
 export const profileSection = styled.div`
     width: 100%;

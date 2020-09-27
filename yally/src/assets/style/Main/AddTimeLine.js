@@ -29,8 +29,9 @@ export const mainSection  = styled.section`
     margin-top : ${props => {
         if (props.small) return '30px';
         else if(props.feed) return 'none';
-        else return '60px';
+        else return '50px';
       }};
+    z-index: 1;
 `;
 
 export const writerInfoBox = styled.div`
@@ -56,12 +57,22 @@ export const writerInput = styled.input`
 `;
 
 export const profileImg = styled.img`
-    width: ${props => props.profile ? '130px': '70px' };
-    height: ${props => props.profile ? '130px': '70px' };
+    width: ${props => {
+        if(props.profile) return '130px'
+        else if(props.header || props.menu) return '45px';
+        else return '70px';
+    }};
+    height: ${props => {
+        if(props.profile) return '130px'
+        else if(props.header || props.menu) return '45px';
+        else return '70px';
+    }};
+    margin: ${props => props.menu ? '10px 0px 0px 53px': 'none'} ; 
     border-radius: 9999px;
     border: none;
     background-color: rgb(211, 183, 183);
     box-shadow : 0 0 6px #00000016;
+    cursor: ${props => props.header ? 'pointer' : 'none'};
 `;
 
 export const buttonsContainer = styled.div`
