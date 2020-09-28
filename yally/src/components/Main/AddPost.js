@@ -5,27 +5,59 @@ import { mic, sound, picture } from '../../assets/img'
 const AddPost = () => {
 
     let [rec, setRec] = useState({});
+    let [media, setMedia] = useState({});
     let [onRec, setOnRec] = useState(true);
-    useEffect(() => {
-        navigator.mediaDevices.getUserMedia({ audio: true })
+    const onRecAudio = () => {
+        
+    //     let audioSuccess = function(stream) {
+    //         let context = new AudioContext();
+    //         let source = context.createMediaStreamSource(stream)
+    //         let processor = context.createScriptProcessor(1024,1,1);
+    //         source.connect(processor);
+    //         processor.connect(context.destination);
+        
+    //         processor.onaudioprocess = function(e){
+    //         audio = e.inputBuffer;
+    //         };
+    //    };
+
+    navigator.mediaDevices.getUserMedia({ audio: true })
             .then(stream => {
             const mediaRecorder = new MediaRecorder(stream)
-            setRec(mediaRecorder)
+            mediaRecorder.start()
+            setRec(stream);
+            setMedia(mediaRecorder)
         })
-    }, [onRec]);
-
-    const onRecAudio = () => {
-        rec.start()
-        console.log(rec);
-        console.log("start")
         setOnRec(false)
     }
-    
+
     const offRecAudio = () => {
-        rec.stop()
-        console.log("stop")
-        setOnRec(true)
+        rec.getAudioTracks().forEach(function(track) {
+            track.stop();
+        });
+        media.stop()
     }
+
+
+    // const content = document.getElementById('contentInput')[0].value.trim();
+    // let sound = document.getElementById("audioFile").files;
+    // const img = document.getElementById("audioImg").files;
+    // const hashtags = ["h1", "h2"];
+
+    // const formdata = 
+    // {
+    //     sound : sound,
+    //     content : content,
+    //     img : img,
+    //     hashtags : hashtags
+    // };
+
+    // let form = new FormData()
+    // form.append('content', formdata.content)
+    // form.append('img', formdata.img)
+    // form.append('sound', formdata.sound)
+    // form.append('hashtags', formdata.hashtags)
+
 
     return (
         <S.mainContainer>
@@ -41,7 +73,7 @@ const AddPost = () => {
                     </S.writerInfoBox>
                     <S.buttonsContainer>
                         <S.form >
-                            <S.buttonBox onClick={onRec ? onRecAudio : offRecAudio }>
+                            <S.buttonBox onClick={onRec? onRecAudio : offRecAudio}>
                                 <S.buttonIcon src={mic}></S.buttonIcon>
                                 녹음
                             </S.buttonBox>
