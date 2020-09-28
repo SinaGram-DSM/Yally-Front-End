@@ -21,7 +21,7 @@ export const logoImg = styled.img`
 `
 
 export const inputContainer = styled.div`
-    margin: 20px 0px 0px 350px;
+    margin: 20px 0px 0px 280px;
 `
 
 export const inputBox = styled.input.attrs({
