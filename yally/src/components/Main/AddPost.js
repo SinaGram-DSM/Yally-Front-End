@@ -1,6 +1,7 @@
 import React,{ useState } from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import { mic, sound, picture } from '../../assets/img'
+import axios from 'axios'
 
 const AddPost = () => {
 
@@ -70,7 +71,6 @@ const AddPost = () => {
             track.stop();
         });
         media.stop()
-        
         analyser.disconnect();
         source.disconnect(); 
         
@@ -82,15 +82,49 @@ const AddPost = () => {
         console.log(uploadUrl)
     }
 
+    const onAddPost = () => {
+        const content = document.getElementsByName('content')[0].value.trim();
+        const img = document.getElementById("audioImg").files;
+        const hashtag = ["h1", "h2"];
+
+        const config = {
+            headers : { 'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8',
+            'Content-type': 'application/x-www-form-urlencoded'
+            }
+        }
+        const formdata = 
+        {
+            sound : recAudioUrl,
+            content : content,
+            file : img,
+            hashtag : hashtag
+        };
+        
+        console.log(formdata)
+        
+        let form = new FormData();
+        form.append('content', formdata.content);
+        form.append('file', formdata.file[0]);
+        form.append('sound', formdata.sound);
+        for(let i = 0; i < hashtag.length; i++)
+        {
+            form.append('hashtag', formdata.hashtag[i]);
+            console.log(formdata.hashtag[i])
+        }
+        
+        axios.post("http://13.125.238.84:81/post", form, config)
+            .then((res) => {
+                console.log(res)
+            })
+    }
+
     return (
         <S.mainContainer>
             <S.mainSection>
                 <S.writerInfoBox>
-                    <S.profileImg>
-
-                    </S.profileImg>
+                    <S.profileImg></S.profileImg>
                     <S.form action="" method="post" enctype="multipart/form-data" input>
-                        <S.writerInput placeholder="마멜공주님의 이야기를 들려주세요!" type="text" id="contentInput">
+                        <S.writerInput placeholder="마멜공주님의 이야기를 들려주세요!" type="text" name="content">
                         </S.writerInput>
                     </S.form>
                     </S.writerInfoBox>
@@ -101,14 +135,12 @@ const AddPost = () => {
                                 녹음
                             </S.buttonBox>
                         </S.form>
-                        
                         <S.form enctype="multipart/form-data">
                             <S.buttonBox for="audioFile">
                                 <S.inputFile type="file" id="audioFile" accept="audio/*" capture="microphone"/>
                                 <S.buttonIcon src={sound}></S.buttonIcon>
                                 음성 파일
                             </S.buttonBox>
-                            
                         </S.form>
                         <S.form method="post" enctype="multipart/form-data">
                             <S.buttonBox for="audioImg">
@@ -117,6 +149,7 @@ const AddPost = () => {
                                 음성 커버
                             </S.buttonBox>
                         </S.form>
+                        <button onClick={onAddPost}>업로드</button>
                     </S.buttonsContainer>
             </S.mainSection>
         </S.mainContainer>
