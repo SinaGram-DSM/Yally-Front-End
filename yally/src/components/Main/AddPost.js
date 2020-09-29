@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react';
+import React,{ useState } from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import { mic, sound, picture } from '../../assets/img'
 
@@ -7,20 +7,22 @@ const AddPost = () => {
     let [stream, setStream] = useState({});
     let [media, setMedia] = useState({});
     let [onRec, setOnRec] = useState(true);
-    let recArr = [];
     let [source, setSource] = useState({});
-    let [processor , setProcessor] = useState({});
+    let [analyser , setAnalyser] = useState({});
+    let recArr = [];
+    let uploadArr = [];
+    let recAudioData,recAudioUrl;
 
     const onRecAudio = () => {
         const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-        const processor = audioCtx.createAnalyser();
-        setProcessor(processor);
+        const analyser = audioCtx.createScriptProcessor(0,1,1);
+        setAnalyser(analyser);
 
         function makeSound(stream) {
             const source = audioCtx.createMediaStreamSource(stream);
             setSource(source)
-            source.connect(processor);
-            processor.connect(audioCtx.destination);
+            source.connect(analyser);
+            analyser.connect(audioCtx.destination);
         }
 
         navigator.mediaDevices.getUserMedia({ audio: true })
@@ -30,15 +32,37 @@ const AddPost = () => {
             setStream(stream);
             setMedia(mediaRecorder);
             makeSound(stream);
+            analyser.onaudioprocess = function(e) {
+                if(e.playbackTime > 300)
+                {
+                    stream.getAudioTracks().forEach(function(track) {
+                        track.stop();
+                    });
+                    mediaRecorder.stop();
+                    analyser.disconnect();
+                    audioCtx.createMediaStreamSource(stream).disconnect();
+                    
+                    mediaRecorder.ondataavailable = function(e) {
+                    recArr.push(e.data);
+                    recAudioData = new Blob(recArr, { 'type': 'audio/ogg codecs=opus' });
+                    recAudioUrl = URL.createObjectURL(recAudioData);
+                    console.log(recAudioUrl);
+                    setOnRec(true);
+                    }
+                }
+                else
+                {
+                    setOnRec(false)
+                }
+            }
         })
-            setOnRec(false)
     }
 
     const offRecAudio = () => {
         media.ondataavailable = function(e) {
             recArr.push(e.data);
-            let recAudioData = new Blob(recArr, { 'type': 'audio/ogg codecs=opus' });
-            let recAudioUrl = URL.createObjectURL(recAudioData);
+            recAudioData = new Blob(recArr, { 'type': 'audio/ogg codecs=opus' });
+            recAudioUrl = URL.createObjectURL(recAudioData);
             console.log(recAudioUrl);
         }
 
@@ -47,11 +71,15 @@ const AddPost = () => {
         });
         media.stop()
         
-        processor.onaudioprocess = function() {
-            processor.disconnect();
-            source.disconnect(); 
-        }
-        setOnRec(true)
+        analyser.disconnect();
+        source.disconnect(); 
+        
+        let audioFile = document.getElementById('audioFile').files
+        console.log(audioFile)
+        uploadArr = audioFile;
+        let uploadRec = new Blob(uploadArr, { 'type': 'audio/ogg codecs=opus' })
+        let uploadUrl = window.URL.createObjectURL(uploadRec)
+        console.log(uploadUrl)
     }
 
     return (
@@ -74,12 +102,13 @@ const AddPost = () => {
                             </S.buttonBox>
                         </S.form>
                         
-                        <S.form method="post" enctype="multipart/form-data">
+                        <S.form enctype="multipart/form-data">
                             <S.buttonBox for="audioFile">
                                 <S.inputFile type="file" id="audioFile" accept="audio/*" capture="microphone"/>
                                 <S.buttonIcon src={sound}></S.buttonIcon>
                                 음성 파일
                             </S.buttonBox>
+                            
                         </S.form>
                         <S.form method="post" enctype="multipart/form-data">
                             <S.buttonBox for="audioImg">
