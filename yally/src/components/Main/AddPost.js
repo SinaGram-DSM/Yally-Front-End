@@ -4,60 +4,55 @@ import { mic, sound, picture } from '../../assets/img'
 
 const AddPost = () => {
 
-    let [rec, setRec] = useState({});
+    let [stream, setStream] = useState({});
     let [media, setMedia] = useState({});
     let [onRec, setOnRec] = useState(true);
-    const onRecAudio = () => {
-        
-    //     let audioSuccess = function(stream) {
-    //         let context = new AudioContext();
-    //         let source = context.createMediaStreamSource(stream)
-    //         let processor = context.createScriptProcessor(1024,1,1);
-    //         source.connect(processor);
-    //         processor.connect(context.destination);
-        
-    //         processor.onaudioprocess = function(e){
-    //         audio = e.inputBuffer;
-    //         };
-    //    };
+    let recArr = [];
+    let [source, setSource] = useState({});
+    let [processor , setProcessor] = useState({});
 
-    navigator.mediaDevices.getUserMedia({ audio: true })
+    const onRecAudio = () => {
+        const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+        const processor = audioCtx.createAnalyser();
+        setProcessor(processor);
+
+        function makeSound(stream) {
+            const source = audioCtx.createMediaStreamSource(stream);
+            setSource(source)
+            source.connect(processor);
+            processor.connect(audioCtx.destination);
+        }
+
+        navigator.mediaDevices.getUserMedia({ audio: true })
             .then(stream => {
-            const mediaRecorder = new MediaRecorder(stream)
-            mediaRecorder.start()
-            setRec(stream);
-            setMedia(mediaRecorder)
+            const mediaRecorder = new MediaRecorder(stream);
+            mediaRecorder.start();
+            setStream(stream);
+            setMedia(mediaRecorder);
+            makeSound(stream);
         })
-        setOnRec(false)
+            setOnRec(false)
     }
 
     const offRecAudio = () => {
-        rec.getAudioTracks().forEach(function(track) {
+        media.ondataavailable = function(e) {
+            recArr.push(e.data);
+            let recAudioData = new Blob(recArr, { 'type': 'audio/ogg codecs=opus' });
+            let recAudioUrl = URL.createObjectURL(recAudioData);
+            console.log(recAudioUrl);
+        }
+
+        stream.getAudioTracks().forEach(function(track) {
             track.stop();
         });
         media.stop()
+        
+        processor.onaudioprocess = function() {
+            processor.disconnect();
+            source.disconnect(); 
+        }
+        setOnRec(true)
     }
-
-
-    // const content = document.getElementById('contentInput')[0].value.trim();
-    // let sound = document.getElementById("audioFile").files;
-    // const img = document.getElementById("audioImg").files;
-    // const hashtags = ["h1", "h2"];
-
-    // const formdata = 
-    // {
-    //     sound : sound,
-    //     content : content,
-    //     img : img,
-    //     hashtags : hashtags
-    // };
-
-    // let form = new FormData()
-    // form.append('content', formdata.content)
-    // form.append('img', formdata.img)
-    // form.append('sound', formdata.sound)
-    // form.append('hashtags', formdata.hashtags)
-
 
     return (
         <S.mainContainer>
@@ -78,6 +73,7 @@ const AddPost = () => {
                                 녹음
                             </S.buttonBox>
                         </S.form>
+                        
                         <S.form method="post" enctype="multipart/form-data">
                             <S.buttonBox for="audioFile">
                                 <S.inputFile type="file" id="audioFile" accept="audio/*" capture="microphone"/>
@@ -92,7 +88,6 @@ const AddPost = () => {
                                 음성 커버
                             </S.buttonBox>
                         </S.form>
-                        
                     </S.buttonsContainer>
             </S.mainSection>
         </S.mainContainer>
