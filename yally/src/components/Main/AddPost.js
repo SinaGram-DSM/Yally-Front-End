@@ -10,6 +10,7 @@ const AddPost = () => {
     let [onRec, setOnRec] = useState(true);
     let [source, setSource] = useState({});
     let [analyser , setAnalyser] = useState({});
+    let [audioUrl, setAudioUrl] = useState();
     let recArr = [];
     let uploadArr = [];
     let recAudioData,recAudioUrl;
@@ -65,12 +66,14 @@ const AddPost = () => {
             recAudioData = new Blob(recArr, { 'type': 'audio/ogg codecs=opus' });
             recAudioUrl = URL.createObjectURL(recAudioData);
             console.log(recAudioUrl);
+            setAudioUrl(recAudioUrl)
         }
 
         stream.getAudioTracks().forEach(function(track) {
             track.stop();
         });
         media.stop()
+        
         analyser.disconnect();
         source.disconnect(); 
         
@@ -79,7 +82,7 @@ const AddPost = () => {
         uploadArr = audioFile;
         let uploadRec = new Blob(uploadArr, { 'type': 'audio/ogg codecs=opus' })
         let uploadUrl = window.URL.createObjectURL(uploadRec)
-        console.log(uploadUrl)
+        setAudioUrl(uploadUrl)
     }
 
     const onAddPost = () => {
@@ -94,7 +97,7 @@ const AddPost = () => {
         }
         const formdata = 
         {
-            sound : recAudioUrl,
+            sound : audioUrl,
             content : content,
             file : img,
             hashtag : hashtag
