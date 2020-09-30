@@ -18,13 +18,18 @@ const PostItem = ({date, nickname, isYally, isComment, content, sound, isMine, u
                     
                </P.postInfoContainer>
                 <P.postSection>
-                    <img src={src + audioImg}></img>
-                    <P.postArticle>
-                        <P.postWritten>{content}</P.postWritten>
-                        <P.playInfoBox>
-                            <P.Icon src={playButton}></P.Icon>
-                        </P.playInfoBox>
-                    </P.postArticle>
+                    <P.audioContainer>
+                        <P.audioImg src={src + audioImg}></P.audioImg>
+                        <P.postInfoContainer post>
+                            <P.postArticle>
+                                <P.postWritten>{content}</P.postWritten>
+                                <P.playInfoBox>
+                                    <P.Icon src={playButton}></P.Icon>
+                                </P.playInfoBox>
+                            </P.postArticle>
+                        </P.postInfoContainer>
+                    </P.audioContainer>
+                    
                 </P.postSection>
                 <P.reactionContainer>
                     <P.reactionBox>
