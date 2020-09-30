@@ -48,7 +48,6 @@ const AddPost = () => {
                     recArr.push(e.data);
                     recAudioData = new Blob(recArr, { 'type': 'audio/ogg codecs=opus' });
                     recAudioUrl = URL.createObjectURL(recAudioData);
-                    console.log(recAudioUrl);
                     setOnRec(true);
                     }
                 }
@@ -65,7 +64,6 @@ const AddPost = () => {
             recArr.push(e.data);
             recAudioData = new Blob(recArr, { 'type': 'audio/ogg codecs=opus' });
             recAudioUrl = URL.createObjectURL(recAudioData);
-            console.log(recAudioUrl);
             setAudioUrl(recAudioUrl)
         }
 
@@ -78,7 +76,6 @@ const AddPost = () => {
         source.disconnect(); 
         
         let audioFile = document.getElementById('audioFile').files
-        console.log(audioFile)
         uploadArr = audioFile;
         let uploadRec = new Blob(uploadArr, { 'type': 'audio/ogg codecs=opus' })
         let uploadUrl = window.URL.createObjectURL(uploadRec)
@@ -88,22 +85,31 @@ const AddPost = () => {
     const onAddPost = () => {
         const content = document.getElementsByName('content')[0].value.trim();
         const img = document.getElementById("audioImg").files;
-        const hashtag = ["h1", "h2"];
+        let hashtagArr = [];
+        let hashtag = '';
+        hashtagArr = content.split('#');
+        
+        for(let i = 1; i < hashtagArr.length; i++)
+        {
+            hashtag += '#' + hashtagArr[i];
+        }
+        
+        hashtag = hashtag.split(' ');
+        hashtagArr = hashtag;
 
         const config = {
             headers : { 'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8',
             'Content-type': 'application/x-www-form-urlencoded'
             }
         }
+
         const formdata = 
         {
             sound : audioUrl,
             content : content,
             file : img,
-            hashtag : hashtag
+            hashtag : hashtagArr
         };
-        
-        console.log(formdata)
         
         let form = new FormData();
         form.append('content', formdata.content);
@@ -112,13 +118,12 @@ const AddPost = () => {
         for(let i = 0; i < hashtag.length; i++)
         {
             form.append('hashtag', formdata.hashtag[i]);
-            console.log(formdata.hashtag[i])
         }
         
         axios.post("http://13.125.238.84:81/post", form, config)
-            .then((res) => {
-                console.log(res)
-            })
+        .then((res) => {
+            console.log(res)
+        })
     }
 
     return (
