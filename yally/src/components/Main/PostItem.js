@@ -6,6 +6,11 @@ import { playButton, yallyOff, repl } from '../../assets/img'
 const PostItem = ({date, nickname, isYally, isComment, content, sound, isMine, userImg, audioImg}) => {
     const src = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/"
     
+    let createdDate = date.split('-');
+    let day = createdDate[2];
+    day = day.split(' ')
+    createdDate = createdDate[0] + "년 " + createdDate[1] + "월 " +  day[0] + "일"
+
     return (
         <S.mainContainer>
             <S.mainSection>
@@ -13,7 +18,7 @@ const PostItem = ({date, nickname, isYally, isComment, content, sound, isMine, u
                     <S.profileImg src={src + userImg}></S.profileImg>
                     <P.postInfoBox>
                         <P.postNameInfo>{nickname}</P.postNameInfo>
-                        <P.postDateInfo>{date}</P.postDateInfo>
+                        <P.postDateInfo>{createdDate}</P.postDateInfo>
                     </P.postInfoBox>
                     
                </P.postInfoContainer>
