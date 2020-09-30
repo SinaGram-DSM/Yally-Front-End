@@ -4,6 +4,10 @@ export const div = styled.div``;
 
 export const postInfoContainer = styled.div`
     display: flex;
+    justify-content : ${props => {
+        if (props.post) return 'center';
+        else return '';
+        }};
 `;
 
 export const postNameInfo = styled.h1`
@@ -27,22 +31,35 @@ export const postInfoBox = styled.div`
 export const postSection = styled.section`
     width: 100%;
     height: 400px;
-    background-color: #000000;
     opacity: 0.5;
+    background-color : #000000;
     display: flex;
     align-items: center;
     justify-content: center;
 `;
 
+export const audioContainer = styled.div`
+    position : relative;
+`;
+
+export const audioImg = styled.img`
+    width: 100%;
+    height: 400px;
+    opacity: 0.5;
+`;
+
 export const postArticle = styled.article`
     width: 440px;
+    position : absolute;
+    top : 30%;
+    text-align : center;
 `;
 
 export const Icon = styled.img`
     width : ${props => {
     if (props.delete) return '20px';
     else return '45px';
-  }};
+    }};
     height : ${props => {
         if(props.delete) return '20px';
         else return '50px';
@@ -88,6 +105,9 @@ export const reactionBox = styled.div`
 
 export const reactionIcon = styled.img`
     margin-right : 5px;
+    width : 35px;
+    height : 35px;
+    cursor : pointer;
 `;
 
 export const reactionCount = styled.p`

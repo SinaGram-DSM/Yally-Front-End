@@ -44,7 +44,10 @@ export const writerInfoBox = styled.div`
 `;
 
 export const form = styled.form`
-    width : 100%;
+    width : ${props => {
+        if (props.input) return '90%';
+        else return '';
+      }};
 `;
 
 export const writerInput = styled.input`
@@ -80,9 +83,9 @@ export const buttonsContainer = styled.div`
     align-items: center;
 `;
 
-export const buttonBox = styled.button`
+export const buttonBox = styled.label`
     width: 102px;
-    height: 43px;
+    height: 35px;
     background-color: #EFEFEF;
     border-radius: 23px;
     margin-right: 20px;
@@ -94,12 +97,22 @@ export const buttonBox = styled.button`
     cursor: pointer;
     color: #707070;
     font-size: 15px;
-    padding: 10px;
+    padding: 3px;
 
     &:hover {
         background-color : #D1D1D1;
         transition : 0.3s
     }
+`;
+export const inputFile = styled.input`
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
 `;
 
 export const buttonIcon = styled.img`
