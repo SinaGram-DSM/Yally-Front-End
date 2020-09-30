@@ -62,6 +62,7 @@ export const moreBtn = styled.img`
 export const menuBox = styled.div`
    background-color: white;
    position: absolute;
+   right: 0;
    width: 150px;
    height: 220px;
    margin: 70px 0px 0px 780px;
