@@ -3,7 +3,7 @@ import * as S from "../../assets/style/Main/AddTimeLine";
 import { mic, sound, picture } from '../../assets/img'
 import axios from 'axios'
 
-const AddPost = () => {
+const AddPost = ({baseUrl}) => {
 
     let [stream, setStream] = useState({});
     let [media, setMedia] = useState({});
@@ -120,7 +120,7 @@ const AddPost = () => {
             form.append('hashtag', formdata.hashtag[i]);
         }
         
-        axios.post("http://13.125.238.84:81/post", form, config)
+        axios.post(baseUrl + "post", form, config)
         .then((res) => {
             console.log(res)
         })
