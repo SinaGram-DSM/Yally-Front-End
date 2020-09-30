@@ -3,13 +3,13 @@ import styled from 'styled-components';
 export const settingContainer =  styled.div`
     display: flex;
     margin: 0px 392px 0px 392px;
-
+    z-index: 1;
 `
 
 export const settingSection = styled.section`
     width: 100%;
     padding: 60px 190px 0px 190px;
-    
+    text-align: center;
 `
 
 export const topSection = styled.section`
@@ -33,8 +33,8 @@ export const headerBorder = styled.div`
 
 
 export const profileSection = styled.section`
-    width: 28%;
-    margin: 60px auto;   
+    width: 34%;
+    margin: 60px 0px 50px 110px;   
 `
 export const imgInput = styled.input.attrs({
     type: 'file',
@@ -59,7 +59,7 @@ export const profileChange = styled.img`
     width: 70%;
     position: relative;
     top: 0;
-    left: 17px;
+    left: 0;
     z-index: 2;
     vertical-align: middle;
 `
@@ -73,11 +73,12 @@ export const profileImge = styled.img`
 
 `
 export const nameBox = styled.div`
-    width: 70%;
+    width: 73%;
     margin: 0 auto;
 `
 export const nickname = styled.input.attrs({
-    type: 'text'
+    type: 'text',
+    placeholder: "Nickname"
 })`
     width: 100%;
     color: #707070;
@@ -87,8 +88,22 @@ export const nickname = styled.input.attrs({
     margin: 0 auto;
     outline: none;
     ::placeholder {
-        color: #707070;
+        color: #D1D1D1;
     }
-
 `
 
+export const settingBtn = styled.button`
+    width: 70%;
+    height: 40px;
+    margin: 50px;
+    border: none;
+    outline: none;
+    font-size: 17px;
+    color: white;
+    background: linear-gradient(to right, #6E8EEA, #9B78EC);
+`
+
+export const backPage = styled.a`
+    color: #6665E7;
+    font-size: 15px;
+`
