@@ -1,7 +1,8 @@
 import React,{ useState } from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
-import { mic, sound, picture } from '../../assets/img'
-import axios from 'axios'
+import * as R from '../../assets/style/Main/Recommend';
+import { mic, sound, picture } from '../../assets/img';
+import axios from 'axios';
 
 const AddPost = ({baseUrl}) => {
 
@@ -65,6 +66,7 @@ const AddPost = ({baseUrl}) => {
             recAudioData = new Blob(recArr, { 'type': 'audio/ogg codecs=opus' });
             recAudioUrl = URL.createObjectURL(recAudioData);
             setAudioUrl(recAudioUrl)
+            console.log(recAudioUrl)
         }
 
         stream.getAudioTracks().forEach(function(track) {
@@ -75,11 +77,17 @@ const AddPost = ({baseUrl}) => {
         analyser.disconnect();
         source.disconnect(); 
         
+        
+    }
+
+    const onUploadRec = () => {
         let audioFile = document.getElementById('audioFile').files
         uploadArr = audioFile;
-        let uploadRec = new Blob(uploadArr, { 'type': 'audio/ogg codecs=opus' })
-        let uploadUrl = window.URL.createObjectURL(uploadRec)
+        console.log(typeof audioFile)
+        //let uploadRec = new Blob(uploadArr, { 'type': 'audio/ogg codecs=opus' })
+        let uploadUrl = window.URL.createObjectURL(audioFile)
         setAudioUrl(uploadUrl)
+        console.log(uploadUrl)
     }
 
     const onAddPost = () => {
@@ -130,34 +138,37 @@ const AddPost = ({baseUrl}) => {
         <S.mainContainer>
             <S.mainSection>
                 <S.writerInfoBox>
+                    
                     <S.profileImg></S.profileImg>
                     <S.form action="" method="post" enctype="multipart/form-data" input>
                         <S.writerInput placeholder="마멜공주님의 이야기를 들려주세요!" type="text" name="content">
                         </S.writerInput>
                     </S.form>
                     </S.writerInfoBox>
-                    <S.buttonsContainer>
-                        <S.form >
-                            <S.buttonBox onClick={onRec? onRecAudio : offRecAudio}>
-                                <S.buttonIcon src={mic}></S.buttonIcon>
-                                녹음
-                            </S.buttonBox>
-                        </S.form>
-                        <S.form enctype="multipart/form-data">
-                            <S.buttonBox for="audioFile">
-                                <S.inputFile type="file" id="audioFile" accept="audio/*" capture="microphone"/>
-                                <S.buttonIcon src={sound}></S.buttonIcon>
-                                음성 파일
-                            </S.buttonBox>
-                        </S.form>
-                        <S.form method="post" enctype="multipart/form-data">
-                            <S.buttonBox for="audioImg">
-                                <S.inputFile type="file" id="audioImg"/>
-                                <S.buttonIcon src={picture}></S.buttonIcon>
-                                음성 커버
-                            </S.buttonBox>
-                        </S.form>
-                        <button onClick={onAddPost}>업로드</button>
+                    <S.buttonsContainer container>
+                        <S.buttonsContainer>
+                            <S.form>
+                                <S.buttonBox onClick={onRec? onRecAudio : offRecAudio}>
+                                    <S.buttonIcon src={mic}></S.buttonIcon>
+                                    녹음
+                                </S.buttonBox>
+                            </S.form>
+                            <S.form enctype="multipart/form-data">
+                                <S.buttonBox for="audioFile">
+                                    <S.inputFile onClick={onUploadRec} type="file" id="audioFile" accept="audio/*" capture="microphone"/>
+                                    <S.buttonIcon src={sound}></S.buttonIcon>
+                                    음성 파일
+                                </S.buttonBox>
+                            </S.form>
+                            <S.form method="post" enctype="multipart/form-data">
+                                <S.buttonBox for="audioImg">
+                                    <S.inputFile type="file" id="audioImg"/>
+                                    <S.buttonIcon src={picture}></S.buttonIcon>
+                                    음성 커버
+                                </S.buttonBox>
+                            </S.form>
+                        </S.buttonsContainer>
+                        <R.ListeningButton onClick={onAddPost}>업로드</R.ListeningButton>
                     </S.buttonsContainer>
             </S.mainSection>
         </S.mainContainer>
