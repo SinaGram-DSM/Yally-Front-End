@@ -15,10 +15,12 @@ export const userName = styled.p`
 
 export const ListeningButton = styled.button`
     background-color: #6665E7;
-    width: 90px;
+    width: ${props => props.comment ? '70px' : '90px' };
     height: 40px;
     border: none;
     border-radius: 99px;
     color: white;
     font-size: 16px;
+    outline : none;
+    cursor : pointer;
 `;
