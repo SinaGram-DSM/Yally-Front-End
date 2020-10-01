@@ -35,6 +35,7 @@ export const mainSection  = styled.section`
 `;
 
 export const writerInfoBox = styled.div`
+    width : 100%;
     height: 106px;
     display: flex;
     align-items: center;
@@ -82,6 +83,7 @@ export const profileImg = styled.img`
 export const buttonsContainer = styled.div`
     display: flex;
     align-items: center;
+    justify-content : ${props => props.container ? 'space-between' : ''};
 `;
 
 export const buttonBox = styled.label`
