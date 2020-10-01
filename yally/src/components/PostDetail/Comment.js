@@ -2,18 +2,19 @@ import React from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import * as C from '../../assets/style/PostDetail/Comment'
 
-const Comment = () => {
+const Comment = ({src, sound, nickname, date, content, userImg}) => {
+    console.log(content)
     return (
             <S.mainContainer detailPost>
             <S.mainSection small>
                 <C.commentBox>
-                <S.profileImg></S.profileImg>
+                <S.profileImg src={src + userImg}></S.profileImg>
                     <C.div>
                         <C.commentInfo>
-                            <C.commentWriter>뫙뫙</C.commentWriter>
-                            <C.commentDate>2019년 1월 1일 00:04</C.commentDate>
+                            <C.commentWriter>{nickname}</C.commentWriter>
+                            <C.commentDate>{date}</C.commentDate>
                         </C.commentInfo>
-                        <C.contents>이렇게 쓰면 댓글이 된다네요</C.contents>
+                        <C.contents>{content}</C.contents>
                     </C.div>
                 </C.commentBox>
             </S.mainSection>
