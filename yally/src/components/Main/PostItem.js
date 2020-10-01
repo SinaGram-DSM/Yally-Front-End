@@ -1,15 +1,34 @@
 import React from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import * as P from "../../assets/style/Main/PostItmes"
-import { playButton, yallyOff, repl } from '../../assets/img'
+import { playButton, yallyOff, repl, deleteIcon } from '../../assets/img'
+import { Link } from "react-router-dom";
+import axios from 'axios'
 
-const PostItem = ({date, nickname, isYally, isComment, content, sound, isMine, userImg, audioImg}) => {
+const PostItem = ({baseUrl, id, date, nickname, isYally, isComment, content, sound, isMine, userImg, audioImg}) => {
     const src = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/"
+    let deleteButtonStyle = "";
+    const config = {
+        headers : { 'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8'}
+    }
+
+    if(isMine === false)
+    {
+        deleteButtonStyle = "none"
+    }
+
+    const onRemovePost = async () => {
+        await axios.delete(baseUrl + "post/" + id, config)
+        setTimeout(function() {
+            window.location.reload();
+          }, 300);
+    }
     
     let createdDate = date.split('-');
     let day = createdDate[2];
     day = day.split(' ')
     createdDate = createdDate[0] + "년 " + createdDate[1] + "월 " +  day[0] + "일"
+    console.log(sound)
 
     return (
         <S.mainContainer>
@@ -17,11 +36,19 @@ const PostItem = ({date, nickname, isYally, isComment, content, sound, isMine, u
                 <P.postInfoContainer>
                     <S.profileImg src={src + userImg}></S.profileImg>
                     <P.postInfoBox>
+                        <P.div>
                         <P.postNameInfo>{nickname}</P.postNameInfo>
                         <P.postDateInfo>{createdDate}</P.postDateInfo>
+                        </P.div>
+                        <P.Icon delete src={deleteIcon} style={{display : deleteButtonStyle}} onClick={onRemovePost}></P.Icon>
                     </P.postInfoBox>
-                    
                </P.postInfoContainer>
+               <Link style={{textDecoration : "none"}} to={{
+                pathname : `/post/${id}`,
+                state : {
+                    id, deleteButtonStyle
+                }
+                }}>
                 <P.postSection>
                     <P.audioContainer>
                         <P.audioImg src={src + audioImg}></P.audioImg>
@@ -29,13 +56,14 @@ const PostItem = ({date, nickname, isYally, isComment, content, sound, isMine, u
                             <P.postArticle>
                                 <P.postWritten>{content}</P.postWritten>
                                 <P.playInfoBox>
+                                    <audio controls src={sound}></audio>
                                     <P.Icon src={playButton}></P.Icon>
                                 </P.playInfoBox>
                             </P.postArticle>
                         </P.postInfoContainer>
                     </P.audioContainer>
-                    
                 </P.postSection>
+                </Link>
                 <P.reactionContainer>
                     <P.reactionBox>
                         <P.reactionIcon src={yallyOff}></P.reactionIcon>
