@@ -26,6 +26,9 @@ export const postDateInfo = styled.p`
 
 export const postInfoBox = styled.div`
     margin : 10px 0px 50px 20px;
+    display : flex;
+    justify-content : space-between;
+    width : 100%;
 `;
 
 export const postSection = styled.section`

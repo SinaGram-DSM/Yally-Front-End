@@ -83,6 +83,7 @@ export const profileImg = styled.img`
 export const buttonsContainer = styled.div`
     display: flex;
     align-items: center;
+    width : ${props => props.button ? '90%' : ''};
     justify-content : ${props => props.container ? 'space-between' : ''};
 `;
 

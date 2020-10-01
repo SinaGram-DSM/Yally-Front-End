@@ -12,5 +12,4 @@ export const backgroundContainer = styled.img`
         if(props.modal) return '0';
         else return '100%';
     }};
-    z-index : 1;
 `;
