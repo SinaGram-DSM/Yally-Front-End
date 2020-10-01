@@ -38,6 +38,7 @@ export const writerInfoBox = styled.div`
     height: 106px;
     display: flex;
     align-items: center;
+    border-top : ${props => props.comment ? '1px solid #EFEFEF' : 'none' };
     border-bottom: ${props => props.profile ? 'none' : '1px solid #EFEFEF'};
     margin : 0px 0px 25px 0px;
     padding-bottom : 20px;
@@ -53,9 +54,9 @@ export const form = styled.form`
 export const writerInput = styled.input`
     width: 95%;
     height: 100px;
-    margin-left: 15px;
+    margin-left: ${props => props.comment ? '' : '15px' };
     border: none;
-    font-size: 25px;
+    font-size: ${props => props.comment ? '19px' : '25px' };
     font-weight: 300;
 `;
 
