@@ -4,7 +4,7 @@ import * as R from '../../assets/style/Main/Recommend';
 import { mic, sound, picture } from '../../assets/img';
 import axios from 'axios';
 
-const AddPost = ({baseUrl}) => {
+const AddPost = ({src, baseUrl, userImg}) => {
 
     let [stream, setStream] = useState({});
     let [media, setMedia] = useState({});
@@ -66,7 +66,7 @@ const AddPost = ({baseUrl}) => {
             recAudioData = new Blob(recArr, { 'type': 'audio/ogg codecs=opus' });
             recAudioUrl = URL.createObjectURL(recAudioData);
             setAudioUrl(recAudioUrl)
-            console.log(recAudioUrl)
+            //console.log(recAudioUrl)
         }
 
         stream.getAudioTracks().forEach(function(track) {
@@ -76,18 +76,15 @@ const AddPost = ({baseUrl}) => {
         
         analyser.disconnect();
         source.disconnect(); 
-        
-        
     }
 
     const onUploadRec = () => {
         let audioFile = document.getElementById('audioFile').files
         uploadArr = audioFile;
-        console.log(typeof audioFile)
         //let uploadRec = new Blob(uploadArr, { 'type': 'audio/ogg codecs=opus' })
         let uploadUrl = window.URL.createObjectURL(audioFile)
         setAudioUrl(uploadUrl)
-        console.log(uploadUrl)
+        //console.log(uploadUrl)
     }
 
     const onAddPost = () => {
@@ -130,7 +127,9 @@ const AddPost = ({baseUrl}) => {
         
         axios.post(baseUrl + "post", form, config)
         .then((res) => {
-            console.log(res)
+            setTimeout(function() {
+                window.location.reload();
+            }, 300);
         })
     }
 
@@ -138,8 +137,7 @@ const AddPost = ({baseUrl}) => {
         <S.mainContainer>
             <S.mainSection>
                 <S.writerInfoBox>
-                    
-                    <S.profileImg></S.profileImg>
+                    <S.profileImg src={src + userImg}></S.profileImg>
                     <S.form action="" method="post" enctype="multipart/form-data" input>
                         <S.writerInput placeholder="마멜공주님의 이야기를 들려주세요!" type="text" name="content">
                         </S.writerInput>
