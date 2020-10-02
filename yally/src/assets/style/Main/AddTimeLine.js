@@ -8,8 +8,7 @@ export const mainContainer = styled.div`
         else if(props.profile) return '0px 392px 0px 392px';
         else return '0px 392px 50px 392px;';
       }};
-    justify-content : space-between;  
-    justify-content : center;
+    justify-content : ${props => props.friends ? 'space-between' : 'center' }; 
 `;
 
 export const mainSection  = styled.section`
