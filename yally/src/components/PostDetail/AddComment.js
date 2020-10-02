@@ -30,6 +30,9 @@ const AddComment = ({baseUrl, id}) => {
         axios.post(baseUrl + "post/comment/" + id, form, config)
         .then((res) => {
             console.log(res)
+            setTimeout(function() {
+                window.location.reload();
+            }, 300);
         })
     }
 
@@ -40,10 +43,9 @@ const AddComment = ({baseUrl, id}) => {
                 <S.writerInfoBox comment profile>
                     <S.profileImg></S.profileImg>
                         <S.buttonsContainer container button>
-                            <C.div>
-                                <S.form enctype="multipart/form-data">
-                                    <S.writerInput placeholder="답글을 입력하세요" type="text" comment name="content">
-                                    </S.writerInput>
+                            <C.div input>
+                                <S.form enctype="multipart/form-data" input>
+                                    <S.writerInput placeholder="답글을 입력하세요" type="text" comment name="content" input></S.writerInput>
                                 </S.form>
                             </C.div>
                             <S.buttonsContainer>
