@@ -1,15 +1,44 @@
 import React from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import * as P from "../../assets/style/Main/PostItmes"
-import { playButton, yallyOff, repl, deleteIcon } from '../../assets/img'
+import { playButton, repl, deleteIcon } from '../../assets/img'
 import axios from 'axios';
 import { useHistory } from "react-router-dom"
+import yallyOn from '../../assets/img/yallyOn.png'
+import yallyOff from '../../assets/img/yallyOff.png'
 
-const DetailPost = ({baseUrl, id, deleteButtonStyle, src, date, nickname, isYally, isComment, content, sound, isMine, userImg, audioImg}) => {
-    
+const DetailPost = ({baseUrl, id, src, date, nickname, isYally, yallyNum, isComment, content, sound, isMine, userImg, audioImg}) => {
+     let deleteButtonStyle = "";
+    let yallyButton = "";
     const history = useHistory();
     const config = {
         headers : { 'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8'}
+    }
+
+    if(isYally === true)
+    {
+        yallyButton = yallyOn;
+    }
+    else
+    {
+        yallyButton = yallyOff;
+    }
+
+    const onYally = () => {
+        if(isYally === false)
+        {
+            axios.get(baseUrl + "post/yally/" + id, config)
+            setTimeout(function() {
+                window.location.reload();
+              }, 300);
+        }
+        else
+        {
+            axios.delete(baseUrl + "post/yally/" +  id, config)
+            setTimeout(function() {
+                window.location.reload();
+              }, 300);
+        }
     }
 
     const onRemovePost = async () => {
@@ -50,8 +79,8 @@ const DetailPost = ({baseUrl, id, deleteButtonStyle, src, date, nickname, isYall
                 
                 <P.reactionContainer detailPost>
                     <P.reactionBox>
-                        <P.reactionIcon src={yallyOff}></P.reactionIcon>
-                        <P.reactionCount>{isYally}</P.reactionCount>
+                        <P.reactionIcon src={yallyButton} onClick={onYally}></P.reactionIcon>
+                        <P.reactionCount>{yallyNum}</P.reactionCount>
                     </P.reactionBox>
                     <P.reactionBox>
                         <P.reactionIcon src={repl}></P.reactionIcon>

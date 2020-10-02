@@ -11,7 +11,6 @@ const DetailPostView = ({location, id, src, baseUrl, deleteButtonStyle}) => {
     
     const [posts, setPosts] = useState({});
     const [h, setH] = useState({})
-    console.log(location.state.id)
     const config = {
         headers : { 'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8'}
     }
@@ -41,10 +40,11 @@ const DetailPostView = ({location, id, src, baseUrl, deleteButtonStyle}) => {
                     userImg = {h.img}
                     audioImg = {posts.img}
                     isComment = {posts.comment}
-                    isYally = {posts.yally}
+                    isYally = {posts.isYally}
+                    yallyNum = {posts.yally}
                     isMine = {posts.isMine}
                     ></DetailPost>
-                <CommentView src={src} baseUrl={baseUrl} id={location.state.id}></CommentView>
+                <CommentView deleteButtonStyle={deleteButtonStyle} src={src} baseUrl={baseUrl} id={location.state.id}></CommentView>
                 </S.mainSection>
             </S.mainContainer>
             <Background></Background> 
