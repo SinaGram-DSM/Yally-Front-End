@@ -34,7 +34,7 @@ export const postInfoBox = styled.div`
 export const postSection = styled.section`
     width: 100%;
     height: 400px;
-    opacity: 0.5;
+    opacity: 0.75;
     background-color : #000000;
     display: flex;
     align-items: center;
@@ -60,15 +60,18 @@ export const postArticle = styled.article`
 
 export const Icon = styled.img`
     width : ${props => {
-    if (props.delete) return '20px';
-    else return '45px';
+        if (props.delete) return '20px';
+        else if (props.comment) return '13px';
+        else return '45px';
     }};
     height : ${props => {
         if(props.delete) return '20px';
+        else if (props.comment) return '13px';
         else return '50px';
     }};
     margin : ${props => {
         if(props.delete) return '5px 0px 0px 5px';
+        else if (props.comment) return '0px 0px 0px 5px';
         else return '0px';
     }};
     cursor : pointer;
