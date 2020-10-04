@@ -36,14 +36,7 @@ const TimeLineView = ({src, baseUrl}) => {
             return () => window.removeEventListener('scroll', infiniteScroll);
          }
         , [infiniteScroll]);
-    
-    // useEffect(() => {
-    //     axios.get(baseUrl + "timeline/friend", config)
-    //     .then((res) => {
-    //         setRecommend(res.data.friends);
-    //     })
-    // }, [])
-
+        
     return (
         <div style={{position : "relative", backgroundColor : "#FDFDFD"}} >
             <AddPost src = {src} baseUrl = {baseUrl}></AddPost>
