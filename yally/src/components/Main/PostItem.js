@@ -94,6 +94,7 @@ const PostItem = ({baseUrl, id, date, nickname, isYally, yallyNum, isComment, co
                 </P.postSection>
                 </Link>
                 <P.reactionContainer>
+                    <P.postInfoContainer>
                     <P.reactionBox>
                         <P.reactionIcon src={yallyButton} onClick={onYally}></P.reactionIcon>
                         <P.reactionCount>{yallyNum}</P.reactionCount>
@@ -109,6 +110,8 @@ const PostItem = ({baseUrl, id, date, nickname, isYally, yallyNum, isComment, co
                         </Link>
                         <P.reactionCount>{isComment}</P.reactionCount>
                     </P.reactionBox>
+                    </P.postInfoContainer>
+                    <P.editButton>수정</P.editButton>
                 </P.reactionContainer>    
             </S.mainSection>
         </S.mainContainer>

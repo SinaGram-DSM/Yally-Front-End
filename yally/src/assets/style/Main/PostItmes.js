@@ -93,6 +93,7 @@ export const reactionContainer = styled.div`
     margin-top : 20px;
     display: flex;
     align-items: center;
+    justify-content : space-between;
     padding-bottom : ${props => {
         if (props.detailPost) return '25px';
         else return 'none';
@@ -119,4 +120,12 @@ export const reactionIcon = styled.img`
 export const reactionCount = styled.p`
     color : #707070;
     margin : 0;
+`;
+
+export const editButton = styled.button`
+    border : none;
+    color : #707070;
+    font-size : 16px;
+    cursor : pointer;
+    outline : none;
 `;
