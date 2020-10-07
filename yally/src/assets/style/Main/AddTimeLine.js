@@ -14,7 +14,10 @@ export const mainContainer = styled.div`
 
 export const mainSection  = styled.section`
     width : 100%;
-    background-color : #ffffff;
+    background-color : ${props => {
+        if(props.profile) return 'none';
+        else return '#ffffff';
+    }} 
     box-shadow: ${props => {
         if (props.small) return 'none';
         else if (props.profile) return 'none';
@@ -29,6 +32,7 @@ export const mainSection  = styled.section`
     margin-top : ${props => {
         if (props.small) return '30px';
         else if(props.feed) return 'none';
+        else if(props.profile) return '40px';
         else return '50px';
       }};
     z-index: 1;
@@ -58,12 +62,12 @@ export const writerInput = styled.input`
 
 export const profileImg = styled.img`
     width: ${props => {
-        if(props.profile) return '130px'
+        if(props.profile) return '100px'
         else if(props.header || props.menu) return '45px';
         else return '70px';
     }};
     height: ${props => {
-        if(props.profile) return '130px'
+        if(props.profile) return '100px'
         else if(props.header || props.menu) return '45px';
         else return '70px';
     }};
