@@ -3,6 +3,7 @@ import * as S from "../../assets/style/Main/AddTimeLine";
 import * as P from "../../assets/style/Main/PostItmes"
 import { playButton, repl, deleteIcon } from '../../assets/img'
 import axios from 'axios';
+import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom"
 import yallyOn from '../../assets/img/yallyOn.png'
 import yallyOff from '../../assets/img/yallyOff.png'
@@ -59,7 +60,8 @@ const DetailPost = ({baseUrl, id, src, date, nickname, isYally, yallyNum, isComm
                             <P.postDateInfo>{date}</P.postDateInfo>
                             <P.Icon delete src={deleteIcon} style={{display : deleteButtonStyle}} onClick={onRemovePost}></P.Icon>
                         </P.playInfoBox>
-                        </P.div>
+                        </P.div> 
+                        <Link to="/timeline" style={{textDecoration : "none"}}><P.reactionCount>메인으로</P.reactionCount></Link>
                     </P.postInfoBox>
                </P.postInfoContainer>
 
