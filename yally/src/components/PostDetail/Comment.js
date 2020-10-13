@@ -34,7 +34,7 @@ const Comment = ({id, baseUrl, src, sound, nickname, date, content, userImg, del
                             <C.commentDate>{date}</C.commentDate>
                             <P.Icon comment src={deleteIcon} style={{display : deleteButtonStyle}} onClick={onRemoveComment}></P.Icon>
                         </C.commentInfo>
-                        <audio src={sound} style={{display : soundStyle}} controls></audio>
+                        <audio src={src + sound} style={{display : soundStyle}} controls></audio>
                         <C.contents>{content}</C.contents>
                     </C.div>
                 </C.commentBox>
