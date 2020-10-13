@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React,{ useState, useRef } from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import * as R from '../../assets/style/Main/Recommend';
 import { mic, sound, picture } from '../../assets/img';
@@ -6,15 +6,15 @@ import axios from 'axios';
 
 const AddPost = ({src, baseUrl, userImg}) => {
 
-    let [stream, setStream] = useState({});
-    let [media, setMedia] = useState({});
-    let [onRec, setOnRec] = useState(true);
-    let [source, setSource] = useState({});
-    let [analyser , setAnalyser] = useState({});
-    let [audioUrl, setAudioUrl] = useState();
+    const [stream, setStream] = useState({});
+    const [media, setMedia] = useState({});
+    const [onRec, setOnRec] = useState(true);
+    const [source, setSource] = useState({});
+    const [analyser , setAnalyser] = useState({});
+    const [audioUrl, setAudioUrl] = useState();
     let recArr = [];
-    let uploadArr = [];
     let recAudioData,recAudioUrl;
+    const postInput = useRef();
 
     const onRecAudio = () => {
         const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
@@ -46,10 +46,11 @@ const AddPost = ({src, baseUrl, userImg}) => {
                     audioCtx.createMediaStreamSource(stream).disconnect();
                     
                     mediaRecorder.ondataavailable = function(e) {
-                    recArr.push(e.data);
-                    recAudioData = new Blob(recArr, { 'type': 'audio/ogg codecs=opus' });
-                    recAudioUrl = URL.createObjectURL(recAudioData);
-                    setOnRec(true);
+                        recArr.push(e.data);
+                        recAudioData = new Blob(recArr, { 'type': 'audio/ogg codecs=opus' });
+                        recAudioUrl = URL.createObjectURL(recAudioData);
+                        
+                        setOnRec(true);
                     }
                 }
                 else
@@ -57,50 +58,31 @@ const AddPost = ({src, baseUrl, userImg}) => {
                     setOnRec(false)
                 }
             }
+            
         })
     }
 
     const offRecAudio = () => {
         media.ondataavailable = function(e) {
             recArr.push(e.data);
-            recAudioData = new Blob(recArr, { 'type': 'audio/ogg codecs=opus' });
-            recAudioUrl = URL.createObjectURL(recAudioData);
-            setAudioUrl(recAudioUrl)
-            //console.log(recAudioUrl)
+            setAudioUrl(recArr[0]);
         }
-
+        
         stream.getAudioTracks().forEach(function(track) {
             track.stop();
         });
-        media.stop()
+        media.stop();
         
         analyser.disconnect();
         source.disconnect(); 
     }
 
     const onUploadRec = () => {
-        let audioFile = document.getElementById('audioFile').files
-        uploadArr = audioFile;
-        //let uploadRec = new Blob(uploadArr, { 'type': 'audio/ogg codecs=opus' })
-        let uploadUrl = window.URL.createObjectURL(audioFile)
-        setAudioUrl(uploadUrl)
-        //console.log(uploadUrl)
+        let audioFile = document.getElementById('audioFile').files;
+        setAudioUrl(audioFile[0]);
     }
 
     const onAddPost = () => {
-        const content = document.getElementsByName('content')[0].value.trim();
-        const img = document.getElementById("audioImg").files;
-        let hashtagArr = [];
-        let hashtag = '';
-        hashtagArr = content.split('#');
-        
-        for(let i = 1; i < hashtagArr.length; i++)
-        {
-            hashtag += '#' + hashtagArr[i];
-        }
-        
-        hashtag = hashtag.split(' ');
-        hashtagArr = hashtag;
 
         const config = {
             headers : { 'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8',
@@ -108,29 +90,87 @@ const AddPost = ({src, baseUrl, userImg}) => {
             }
         }
 
-        const formdata = 
-        {
-            sound : audioUrl,
-            content : content,
-            file : img,
-            hashtag : hashtagArr
-        };
-        
+        const content = document.getElementsByName('content')[0].value.trim();
+        const img = document.getElementById("audioImg").files;
+        let hashtagArr = [];
+        let hashtag = '';
+        hashtagArr = content.split('#');
         let form = new FormData();
-        form.append('content', formdata.content);
-        form.append('file', formdata.file[0]);
-        form.append('sound', formdata.sound);
-        for(let i = 0; i < hashtag.length; i++)
+
+        for(let i = 1; i < hashtagArr.length; i++)
         {
-            form.append('hashtag', formdata.hashtag[i]);
+            hashtag = hashtagArr[i];
+        }
+            
+        hashtag = hashtag.split(' ');
+        hashtagArr = hashtag;
+
+        if(audioUrl == null)
+        {
+            alert('음성을 녹음하거나 업로드해주세요!');
         }
         
-        axios.post(baseUrl + "post", form, config)
-        .then((res) => {
-            setTimeout(function() {
-                window.location.reload();
-            }, 300);
-        })
+        else if(typeof(audioUrl) == FileList)
+        {
+            const formdata = 
+            {
+                sound : audioUrl,
+                content : content,
+                file : img,
+                hashtag : hashtagArr
+            };
+
+            form.append('content', formdata.content);
+            form.append('img', formdata.file[0]);
+            form.append('sound', formdata.sound);
+            for(let i = 0; i < hashtag.length; i++)
+            {
+                form.append('hashtag', formdata.hashtag[i]);
+            }
+            
+            axios.post(baseUrl + "post", form, config)
+            .then((res) => {
+                console.log(res)
+                setTimeout(function() {
+                    window.location.reload();
+                }, 300);
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        }
+
+        else
+        {
+            let sound = new File([audioUrl], "soundBlob",{ lastModified: new Date().getTime(), type: audioUrl.type });
+            
+            const formdata = 
+            {
+                sound : sound,
+                content : content,
+                file : img,
+                hashtag : hashtagArr
+            };
+
+            form.append('content', formdata.content);
+            form.append('img', formdata.file[0]);
+            form.append('sound', formdata.sound);
+            for(let i = 0; i < hashtag.length; i++)
+            {
+                form.append('hashtag', formdata.hashtag[i]);
+            }
+            
+            axios.post(baseUrl + "post", form, config)
+            .then((res) => {
+                console.log(res)
+                setTimeout(function() {
+                    window.location.reload();
+                }, 300);
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        }
     }
 
     return (
@@ -139,7 +179,7 @@ const AddPost = ({src, baseUrl, userImg}) => {
                 <S.writerInfoBox>
                     <S.profileImg src={src + userImg}></S.profileImg>
                     <S.form action="" method="post" enctype="multipart/form-data" input>
-                        <S.writerInput placeholder="마멜공주님의 이야기를 들려주세요!" type="text" name="content">
+                        <S.writerInput placeholder="마멜공주님의 이야기를 들려주세요!" type="text" name="content" ref={postInput}>
                         </S.writerInput>
                     </S.form>
                     </S.writerInfoBox>
@@ -152,8 +192,8 @@ const AddPost = ({src, baseUrl, userImg}) => {
                                 </S.buttonBox>
                             </S.form>
                             <S.form enctype="multipart/form-data">
-                                <S.buttonBox for="audioFile">
-                                    <S.inputFile onClick={onUploadRec} type="file" id="audioFile" accept="audio/*" capture="microphone"/>
+                                <S.buttonBox for="audioFile" onClick={onUploadRec}>
+                                    <S.inputFile  type="file" id="audioFile" accept="audio/*" capture="microphone"/>
                                     <S.buttonIcon src={sound}></S.buttonIcon>
                                     음성 파일
                                 </S.buttonBox>
