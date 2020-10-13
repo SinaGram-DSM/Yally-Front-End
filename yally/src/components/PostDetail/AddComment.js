@@ -23,13 +23,11 @@ const AddComment = ({baseUrl, id}) => {
             content : content,
             sound : file[0]
         };
-
         form.append('content', formdata.content);
-        form.append('sound', formdata.sound);
+        form.append('file', formdata.sound);
 
         axios.post(baseUrl + "post/comment/" + id, form, config)
         .then((res) => {
-            console.log(res)
             setTimeout(function() {
                 window.location.reload();
             }, 300);

@@ -8,7 +8,6 @@ import axios from 'axios'
 const TimeLineView = ({src, baseUrl}) => {
 
     const [posts, setPosts] = useState([]);
-    //const [recommend, setRecommend] = useState([]);
     const [params, setParams] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const config = {
@@ -36,16 +35,17 @@ const TimeLineView = ({src, baseUrl}) => {
             return () => window.removeEventListener('scroll', infiniteScroll);
          }
         , [infiniteScroll]);
-        
+
     return (
         <div style={{position : "relative", backgroundColor : "#FDFDFD"}} >
-            <AddPost src = {src} baseUrl = {baseUrl}></AddPost>
-            <RecommendView src={src} baseUrl = {baseUrl}></RecommendView>
+            <AddPost src={src} baseUrl={baseUrl}></AddPost>
+            <RecommendView src={src} baseUrl={baseUrl}></RecommendView>
             {posts.map((post) => (
                 <PostItem 
-                baseUrl={baseUrl}
-                key={post.id}
-                id={post.id}
+                email = {post.user.email}
+                baseUrl = {baseUrl}
+                key = {post.id}
+                id = {post.id}
                 content = {post.content}
                 sound = {post.sound}
                 date = {post.createdAt}

@@ -10,16 +10,15 @@ import axios from 'axios'
 const DetailPostView = ({location, id, src, baseUrl, deleteButtonStyle}) => {
     
     const [posts, setPosts] = useState({});
-    const [h, setH] = useState({})
+    const [users, setUsers] = useState({})
     const config = {
         headers : { 'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8'}
     }
     useEffect(() => {
         axios.get(baseUrl + "post/" + location.state.id , config)
         .then((res) => {
-            console.log(res);
             setPosts(res.data);
-            setH(res.data.user);
+            setUsers(res.data.user);
         })
         }, []);
 
@@ -36,8 +35,8 @@ const DetailPostView = ({location, id, src, baseUrl, deleteButtonStyle}) => {
                     content = {posts.content}
                     sound = {posts.sound}
                     date = {posts.createdAt}
-                    nickname = {h.nickname}
-                    userImg = {h.img}
+                    nickname = {users.nickname}
+                    userImg = {users.img}
                     audioImg = {posts.img}
                     isComment = {posts.comment}
                     isYally = {posts.isYally}

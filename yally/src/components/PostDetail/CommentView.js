@@ -14,7 +14,6 @@ const CommentView = ({src, baseUrl, id, deleteButtonStyle}) => {
     useEffect(() => { 
         axios.get(baseUrl + "post/" + id + "/comment", config)
         .then((res) => {
-            console.log(res);
             setComment(res.data.comments)
         })
          }, []);
