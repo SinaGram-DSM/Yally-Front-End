@@ -12,6 +12,9 @@ const AddPost = ({src, baseUrl, userImg}) => {
     const [source, setSource] = useState({});
     const [analyser , setAnalyser] = useState({});
     const [audioUrl, setAudioUrl] = useState();
+    const [previewUrl, setPreviewUrl] = useState('');
+    const [imgFile, setImgFile] = useState('');
+    const [isOnAudio, setIsOnAudio] = useState(false);
     let recArr = [];
     let recAudioData,recAudioUrl;
     const postInput = useRef();
@@ -75,11 +78,13 @@ const AddPost = ({src, baseUrl, userImg}) => {
         
         analyser.disconnect();
         source.disconnect(); 
+        setIsOnAudio(true);
     }
 
     const onUploadRec = () => {
         let audioFile = document.getElementById('audioFile').files;
         setAudioUrl(audioFile[0]);
+        setIsOnAudio(true);
     }
 
     const onAddPost = () => {
@@ -173,6 +178,25 @@ const AddPost = ({src, baseUrl, userImg}) => {
         }
     }
 
+    const onUploadImg = (e) => {
+        e.preventDefault();
+        let reader = new FileReader();
+        let file = e.target.files[0];
+        reader.onloadend = () => {
+            setPreviewUrl(reader.result);
+            setImgFile(file);
+        }
+        reader.readAsDataURL(file);
+    }
+    let imgPreview = null;
+    let recPreview = null;
+    if(imgFile !== ''){
+      imgPreview = <S.previewIcon src={previewUrl}></S.previewIcon>
+    }
+    if(isOnAudio == true){
+        recPreview = <S.previewIcon src={sound}></S.previewIcon>
+    }
+
     return (
         <S.mainContainer>
             <S.mainSection>
@@ -192,19 +216,21 @@ const AddPost = ({src, baseUrl, userImg}) => {
                                 </S.buttonBox>
                             </S.form>
                             <S.form enctype="multipart/form-data">
-                                <S.buttonBox for="audioFile" onClick={onUploadRec}>
-                                    <S.inputFile  type="file" id="audioFile" accept="audio/*" capture="microphone"/>
+                                <S.buttonBox for="audioFile">
+                                    <S.inputFile  type="file" id="audioFile" accept="audio/*" capture="microphone" onChange={onUploadRec}/>
                                     <S.buttonIcon src={sound}></S.buttonIcon>
                                     음성 파일
                                 </S.buttonBox>
                             </S.form>
                             <S.form method="post" enctype="multipart/form-data">
                                 <S.buttonBox for="audioImg">
-                                    <S.inputFile type="file" id="audioImg"/>
+                                    <S.inputFile type="file" id="audioImg" accept="image/*" onChange={onUploadImg}/>
                                     <S.buttonIcon src={picture}></S.buttonIcon>
                                     음성 커버
                                 </S.buttonBox>
                             </S.form>
+                            {recPreview}
+                            {imgPreview}
                         </S.buttonsContainer>
                         <R.ListeningButton onClick={onAddPost}>업로드</R.ListeningButton>
                     </S.buttonsContainer>

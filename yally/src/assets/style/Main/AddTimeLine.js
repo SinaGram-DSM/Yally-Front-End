@@ -122,3 +122,11 @@ export const buttonIcon = styled.img`
     width : 16px;
     height : 16px;
 `;
+
+export const previewIcon = styled.img`
+    width : 25px;
+    height : 23px;
+    border : 1px solid #6665E7;
+    border-radius : 4px;
+    margin-right : 10px;
+`;
