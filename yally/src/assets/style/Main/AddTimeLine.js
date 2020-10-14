@@ -8,8 +8,7 @@ export const mainContainer = styled.div`
         else if(props.profile) return '0px 392px 0px 392px';
         else return '0px 392px 50px 392px;';
       }};
-    justify-content : space-between;  
-    justify-content : center;
+    justify-content : ${props => props.friends ? 'space-between' : 'center' }; 
 `;
 
 export const mainSection  = styled.section`
@@ -35,9 +34,11 @@ export const mainSection  = styled.section`
 `;
 
 export const writerInfoBox = styled.div`
+    width : 100%;
     height: 106px;
     display: flex;
     align-items: center;
+    border-top : ${props => props.comment ? '1px solid #EFEFEF' : 'none' };
     border-bottom: ${props => props.profile ? 'none' : '1px solid #EFEFEF'};
     margin : 0px 0px 25px 0px;
     padding-bottom : 20px;
@@ -53,9 +54,9 @@ export const form = styled.form`
 export const writerInput = styled.input`
     width: 95%;
     height: 100px;
-    margin-left: 15px;
+    margin-left: ${props => props.comment ? '' : '15px' };
     border: none;
-    font-size: 25px;
+    font-size: ${props => props.comment ? '19px' : '25px' };
     font-weight: 300;
 `;
 
@@ -81,6 +82,8 @@ export const profileImg = styled.img`
 export const buttonsContainer = styled.div`
     display: flex;
     align-items: center;
+    width : ${props => props.button ? '90%' : ''};
+    justify-content : ${props => props.container ? 'space-between' : ''};
 `;
 
 export const buttonBox = styled.label`
@@ -118,4 +121,12 @@ export const inputFile = styled.input`
 export const buttonIcon = styled.img`
     width : 16px;
     height : 16px;
+`;
+
+export const previewIcon = styled.img`
+    width : 25px;
+    height : 23px;
+    border : 1px solid #6665E7;
+    border-radius : 4px;
+    margin-right : 10px;
 `;

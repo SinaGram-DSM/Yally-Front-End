@@ -41,4 +41,5 @@ export const commentInfo = styled.div`
 
 export const div = styled.div`
     margin : 10px 0px 0px 20px;
+    width : ${props => props.input ? '100%' : '' };
 `

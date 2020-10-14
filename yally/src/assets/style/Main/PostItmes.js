@@ -26,12 +26,15 @@ export const postDateInfo = styled.p`
 
 export const postInfoBox = styled.div`
     margin : 10px 0px 50px 20px;
+    display : flex;
+    justify-content : space-between;
+    width : 100%;
 `;
 
 export const postSection = styled.section`
     width: 100%;
     height: 400px;
-    opacity: 0.5;
+    opacity: 0.75;
     background-color : #000000;
     display: flex;
     align-items: center;
@@ -57,15 +60,18 @@ export const postArticle = styled.article`
 
 export const Icon = styled.img`
     width : ${props => {
-    if (props.delete) return '20px';
-    else return '45px';
+        if (props.delete) return '20px';
+        else if (props.comment) return '13px';
+        else return '45px';
     }};
     height : ${props => {
         if(props.delete) return '20px';
+        else if (props.comment) return '13px';
         else return '50px';
     }};
     margin : ${props => {
         if(props.delete) return '5px 0px 0px 5px';
+        else if (props.comment) return '0px 0px 0px 5px';
         else return '0px';
     }};
     cursor : pointer;
@@ -87,6 +93,7 @@ export const reactionContainer = styled.div`
     margin-top : 20px;
     display: flex;
     align-items: center;
+    justify-content : space-between;
     padding-bottom : ${props => {
         if (props.detailPost) return '25px';
         else return 'none';
@@ -113,4 +120,12 @@ export const reactionIcon = styled.img`
 export const reactionCount = styled.p`
     color : #707070;
     margin : 0;
+`;
+
+export const editButton = styled.button`
+    border : none;
+    color : #707070;
+    font-size : 16px;
+    cursor : pointer;
+    outline : none;
 `;
