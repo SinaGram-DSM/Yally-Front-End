@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import * as P from "../../assets/style/Main/PostItmes"
 import { playButton, repl, deleteIcon } from '../../assets/img'
@@ -9,8 +9,10 @@ import yallyOff from '../../assets/img/yallyOff.png'
 
 const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComment, content, sound, isMine, userImg, audioImg}) => {
     const src = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/"
+    const [onLike, setOnLike] = useState(yallyOff);
+    const [onAudio, setOnAudio] = useState(true);
+    const audio = new Audio(src + sound);
     let deleteButtonStyle = "";
-    let yallyButton = "";
     const config = {
         headers : { 'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8'}
     }
@@ -19,29 +21,16 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
         deleteButtonStyle = "none"
     }
 
-    if(isYally === true)
-    {
-        yallyButton = yallyOn;
-    }
-    else
-    {
-        yallyButton = yallyOff;
-    }
-
     const onYally = () => {
         if(isYally === false)
         {
             axios.get(baseUrl + "post/yally/" + id, config)
-            setTimeout(function() {
-                window.location.reload();
-              }, 300);
+            setOnLike(yallyOn);
         }
         else
         {
             axios.delete(baseUrl + "post/yally/" +  id, config)
-            setTimeout(function() {
-                window.location.reload();
-              }, 300);
+            setOnLike(yallyOff);
         }
     }
     
@@ -49,7 +38,7 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
         await axios.delete(baseUrl + "post/" + id, config)
         setTimeout(function() {
             window.location.reload();
-          }, 300);
+          }, 200);
     }
 
     const onEditPost = () => {
@@ -57,8 +46,16 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
     }
 
     const onAudioPlay = () => {
-        let audio = document.getElementById('audio');
         audio.play();
+        console.log('hi', sound);
+        setOnAudio(false);
+    }
+
+    const offAudioPlay = () => {
+        audio.pause();
+        audio.currentTime = 0;
+        setOnAudio(true);
+        console.log('bye', sound);
     }
     
     let createdDate = date.split('-');
@@ -98,8 +95,11 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
                             <P.postArticle>
                                 <P.postWritten>{content}</P.postWritten>
                                 <P.playInfoBox>
-                                    <audio src={src + sound} id="audio"></audio>
-                                    <P.Icon src={playButton} onClick={onAudioPlay}></P.Icon>
+                                    {/* <audio controls src={src + sound} id="audio"></audio> */}
+                                    <P.audioTimeContainer id="timeline">
+                                        <P.audioHandle id="handle"></P.audioHandle>
+                                    </P.audioTimeContainer>
+                                    <P.Icon src={playButton} onClick={onAudio? onAudioPlay : offAudioPlay}></P.Icon>
                                 </P.playInfoBox>
                             </P.postArticle>
                         </P.postInfoContainer>
@@ -109,7 +109,7 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
                 <P.reactionContainer>
                     <P.postInfoContainer>
                     <P.reactionBox>
-                        <P.reactionIcon src={yallyButton} onClick={onYally}></P.reactionIcon>
+                        <P.reactionIcon src={onLike} onClick={onYally}></P.reactionIcon>
                         <P.reactionCount>{yallyNum}</P.reactionCount>
                     </P.reactionBox>
                     <P.reactionBox>
