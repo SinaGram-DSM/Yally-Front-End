@@ -84,6 +84,7 @@ export const buttonsContainer = styled.div`
     align-items: center;
     width : ${props => props.button ? '90%' : ''};
     justify-content : ${props => props.container ? 'space-between' : ''};
+    margin-top : ${props => props.rec ? '15px' : ''};
 `;
 
 export const buttonBox = styled.label`
@@ -119,8 +120,8 @@ export const inputFile = styled.input`
 `;
 
 export const buttonIcon = styled.img`
-    width : 16px;
-    height : 16px;
+    width : 14px;
+    height : 14px;
 `;
 
 export const previewIcon = styled.img`
@@ -128,5 +129,21 @@ export const previewIcon = styled.img`
     height : 23px;
     border : 1px solid #6665E7;
     border-radius : 4px;
+    margin-right : 10px;
+`;
+
+export const recordingIcon = styled.div`
+    width : 35px;
+    height : 35px;
+    background: linear-gradient( 45deg, #DB6565, #C71313);
+    border-radius : 99px;
+    margin-right : 10px;
+    box-shadow : #00000016 0px 3px 6px;
+`;
+
+export const recordText = styled.span`
+    color : #D34646;
+    font-size : 0.9rem;
+    font-weight : 400;
     margin-right : 10px;
 `;

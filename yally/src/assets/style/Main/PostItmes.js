@@ -62,12 +62,12 @@ export const Icon = styled.img`
     width : ${props => {
         if (props.delete) return '20px';
         else if (props.comment) return '13px';
-        else return '45px';
+        else return '35px';
     }};
     height : ${props => {
         if(props.delete) return '20px';
         else if (props.comment) return '13px';
-        else return '50px';
+        else return '40px';
     }};
     margin : ${props => {
         if(props.delete) return '5px 0px 0px 5px';
@@ -128,4 +128,18 @@ export const editButton = styled.button`
     font-size : 16px;
     cursor : pointer;
     outline : none;
+`;
+
+export const audioTimeContainer = styled.div`
+    width : 450px;
+    background-color : white;
+    height : 1px;
+`;
+
+export const audioHandle = styled.div`
+    width : 12px;
+    height: 12px;
+    border-radius : 50%;
+    background-color : white;
+    margin-bottom : 5px;
 `;
