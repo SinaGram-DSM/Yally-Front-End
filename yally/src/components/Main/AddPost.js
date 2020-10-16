@@ -15,15 +15,40 @@ const AddPost = ({src, baseUrl, userImg}) => {
     const [previewUrl, setPreviewUrl] = useState('');
     const [imgFile, setImgFile] = useState('');
     const [isOnAudio, setIsOnAudio] = useState(false);
+    const [onRecText, setOnRecText] = useState(null);
+    const [start, setStart] = useState();
+    const [end, setEnd] = useState();
+    const [onText, setOnText] = useState();
     let recArr = [];
-    let recAudioData,recAudioUrl;
+    let imgPreview = null;
+    let recPreview = null;
+
     const postInput = useRef();
 
     const onRecAudio = () => {
+        let rsec = 1;
+        let lsec = 0;
+        let rmin = 0;
+        let timer = setInterval(() => {
+            setOnText(<S.buttonsContainer><S.recordingIcon></S.recordingIcon><S.recordText>{'0' + rmin + ' : ' + lsec + rsec}</S.recordText></S.buttonsContainer>);
+            setOnRecText(<S.recordText>버튼을 누르면 녹음이 종료됩니다.</S.recordText>);
+            rsec++;
+            if(rsec > 9) 
+            {
+                lsec++;
+                rsec = 0;
+            }
+            if(lsec > 5) 
+            {
+                lsec = 0;
+                rmin++;
+            }
+        }, 1000)
+        setStart(timer);
         const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
         const analyser = audioCtx.createScriptProcessor(0,1,1);
         setAnalyser(analyser);
-
+        
         function makeSound(stream) {
             const source = audioCtx.createMediaStreamSource(stream);
             setSource(source)
@@ -38,6 +63,7 @@ const AddPost = ({src, baseUrl, userImg}) => {
             setStream(stream);
             setMedia(mediaRecorder);
             makeSound(stream);
+            
             analyser.onaudioprocess = function(e) {
                 if(e.playbackTime > 300)
                 {
@@ -50,8 +76,7 @@ const AddPost = ({src, baseUrl, userImg}) => {
                     
                     mediaRecorder.ondataavailable = function(e) {
                         recArr.push(e.data);
-                        recAudioData = new Blob(recArr, { 'type': 'audio/ogg codecs=opus' });
-                        recAudioUrl = URL.createObjectURL(recAudioData);
+                        setAudioUrl(recArr[0]);
                         
                         setOnRec(true);
                     }
@@ -64,13 +89,11 @@ const AddPost = ({src, baseUrl, userImg}) => {
             
         })
     }
-
     const offRecAudio = () => {
         media.ondataavailable = function(e) {
             recArr.push(e.data);
             setAudioUrl(recArr[0]);
         }
-        
         stream.getAudioTracks().forEach(function(track) {
             track.stop();
         });
@@ -79,6 +102,9 @@ const AddPost = ({src, baseUrl, userImg}) => {
         analyser.disconnect();
         source.disconnect(); 
         setIsOnAudio(true);
+        setOnRecText(null);
+        clearInterval(start);
+        setOnText(null);
     }
 
     const onUploadRec = () => {
@@ -188,14 +214,14 @@ const AddPost = ({src, baseUrl, userImg}) => {
         }
         reader.readAsDataURL(file);
     }
-    let imgPreview = null;
-    let recPreview = null;
+
     if(imgFile !== ''){
       imgPreview = <S.previewIcon src={previewUrl}></S.previewIcon>
     }
     if(isOnAudio == true){
         recPreview = <S.previewIcon src={sound}></S.previewIcon>
     }
+    
 
     return (
         <S.mainContainer>
@@ -203,7 +229,7 @@ const AddPost = ({src, baseUrl, userImg}) => {
                 <S.writerInfoBox>
                     <S.profileImg src={src + userImg}></S.profileImg>
                     <S.form action="" method="post" enctype="multipart/form-data" input>
-                        <S.writerInput placeholder="마멜공주님의 이야기를 들려주세요!" type="text" name="content" ref={postInput}>
+                        <S.writerInput placeholder="이야기를 들려주세요!" type="text" name="content" ref={postInput}>
                         </S.writerInput>
                     </S.form>
                     </S.writerInfoBox>
@@ -232,7 +258,12 @@ const AddPost = ({src, baseUrl, userImg}) => {
                             {recPreview}
                             {imgPreview}
                         </S.buttonsContainer>
+                        
                         <R.ListeningButton onClick={onAddPost}>업로드</R.ListeningButton>
+                    </S.buttonsContainer>
+                    <S.buttonsContainer rec>
+                        {onText}
+                        {onRecText}
                     </S.buttonsContainer>
             </S.mainSection>
         </S.mainContainer>
