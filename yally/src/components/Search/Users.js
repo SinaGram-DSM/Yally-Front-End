@@ -4,7 +4,7 @@ import * as L from '../../assets/style/UserPage/PageStyle';
 import * as M from '../../assets/style/Main/AddTimeLine';
 
 
-const Users = () => {
+const Users = ({img, nickname, Listening, Listener, isListening}) => {
     const isListen = true;
     return(
         <M.mainContainer>
