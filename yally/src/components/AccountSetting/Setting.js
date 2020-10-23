@@ -6,6 +6,7 @@ import {profileEdit, profile} from '../../assets/img';
 
 
 const Setting = () => {
+
     let [name, setName] = useState("데인드한"); //name 서버에서 받아온 nick
     let [file, setFile] = useState('');
 
@@ -24,7 +25,6 @@ const Setting = () => {
         const input = document.getElementById('nick');
         if(input.value == '') alert('닉네임을 설정해 주세요.');
     }
-
 
     
     return(
