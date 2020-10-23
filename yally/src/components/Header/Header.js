@@ -33,7 +33,7 @@ const Header = (baseUrl) => {
         setValue(values)
         console.log(values);
         const tagSearch = () => {
-            axios.get("http://13.125.238.84:81/search/post/" + values + "/" + page, config )
+            axios.get("http://13.125.238.84:81/search/post?hashtag=" + values + "&page=1", config )
             .then((res) => {           
                 setPosts(res.data.posts)
                 console.log(res.data.posts);
@@ -47,7 +47,7 @@ const Header = (baseUrl) => {
         setValue(values)
         console.log(values);
         const userSearch = () => {
-            axios.get("http://13.125.238.84:81/search/user/" + values + "/" + page, config)
+            axios.get("http://13.125.238.84:81/search/user?nickName=" + values + "&page=1", config)
             .then((res) => {
                setUsers(res.data.users)
                console.log(res.data.users);
