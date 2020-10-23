@@ -49,10 +49,10 @@ export const imgChange = styled.label.attrs({
 `
 
 export const imgBox = styled.div`
-    width: 120px;
-    height: 120px;
+    width: 140px;
+    height: 140px;
     position: relative;
-    line-height: 110px;
+    line-height: 130px;
 
 `
 export const profileChange = styled.img`
@@ -70,6 +70,7 @@ export const profileImge = styled.img`
     right: 0;
     z-index: 1;
     filter: brightness(50%);
+    border-radius: 50%;
 
 `
 export const nameBox = styled.div`

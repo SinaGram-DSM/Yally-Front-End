@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import * as P from '../../assets/style/UserPage/ProfileSetting'
 import * as M from '../../assets/style/Main/AddTimeLine';
-import {test, profileEdit} from '../../assets/img';
+import {profileEdit, profile} from '../../assets/img';
 
 
 
 const Setting = () => {
-    
-    const [name, setName] = useState("데인드한"); //name 서버에서 받아온 nick
-    
+    let [name, setName] = useState("데인드한"); //name 서버에서 받아온 nick
+    let [file, setFile] = useState('');
+
     const valueReset = (e) => {
         const button = document.getElementById('complete');
         e.target.value = ''; 
@@ -25,6 +25,8 @@ const Setting = () => {
         if(input.value == '') alert('닉네임을 설정해 주세요.');
     }
 
+
+    
     return(
         <P.settingContainer>
             <P.settingSection>
@@ -37,7 +39,7 @@ const Setting = () => {
                         <P.imgChange>
                             <P.imgBox>
                                 <P.profileChange src={profileEdit} />
-                                <P.profileImge src={test}/>
+                                <P.profileImge src={profile}/>
                             </P.imgBox>
                         </P.imgChange>
                 </P.profileSection>
