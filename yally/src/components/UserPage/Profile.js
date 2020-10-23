@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import * as M from '../../assets/style/UserPage/PageStyle';
 import * as S from '../../assets/style/Main/AddTimeLine';
 import axios from 'axios';
-import MyFeed from './MyFeed';
+import MyFeed from './ProfileFeed';
 
-const MyPage = () => {
-    
+const Profile = () => {
+    // const email = this.props.match;
     let [name, setName] = useState('');
     // let [image, setImage] = useState('');
     let [data, setData] = useState({
@@ -13,24 +13,28 @@ const MyPage = () => {
         listener: 0
     });
     
-    useEffect = (() => {
+    useEffect (() => {
         getProfile();
     });
 
+    
     const config = {
-        headers : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8'
+        headers : {
+            'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8'}
     }
 
     const getProfile = () => {
-        axios.get("http://13.125.238.84:81/profile/", config)
-        .than((res) => {
+        axios.get("http://13.125.238.84:81/profile/admin123@gmail.com", config)
+        .then((res) => {
             setData({
                 ...data,
                 listening: res.data.listening, 
                 listener: res.data.listener
             });
             setName(res.data.nickname);
+            console.log(res.data);
         })
+        
     }
 
     
@@ -57,4 +61,4 @@ const MyPage = () => {
 }
 
 
-export default MyPage;
+export default Profile;
