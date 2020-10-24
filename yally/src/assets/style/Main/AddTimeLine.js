@@ -120,8 +120,8 @@ export const inputFile = styled.input`
 `;
 
 export const buttonIcon = styled.img`
-    width : 14px;
-    height : 14px;
+    width : 20px;
+    height : 20px;
 `;
 
 export const previewIcon = styled.img`
