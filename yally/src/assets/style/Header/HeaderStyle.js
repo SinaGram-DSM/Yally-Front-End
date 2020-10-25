@@ -23,11 +23,14 @@ export const logoImg = styled.img`
 export const inputContainer = styled.div`
     margin: 20px 0px 0px 280px;
 `
-
+export const inputBoxContainer = styled.div`
+    background: white;
+`
 export const inputBox = styled.input.attrs({
     type: 'text',
     placeholder: '검색어를 입력하세요'
 })`
+   background: none;
    width: 250px;
    height: 23px;
    font-size: 15px;
@@ -50,7 +53,7 @@ export const searchIcon = styled.img`
    height: 30px;
    margin-top: 17px;
    cursor: pointer;
-   `
+`
 
 export const moreBtn = styled.img`
    margin: 0px 0px 30px 10px;
