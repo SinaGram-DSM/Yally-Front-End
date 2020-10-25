@@ -57,11 +57,13 @@ export const ProfileData = styled.div`
 `
 export const Listen = styled.div`
     margin:  ${props => props.list ? '10px 0px 0px 20px' : '20px 0px 0px 10px'};  
+    text-decoration: none;
 `
 export const Listening = styled.span`
     color: #707070;
     font-size: ${props => props.listen ? '15px' : '23px'};
     margin: ${props => props.listen ? '0px 15px 0px 0px' : '0px 20px 0px 30px'};
+    text-decoration: none;
 `
 
 export const Listener = styled(Listening)`
