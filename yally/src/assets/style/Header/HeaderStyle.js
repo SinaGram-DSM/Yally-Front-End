@@ -24,12 +24,12 @@ export const inputContainer = styled.div`
     margin: 20px 0px 0px 280px;
 `
 export const inputBoxContainer = styled.div`
-    background: white;
 `
 export const inputBox = styled.input.attrs({
     type: 'text',
     placeholder: '검색어를 입력하세요'
 })`
+   visibility:hidden;
    background: none;
    width: 250px;
    height: 23px;
@@ -42,7 +42,11 @@ export const inputBox = styled.input.attrs({
        color: #D1D1D1;
        font-size: 15px;
    }
+   &:hover { 
+    visibility: visible;
+   }
 `
+
 export const imgContainer = styled.div`
    margin: 10px 0px 0px 13px;
    display: inline-block;
@@ -92,4 +96,5 @@ export const menuText = styled.p`
        if(props.setting || props.logout) return 'pointer';
        else return 'none';
    }};
+   text-decoration: none;
 `
