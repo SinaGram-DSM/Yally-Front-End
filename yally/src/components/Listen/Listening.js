@@ -7,7 +7,7 @@ import * as M from '../../assets/style/Main/AddTimeLine';
 const Listening = ({match}) => {
     const isListen = false; //리슨 버튼 언리스닝 리스닝 여부 확인 값
     let [listenings, setListenings] = useState([]);
-
+    const imgUrl = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/"
     const listeningValue = match.match.params.value;
     const name = match.match.params.name;
     
@@ -21,6 +21,7 @@ const Listening = ({match}) => {
         axios.get("http://13.125.238.84:81/profile/admin123@gmail.com/listening", config)
         .then((res) => {
             setListenings(res.data.listenings)
+            console.log(res.data.listenings);
         })
     }, [])
 
@@ -36,7 +37,7 @@ const Listening = ({match}) => {
         {listenings.map((listening) => (
              <T.containerBox>
              <T.itemBox>
-               <T.boxImg/>  
+               <T.boxImg src={imgUrl + listening.image}/>  
              <T.userBox>
                  <T.name>{listening.nickname}</T.name>
                  <L.Listen list>
