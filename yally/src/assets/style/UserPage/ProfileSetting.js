@@ -38,6 +38,9 @@ export const profileSection = styled.section`
 `
 export const imgInput = styled.input.attrs({
     type: 'file',
+    multiple: "multiple",
+    name: "file",
+    accept: "image/jpg, image/png, image/jpeg, image/gif" 
 })`
     display: none;
 `
@@ -65,12 +68,14 @@ export const profileChange = styled.img`
 `
 export const profileImge = styled.img`
     width: 100%;
+    height: 100%;
     position: absolute;
     left: 0;
     right: 0;
     z-index: 1;
     filter: brightness(50%);
     border-radius: 50%;
+    object-fit: cover;
 
 `
 export const nameBox = styled.div`
@@ -102,9 +107,19 @@ export const settingBtn = styled.button`
     font-size: 17px;
     color: white;
     background: linear-gradient(to right, #6E8EEA, #9B78EC);
+    
 `
 
 export const backPage = styled.a`
     color: #6665E7;
     font-size: 15px;
+`
+
+export const imgForm = styled.form.attrs({
+    action: "http://13.125.238.84:81/profile",
+    method: "put",
+    enctype: "multipart/form-data"
+})`
+
+
 `
