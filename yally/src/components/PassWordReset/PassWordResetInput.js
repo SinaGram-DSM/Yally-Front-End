@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useLocation } from 'react-router-dom';
 import * as P from '../../assets/style/PasswordReset/PasswordResetPage';
-import { yallyLogo } from '../../assets/img';
+import { yallyLogo, help } from '../../assets/img';
 import Background from '../Global/Background';
 import axios from 'axios';
 import * as L from '../../assets/style/PasswordReset/login';
@@ -25,6 +25,7 @@ const PasswordResetInput = () => {
     const [email, setEmail] = useState('');
     const [resetCode, setResetCode] = useState('');
     const [newPassword, setNewPassword] = useState('');
+    const [helpBox, setHelpBox] = useState(false);
 
     const onChangeResetCode = e =>{
         setResetCode(e.target.value);
@@ -64,6 +65,9 @@ const PasswordResetInput = () => {
         })
         console.log(res.data);
     }
+
+    let helpBoxStyle = helpBox ? "block" : "none";
+
     return (
         <P.allContainer>
             <Background modal></Background>
@@ -79,11 +83,16 @@ const PasswordResetInput = () => {
                                 </P.mainSection>
                                 <P.mainSection>
                                     <R.guidance>아래 이메일 주소로 발송된 비밀번호 재설정 코드를 입력해 주세요.</R.guidance>
+                                    <R.helpIcon src={help} onMouseOver={() => setHelpBox(true)} onMouseOut={() => setHelpBox(false)}></R.helpIcon>
                                 </P.mainSection>                                
                             </P.mainContainer>
+                            <R.helpBox style={{display: helpBoxStyle}}>
+                                <R.helpText><R.QA>Q. </R.QA>이메일이 도착하지 않았어요.</R.helpText>
+                                <R.helpText><R.QA>A. </R.QA>회원가입 페이지로 돌아가 이메일을 올바르게 입력했는지 확인해 주세요. 올바르게 입력되었다면 스팸 메일함을 확인해 주세요. </R.helpText>
+                            </R.helpBox>
                         </P.mainSection>
                         <P.mainSection>
-                            <L.input placeholder="Email" type="email" id='email' value={email} onBlur={buttonActive}></L.input>
+                            <L.input placeholder="Email" type="email" id='email' defaultValue={email} onBlur={buttonActive}></L.input>
                         </P.mainSection>
                         <P.mainSection>
                             <L.input placeholder="Password Reset Code" type="text" id='resetCode' onBlur={buttonActive} onChange={onChangeResetCode}></L.input>
