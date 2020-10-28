@@ -23,6 +23,7 @@ const RecommendView = ({src, baseUrl}) => {
                 src = {src}
                 key={r.id}
                 id={r.id}
+                email={r.email}
                 nickname = {r.nickname}
                 userImg = {r.img}
                 ></Recommended>

@@ -23,4 +23,10 @@ export const ListeningButton = styled.button`
     font-size: 16px;
     outline : none;
     cursor : pointer;
+    opacity : 0.8;
+
+        &:hover {
+            opacity : 1;
+            transition : 0.3s;
+        }
 `;
