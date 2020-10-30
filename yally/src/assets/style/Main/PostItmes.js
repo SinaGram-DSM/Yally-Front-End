@@ -124,6 +124,7 @@ export const reactionCount = styled.p`
 export const editButton = styled.button`
     border : none;
     color : #707070;
+    background-color : inherit;
     font-size : 16px;
     cursor : pointer;
     outline : none;
