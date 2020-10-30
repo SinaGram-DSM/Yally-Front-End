@@ -1,4 +1,4 @@
-import React,{ useState, useRef } from 'react';
+import React,{ useState } from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import * as R from '../../assets/style/Main/Recommend';
 import { sound, picture } from '../../assets/img';
@@ -13,28 +13,50 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
     const [isOnAudio, setIsOnAudio] = useState(false);
     const [onRecText, setOnRecText] = useState(null);
     const [start, setStart] = useState();
-    const [end, setEnd] = useState();
     const [onText, setOnText] = useState();
-    let a = false;
-    let recArr = [];
+    const [audioStart, setAudioStart] = useState(true);
     let imgPreview = null;
     let recPreview = null;
-    const [h, setH] = useState(false);
     const config = {
         headers : { 'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8',
         'Content-type': 'application/x-www-form-urlencoded'
         }
     }
-
     const setRecord = (audio, onAudio) => {
         setAudioUrl(audio);
         setIsOnAudio(onAudio);
     }
 
-    const setTimer = (isOnRec) => {
-       setStart(isOnRec);
+    const startTimer = () => {
+        console.log('hi')
+        let rsec = 1;
+        let lsec = 0;
+        let rmin = 0;
+        let timer = setInterval(() => {
+            setOnText(<S.buttonsContainer><S.recordingIcon></S.recordingIcon><S.recordText>{'0' + rmin + ' : ' + lsec + rsec}</S.recordText></S.buttonsContainer>);
+            setOnRecText(<S.recordText>버튼을 누르면 녹음이 종료됩니다.</S.recordText>);
+            rsec++;
+            if(rsec > 9) 
+            {
+                lsec++;
+                rsec = 0;
+            }
+            if(lsec > 5) 
+            {
+                lsec = 0;
+                rmin++;
+            }
+        }, 1000)
+        setStart(timer);
+        setAudioStart(false);
     }
 
+    const endTimer = () => {
+        setOnText(null);
+        setOnRecText(null);
+        clearInterval(start);
+    }
+    
     const onUploadRec = () => {
         let audioFile = document.getElementById('audioFile').files;
         setAudioUrl(audioFile[0]);
@@ -45,7 +67,6 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
         
         let a = [];
         let b = [];
-        const ii = document.getElementById("audioImg").files;
         a.push(editFile);
         b.push(editImg);
         // const i = new File([b], "img", {type : 'img/jpeg'});
@@ -112,8 +133,6 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
                 file : img,
                 hashtag : hashtagArr
             };
-            console.log(audioUrl)
-
             form.append('content', formdata.content);
             form.append('img', formdata.file[0]);
             form.append('sound', formdata.sound);
@@ -145,8 +164,6 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
                 file : img,
                 hashtag : hashtagArr
             };
-            console.log(formdata);
-
             form.append('content', formdata.content);
             form.append('img', formdata.file[0]);
             form.append('sound', formdata.sound);
@@ -198,8 +215,8 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
                     </S.writerInfoBox>
                     <S.buttonsContainer container>
                         <S.buttonsContainer>
-                            <S.form>
-                                <AudioRecord setRecord={setRecord} setTimer={setTimer}></AudioRecord>
+                            <S.form onClick={audioStart? startTimer : endTimer}>
+                                <AudioRecord setRecord={setRecord}></AudioRecord>
                             </S.form>
                             <S.form enctype="multipart/form-data">
                                 <S.buttonBox for="audioFile">
