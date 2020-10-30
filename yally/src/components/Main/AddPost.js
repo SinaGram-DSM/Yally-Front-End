@@ -235,8 +235,8 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
                             {recPreview}
                             {imgPreview}
                         </S.buttonsContainer>
-                        <R.ListeningButton onClick={onEditPost}>수정</R.ListeningButton>
-                        <R.ListeningButton onClick={onAddPost}>업로드</R.ListeningButton>
+                        <R.ListeningButton style={{display : editPostId? "" : "none"}} onClick={onEditPost}>수정</R.ListeningButton>
+                        <R.ListeningButton style={{display : editPostId? "none" : ""}} onClick={onAddPost}>업로드</R.ListeningButton>
                     </S.buttonsContainer>
                     <S.buttonsContainer rec>
                         {onText}
