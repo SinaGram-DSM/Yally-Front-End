@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import * as P from "../../assets/style/Main/PostItmes";
-import { playButton, repl, deleteIcon } from '../../assets/img';
+import { repl, deleteIcon } from '../../assets/img';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import yallyOn from '../../assets/img/yallyOn.png';
@@ -32,7 +32,7 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
     {
         deleteButtonStyle = "none";
     }
-    
+
     const onYally = () => {
         if(isYally === false)
         {
@@ -80,7 +80,7 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
                         <P.postNameInfo>{nickname}</P.postNameInfo>
                         <P.postDateInfo>{createdDate}</P.postDateInfo>
                         </P.div>
-                        <P.Icon delete src={deleteIcon} style={{display : deleteButtonStyle}} onClick={onRemovePost}></P.Icon>
+                        <P.Icon delete src={deleteIcon} style={{display : isMine? "" : "none"}} onClick={onRemovePost}></P.Icon>
                         {/* <Modal text="게시물을 삭제하시겠습니까?" src={deleteIcon} ></Modal> */}
                     </P.postInfoBox>
                </P.postInfoContainer>
@@ -122,7 +122,7 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
                         <P.reactionCount>{isComment}</P.reactionCount>
                     </P.reactionBox>
                     </P.postInfoContainer>
-                    <P.editButton onClick={onEditPost}>수정</P.editButton>
+                    <P.editButton style={{display : isMine? "" : "none"}} onClick={onEditPost}>수정</P.editButton>
                 </P.reactionContainer>    
             </S.mainSection>
         </S.mainContainer>
