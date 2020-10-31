@@ -13,10 +13,6 @@ export default class AudioPlayer extends React.Component {
     };
   }
 
-  componentWillReceiveProps() {
-    this.setState({ play: true });
-  }
-
   componentDidMount() {
     this.audio.addEventListener("timeupdate", () => {
       this.setState({ duration: String(this.audio.currentTime).split(".")[0] });
@@ -30,6 +26,7 @@ export default class AudioPlayer extends React.Component {
   positionHandle = (position) => {
     let timelineWidth = this.timeline.offsetWidth - this.handle.offsetWidth;
     let handleLeft = position - this.timeline.offsetLeft;
+    console.log(timelineWidth, handleLeft);
     if (handleLeft >= 0 && handleLeft <= timelineWidth) {
       this.handle.style.marginLeft = handleLeft + "px";
     }
@@ -44,9 +41,14 @@ export default class AudioPlayer extends React.Component {
   };
 
   mouseMove = (e) => {
-    this.positionHandle(e.pageX);
-    this.audio.currentTime =
-      (e.pageX / this.timeline.offsetWidth) * this.audio.duration;
+    this.positionHandle(e.offsetX);
+    let sound = ((e.offsetX / this.timeline.offsetWidth) * this.audio.duration);
+    if (isNaN(sound)) {
+        return;
+     }
+    else {
+        this.audio.currentTime = parseFloat(sound);
+    }
   };
 
   mouseUp = (e) => {
