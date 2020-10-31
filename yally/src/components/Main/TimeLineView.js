@@ -95,6 +95,7 @@ const TimeLineView = ({ src, baseUrl }) => {
           setContent={setContent}
         ></PostItem>
       ))}
+        <h2 style={{textAlign : "center", color : "#707070"}}>{isLoading? "Loading..." : ""}</h2>
       <Background></Background>
     </div>
   );
