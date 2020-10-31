@@ -17,6 +17,7 @@ const RecommendView = ({src, baseUrl}) => {
 
     return (
         <S.mainContainer friends>
+            <S.mainSection friends>
             {recommend.map((r) => (
                 <Recommended
                 baseUrl={baseUrl}
@@ -28,6 +29,7 @@ const RecommendView = ({src, baseUrl}) => {
                 userImg = {r.img}
                 ></Recommended>
             ))}
+            </S.mainSection>
         </S.mainContainer>
     );
 };
