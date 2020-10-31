@@ -1,12 +1,13 @@
 import React from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import * as P from "../../assets/style/Main/PostItmes"
-import { playButton, repl, deleteIcon } from '../../assets/img'
+import { repl, deleteIcon } from '../../assets/img'
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom"
 import yallyOn from '../../assets/img/yallyOn.png'
 import yallyOff from '../../assets/img/yallyOff.png'
+import AudioPlayer from '../Main/AudioPlayer'
 
 const DetailPost = ({baseUrl, id, src, date, nickname, isYally, yallyNum, isComment, content, sound, isMine, userImg, audioImg}) => {
      let deleteButtonStyle = "";
@@ -72,7 +73,7 @@ const DetailPost = ({baseUrl, id, src, date, nickname, isYally, yallyNum, isComm
                             <P.postArticle>
                                 <P.postWritten>{content}</P.postWritten>
                                 <P.playInfoBox>
-                                    <P.Icon src={playButton}></P.Icon>
+                                    <AudioPlayer audio={src + sound}></AudioPlayer>
                                 </P.playInfoBox>
                             </P.postArticle>
                         </P.postInfoContainer>

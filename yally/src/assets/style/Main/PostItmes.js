@@ -52,7 +52,6 @@ export const audioImg = styled.img`
 `;
 
 export const postArticle = styled.article`
-    width: 440px;
     position : absolute;
     top : 30%;
     text-align : center;
@@ -128,21 +127,33 @@ export const reactionCount = styled.p`
 export const editButton = styled.button`
     border : none;
     color : #707070;
+    background-color : inherit;
     font-size : 16px;
     cursor : pointer;
     outline : none;
 `;
 
-export const audioTimeContainer = styled.div`
-    width : 450px;
-    background-color : white;
-    height : 1px;
+export const audioTimeline = styled.div`
+    position: relative;
+    width: 28rem;
+    height: 0.01rem;
+    margin: 2rem auto;
+    border-radius: 15px;
+    background-color : #fffff7;
 `;
 
 export const audioHandle = styled.div`
-    width : 12px;
-    height: 12px;
-    border-radius : 50%;
-    background-color : white;
-    margin-bottom : 5px;
+    position: absolute;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    margin-top: -4px;
+    background-color : #ffffff;
+`;
+
+export const audioDuration = styled.span`
+    color: white;
+    float: right;
+    font-size : 0.8rem;
+    margin-top: 5px;
 `;

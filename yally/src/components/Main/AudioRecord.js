@@ -1,24 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import { mic } from '../../assets/img';
 
-const AudioRecord = ({setRecord, setTimer}) => {
+const AudioRecord = ({setRecord}) => {
 
     const [stream, setStream] = useState({});
     const [media, setMedia] = useState({});
     const [onRec, setOnRec] = useState(true);
     const [source, setSource] = useState({});
     const [analyser , setAnalyser] = useState({});
-    const [start, setStart] = useState();
-    const [onRecText, setOnRecText] = useState(null);
-    const [onText, setOnText] = useState();
-    const [audioUrl, setAudioUrl] = useState();
-    const [isOnAudio, setIsOnAudio] = useState(false);
-
     let recArr = [];
     
     const onRecAudio = () => {
-       
+        
         const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
         const analyser = audioCtx.createScriptProcessor(0,1,1);
         setAnalyser(analyser);
@@ -50,8 +44,6 @@ const AudioRecord = ({setRecord, setTimer}) => {
                     
                     mediaRecorder.ondataavailable = function(e) {
                         recArr.push(e.data);
-                        setAudioUrl(recArr[0]);
-                        
                         setOnRec(true);
                     }
                 }
@@ -66,7 +58,6 @@ const AudioRecord = ({setRecord, setTimer}) => {
     const offRecAudio = () => {
         media.ondataavailable = function(e) {
             recArr.push(e.data);
-            setAudioUrl(recArr[0]);
             setRecord(recArr[0], true);
         }
         stream.getAudioTracks().forEach(function(track) {
@@ -76,10 +67,6 @@ const AudioRecord = ({setRecord, setTimer}) => {
         
         analyser.disconnect();
         source.disconnect(); 
-        setIsOnAudio(true);
-        setOnRecText(null);
-        setOnText(null);
-        setTimer(false);
     }
     
     return (

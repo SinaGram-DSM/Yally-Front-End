@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import * as P from "../../assets/style/Main/PostItmes";
-import { playButton, repl, deleteIcon } from '../../assets/img';
+import { repl, deleteIcon } from '../../assets/img';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import yallyOn from '../../assets/img/yallyOn.png';
 import yallyOff from '../../assets/img/yallyOff.png';
-import AudioPlayer from './AudioPlayer';
 import Modal from '../Global/Modal';
+import AudioPlayer from './AudioPlayer';
 
 const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComment, content, sound, isMine, userImg, audioImg, setContent}) => {
     
@@ -24,17 +24,13 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
     }
 
     const [onLike, setOnLike] = useState(yallySrc);
-    const [onAudio, setOnAudio] = useState(true);
-    // const audio = new Audio(src + sound);
-    const audio = document.getElementById('audio');
-
     let deleteButtonStyle = "";
     const config = {
         headers : { 'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8'}
     }
     if(isMine === false)
     {
-        deleteButtonStyle = "none"
+        deleteButtonStyle = "none";
     }
 
     const onYally = () => {
@@ -62,18 +58,6 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
         window.scrollTo({top:0, left:0, behavior:'smooth'});
     }
 
-    const onAudioPlay = () => {
-        audio.play();
-        console.log('hi', sound);
-        setOnAudio(false);
-    }
-
-    const offAudioPlay = () => {
-        audio.pause();
-        setOnAudio(true);
-        console.log('bye', sound);
-    }
-
     let createdDate = date.split('-');
     let day = createdDate[2];
     day = day.split(' ')
@@ -96,7 +80,7 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
                         <P.postNameInfo>{nickname}</P.postNameInfo>
                         <P.postDateInfo>{createdDate}</P.postDateInfo>
                         </P.div>
-                        <P.Icon delete src={deleteIcon} style={{display : deleteButtonStyle}} onClick={onRemovePost}></P.Icon>
+                        <P.Icon delete src={deleteIcon} style={{display : isMine? "" : "none"}} onClick={onRemovePost}></P.Icon>
                         {/* <Modal text="게시물을 삭제하시겠습니까?" src={deleteIcon} ></Modal> */}
                     </P.postInfoBox>
                </P.postInfoContainer>
@@ -113,9 +97,7 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
                             <P.postArticle>
                                 <P.postWritten>{content}</P.postWritten>
                                 <P.playInfoBox>
-                                    {/* <AudioPlayer src={src + sound}></AudioPlayer> */}
-                                    <audio src={src + sound} controls id="audio"></audio>
-                                    <P.Icon src={playButton} onClick={onAudio? onAudioPlay : offAudioPlay}></P.Icon>
+                                    <AudioPlayer audio={src + sound}></AudioPlayer>
                                 </P.playInfoBox>
                             </P.postArticle>
                         </P.postInfoContainer>
@@ -140,7 +122,7 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
                         <P.reactionCount>{isComment}</P.reactionCount>
                     </P.reactionBox>
                     </P.postInfoContainer>
-                    <P.editButton onClick={onEditPost}>수정</P.editButton>
+                    <P.editButton style={{display : isMine? "" : "none"}} onClick={onEditPost}>수정</P.editButton>
                 </P.reactionContainer>    
             </S.mainSection>
         </S.mainContainer>
