@@ -4,7 +4,7 @@ import * as C from '../../assets/style/SignUp/SignUpCheckForm';
 import { yallyLogo } from '../../assets/img';
 import Background from '../Global/Background';
 import axios from 'axios';
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import {help} from '../../assets/img';
 
 const buttonActive = () => {
@@ -17,7 +17,7 @@ const buttonActive = () => {
         button.style.background='#D1D1D1';
 }
 
-const SignUpCheck = () => {
+const SignUpCheck = ({baseUrl}) => {
 
     const location = useLocation();
     const [email, setEmail] = useState('');
@@ -65,10 +65,10 @@ const SignUpCheck = () => {
             };
         console.log(data);
         console.log(code);
-        const res = axios.post("http://13.125.238.84:81/user/auth-code", {email: data.email, code: code})
+        const res = axios.post(baseUrl + "user/auth-code", {email: data.email, code: code})
         .then((res) => {
             console.log(res);
-            const res2 = axios.post("http://13.125.238.84:81/user", {email: data.email, password: data.password, nickname: data.nickname, age: parseInt(data.age)})
+            const res2 = axios.post(baseUrl + "user", {email: data.email, password: data.password, nickname: data.nickname, age: parseInt(data.age)})
             console.log(res2);
         }).catch((error) => {
             console.log(error);
@@ -110,7 +110,7 @@ const SignUpCheck = () => {
                         <S.mainSection>
                             <C.button id='button' disabled={!code} onClick={SendCode}>회원가입</C.button>
                         </S.mainSection>
-                        <S.back><S.link>회원가입 페이지로 돌아가기</S.link></S.back>
+                        <Link to="sign-up" style={{textDecoration : "none"}}><S.back><S.link>회원가입 페이지로 돌아가기</S.link></S.back></Link>
                     </S.mainContainer>
                 </S.mainSection> 
             </S.mainContainer>

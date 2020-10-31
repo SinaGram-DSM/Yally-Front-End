@@ -17,7 +17,7 @@ const Listener = ({baseUrl, match}) => {
     }
 
     useEffect (() => {
-        axios.get("http://13.125.238.84:81/profile/admin123@gmail.com/listener", config)
+        axios.get( baseUrl + "profile/admin123@gmail.com/listener", config)
         .then((res) => {
             setListeners(res.data.listeners)
             

@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import PostItem from '../Main/PostItem';
 
-const Profile = () => {
+const Profile = ({baseUrl}) => {
     // const email = this.props.match;
     const imgUrl = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/"
     let [name, setName] = useState('');
@@ -32,7 +32,7 @@ const Profile = () => {
 
     
     useEffect (() => {
-        axios.get("http://13.125.238.84:81/profile/admin123@gmail.com", config)
+        axios.get(baseUrl + "profile/admin123@gmail.com", config)
         .then((res) => {
             setData({
                 ...data,
@@ -45,7 +45,7 @@ const Profile = () => {
             console.log(res.data.image);
         })   
         
-        axios.get("http://13.125.238.84:81/mypage/timeline/admin123@gmail.com/" + page, feedConfig)
+        axios.get(baseUrl + "mypage/timeline/admin123@gmail.com/" + page, feedConfig)
         .then((res) => {
             setTimeLine(res.data.posts)
             setPage(page++)
