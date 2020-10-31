@@ -11,7 +11,7 @@ export const postInfoContainer = styled.div`
 `;
 
 export const postNameInfo = styled.h1`
-    font-size: 1.563rem
+    font-size: 1.563rem;
     color: #707070;
     font-weight: 400;
     margin : 0.1875rem 0 0 0;
