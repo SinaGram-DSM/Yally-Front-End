@@ -5,6 +5,7 @@ import PostItem from "../Main/PostItem";
 import Background from "../Global/Background";
 import Header from "../Header/Header";
 import axios from "axios";
+import * as S from "../../assets/style/Main/AddTimeLine";
 
 const TimeLineView = ({ src, baseUrl }) => {
   const [contents, setContents] = useState();
@@ -66,7 +67,9 @@ const TimeLineView = ({ src, baseUrl }) => {
       style={{ position: "relative", backgroundColor: "#FDFDFD" }}
       ref={timelineBody}
     >
-      <Header></Header>
+    <S.mainContainer>
+        <Header></Header>
+    </S.mainContainer>
       <AddPost
         src={src}
         baseUrl={baseUrl}

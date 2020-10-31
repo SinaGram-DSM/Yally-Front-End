@@ -6,6 +6,7 @@ import * as C from '../../assets/style/PostDetail/Comment'
 import * as P from '../../assets/style/Main/PostItmes'
 import * as S from '../../assets/style/Main/AddTimeLine'
 import axios from 'axios'
+import Header from '../Header/Header';
 
 const DetailPostView = ({location, id, src, baseUrl, deleteButtonStyle}) => {
     
@@ -25,6 +26,7 @@ const DetailPostView = ({location, id, src, baseUrl, deleteButtonStyle}) => {
 
     return (
         <P.div>
+            <Header></Header>
             <S.mainContainer>
                 <S.mainSection>
                     <DetailPost 
