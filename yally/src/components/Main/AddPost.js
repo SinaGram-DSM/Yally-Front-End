@@ -67,12 +67,12 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
     }
 
     const onEditPost = () => {
-        let a = [];
-        let b = [];
-        a.push(editFile);
-        b.push(editImg);
-        const editSound = new File([a], "sound", { lastModified: new Date().getTime(), type: 'audio/mp3' });
-        const editImgFile = new File([b], "img", { lastModified: new Date().getTime(), type: "image/jpeg" });
+        let editFileArr = [];
+        let editImgArr = [];
+        editFileArr.push(editFile);
+        editImgArr.push(editImg);
+        const editSound = new File([editFileArr], "sound", { lastModified: new Date().getTime(), type: 'audio/mp3' });
+        const editImgFile = new File([editImgArr], "img", { lastModified: new Date().getTime(), type: "image/jpeg" });
 
         let editHashtagArr = [];
         let editHashtag = '';
@@ -120,15 +120,13 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
         axios.post(baseUrl + "post/" + editPostId, editForm, config)
             .then((res) => {
                 console.log(res);
-                // setTimeout(function() {
-                //     window.location.reload();
-                // }, 200);
+                setTimeout(function() {
+                    window.location.reload();
+                }, 200);
             })
             .catch((err) => {
                 console.log(err);
-                // setTimeout(function() {
-                //     window.location.reload();
-                // }, 200);
+                alert('글 수정에 실패하였습니다. 오디오를 입력해주세요.');
             })
     }
 
