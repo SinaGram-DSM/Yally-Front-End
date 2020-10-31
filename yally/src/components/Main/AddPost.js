@@ -4,6 +4,7 @@ import * as R from '../../assets/style/Main/Recommend';
 import { sound, picture } from '../../assets/img';
 import AudioRecord from './AudioRecord'
 import axios from 'axios';
+import '../../assets/style/Global/global.css';
 
 const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPostId}) => {
 
@@ -15,6 +16,9 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
     const [start, setStart] = useState();
     const [onText, setOnText] = useState();
     const [audioStart, setAudioStart] = useState(true);
+    const [isOnImg, setIsOnImg] = useState(false);
+    const [content, setContent] = useState();
+    const [isContent, setIsContent] = useState(false);
     let imgPreview = null;
     let recPreview = null;
     const config = {
@@ -28,7 +32,6 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
     }
 
     const startTimer = () => {
-        console.log('hi')
         let rsec = 1;
         let lsec = 0;
         let rmin = 0;
@@ -64,31 +67,56 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
     }
 
     const onEditPost = () => {
-        
-        let a = [];
-        let b = [];
-        a.push(editFile);
-        b.push(editImg);
-        // const i = new File([b], "img", {type : 'img/jpeg'});
-        const sound = new File([a], "sound", { lastModified: new Date().getTime(), type: 'audio/mp3' });
-        const img = new File([b], "img", { lastModified: new Date().getTime(), type: 'img/jpeg' });
-        // console.log(sound);
-        // let editSound = new File([audioUrl], "soundBlob",{ lastModified: new Date().getTime(), type: audioUrl.type });
-        
-        const editFormData = {
-            sound : sound,
-            content : editContent,
-            img : img,
-            hashtags : 'zz'
-        };
-        console.log(editFormData);
-        let editForm = new FormData();
-        editForm.append('content', editFormData.content);
-        editForm.append('img', editFormData.img);
-        editForm.append('sound', editFormData.sound);
-        editForm.append('hashtag', editFormData.content);
+        let editFileArr = [];
+        let editImgArr = [];
+        editFileArr.push(editFile);
+        editImgArr.push(editImg);
+        const editSound = new File([editFileArr], "sound", { lastModified: new Date().getTime(), type: 'audio/mp3' });
+        const editImgFile = new File([editImgArr], "img", { lastModified: new Date().getTime(), type: "image/jpeg" });
 
-        console.log(editForm);
+        let editHashtagArr = [];
+        let editHashtag = '';
+        editHashtagArr = editContent.split('#');
+        for(let i = 1; i < editHashtagArr.length; i++)
+        {
+            editHashtag = editHashtagArr[i];
+        }
+            
+        editHashtag = editHashtag.split(' ');
+        editHashtagArr = editHashtag;
+
+       console.log(editSound, editImgFile)
+        const editFormData = {
+            sound : editSound,
+            content : editContent,
+            hashtags : editHashtagArr
+        };
+
+        let editForm = new FormData();
+
+        if(isContent == true) {
+            editForm.append('content', content);
+        }
+        else {
+            editForm.append('content', editContent);
+        }
+
+        if(isOnImg == true) {
+            editForm.append('img', imgFile);
+        } 
+        else {
+            editForm.append('img', editImgFile);
+        }
+
+        if(isOnAudio === true) {
+            editForm.append('sound', audioUrl);
+        }
+        else {
+            editForm.append('sound', editSound);
+        }
+        
+        editForm.append('hashtag', editFormData.hashtags);
+
         axios.post(baseUrl + "post/" + editPostId, editForm, config)
             .then((res) => {
                 console.log(res);
@@ -98,13 +126,12 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
             })
             .catch((err) => {
                 console.log(err);
+                alert('글 수정에 실패하였습니다. 오디오를 입력해주세요.');
             })
     }
 
     const onAddPost = () => {
         
-        const content = document.getElementsByName('content')[0].value.trim();
-        const img = document.getElementById("audioImg").files;
         let hashtagArr = [];
         let hashtag = '';
         hashtagArr = content.split('#');
@@ -130,7 +157,7 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
             {
                 sound : audioUrl,
                 content : content,
-                file : img,
+                file : imgFile,
                 hashtag : hashtagArr
             };
             form.append('content', formdata.content);
@@ -161,11 +188,11 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
             {
                 sound : sound,
                 content : content,
-                file : img,
+                file : imgFile,
                 hashtag : hashtagArr
             };
             form.append('content', formdata.content);
-            form.append('img', formdata.file[0]);
+            form.append('img', formdata.file);
             form.append('sound', formdata.sound);
             for(let i = 0; i < hashtag.length; i++)
             {
@@ -192,8 +219,15 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
         reader.onloadend = () => {
             setPreviewUrl(reader.result);
             setImgFile(file);
+            setIsOnImg(true);
         }
         reader.readAsDataURL(file);
+    }
+
+    const onUploadContent = (e) => {
+        e.preventDefault();
+        setContent(e.target.value);
+        setIsContent(true);
     }
 
     if(imgFile !== ''){
@@ -209,8 +243,7 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
                 <S.writerInfoBox>
                     <S.profileImg src={src + userImg}></S.profileImg>
                     <S.form action="" method="post" enctype="multipart/form-data" input>
-                        <S.writerInput placeholder="이야기를 들려주세요!" type="text" name="content">
-                        </S.writerInput>
+                        <S.writerInput placeholder="이야기를 들려주세요!" type="text" name="content" onChange={onUploadContent}></S.writerInput>
                     </S.form>
                     </S.writerInfoBox>
                     <S.buttonsContainer container>

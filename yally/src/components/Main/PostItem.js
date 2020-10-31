@@ -24,6 +24,7 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
     }
 
     const [onLike, setOnLike] = useState(yallySrc);
+
     let deleteButtonStyle = "";
     const config = {
         headers : { 'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8'}
@@ -84,12 +85,6 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
                         {/* <Modal text="게시물을 삭제하시겠습니까?" src={deleteIcon} ></Modal> */}
                     </P.postInfoBox>
                </P.postInfoContainer>
-               {/* <Link style={{textDecoration : "none"}} to={{
-                pathname : `/post/${id}`,
-                state : {
-                    id, deleteButtonStyle
-                }
-                }}> */}
                 <P.postSection>
                     <P.audioContainer>
                         <P.audioImg src={src + audioImg}></P.audioImg>
@@ -97,13 +92,12 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
                             <P.postArticle>
                                 <P.postWritten>{content}</P.postWritten>
                                 <P.playInfoBox>
-                                    <AudioPlayer audio={src + sound}></AudioPlayer>
+                                    <AudioPlayer audio={src + sound} type="audio/mpeg"></AudioPlayer>
                                 </P.playInfoBox>
                             </P.postArticle>
                         </P.postInfoContainer>
                     </P.audioContainer>
                 </P.postSection>
-                {/* </Link> */}
                 <P.reactionContainer>
                     <P.postInfoContainer>
                     <P.reactionBox>
