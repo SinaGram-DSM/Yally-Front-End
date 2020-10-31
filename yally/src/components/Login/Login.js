@@ -2,6 +2,7 @@ import React from 'react';
 import * as L from '../../assets/style/Login/LoginPage';
 import { yallyLogo } from '../../assets/img';
 import Background from '../Global/Background';
+import { Link } from 'react-router-dom';
 
 const loginActive = () => {
     let id = document.getElementById('id');
@@ -40,8 +41,8 @@ const Login = () => {
                         <L.mainSection>
                             <L.loginButton id='button'>로그인</L.loginButton>
                         </L.mainSection>
-                        <L.solveProblem>혹시 <L.link>비밀번호를 잊으셨나요?</L.link></L.solveProblem>
-                        <L.solveProblem>아직 <L.link>계정이 없으신가요?</L.link></L.solveProblem>
+                        <Link to="/password-reset" style={{textDecoration : "none"}}><L.solveProblem>혹시 <L.link>비밀번호를 잊으셨나요?</L.link></L.solveProblem></Link>
+                        <Link to="/sign-up" style={{textDecoration : "none"}}><L.solveProblem>아직 <L.link>계정이 없으신가요?</L.link></L.solveProblem></Link>
                     </L.mainContainer>
                 </L.mainSection>
             </L.mainContainer>

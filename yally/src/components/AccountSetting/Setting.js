@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import * as P from '../../assets/style/UserPage/ProfileSetting'
 import * as M from '../../assets/style/Main/AddTimeLine';
 import axios from 'axios';
-import {profileEdit, profile} from '../../assets/img';
-
-
+import { profileEdit } from '../../assets/img';
+import { Link } from "react-router-dom";
 
 const Setting = ({baseUrl}) => {
 
@@ -42,19 +41,7 @@ const Setting = ({baseUrl}) => {
         form.append("nickname", nickname)
     
         console.log(config);
-        axios.put("http://13.125.238.84:81/profile/", form, config)
-        // axios({
-        //     method: 'post',
-        //     url: "http://13.125.238.84:81/profile/",
-        //     headers: {
-        //         'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDMxMDk5NDgsIm5iZiI6MTYwMzEwOTk0OCwianRpIjoiYmQwMzJmMTgtMTA5OC00ZWVhLTgxNDUtNWJjZGU0YzMxMjUwIiwiZXhwIjoxNjExNzQ5OTQ4LCJpZGVudGl0eSI6ImFkbWluMTIzQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.-4G3ptKZhdlby3iHSlMQF68Og2v28f8xQR4OPuk7P4k',
-        //         'Content-Type': 'multipart/form-data'
-        //     },
-        //     data: {
-        //         "nickname": nickname,
-        //         "image": image
-        //     }
-        // })
+        axios.put(baseUrl + "profile/", form, config)
         .then((res) => {
             console.log(res);
         })
@@ -90,7 +77,7 @@ const Setting = ({baseUrl}) => {
                                 <P.profileChange src={profileEdit} />
                                 {file !== '' ?
                                 <P.profileImge src={img}/> :
-                                <P.profileImge src={profile}/>
+                                <P.profileImge />
                                 }
                             </P.imgBox>
                         </P.imgChange>
@@ -99,7 +86,7 @@ const Setting = ({baseUrl}) => {
                     <P.nickname id="nick" value={nickname} onFocus={valueReset} onChange={valueChange}/>
                 </P.nameBox>
                 <P.settingBtn id="complete" onClick={imgSetting}>완료</P.settingBtn>
-                <P.backPage>이전 페이지로 돌아가기</P.backPage>
+                <Link to="/timeline" style={{textDecoration : "none"}}><P.backPage>메인 페이지로 돌아가기</P.backPage></Link>
             </P.settingSection>
         </P.settingContainer>
     );
