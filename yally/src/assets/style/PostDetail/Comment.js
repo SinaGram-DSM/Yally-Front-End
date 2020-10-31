@@ -9,19 +9,19 @@ export const commentContainer = styled.div`
 export const commentBox = styled.div`
     display : flex;
     align-items : center;
-    margin-bottom : 10px;
+    margin-bottom : 0.625rem;
 `;
 
 export const commentWriter = styled.h2`
     font-weight : 400;
     margin : 0;
     color : #707070;
-    margin-right : 15px;
+    margin-right : 0.9375rem;
 `;
 
 export const commentDate = styled.p`
     color : #707070;
-    font-size : 14px;
+    font-size : 0.875rem;
     font-weight : 400;
     margin : 0
 `;
@@ -30,16 +30,16 @@ export const contents = styled.p`
     font-weight : 400;
     margin : 0;
     color : #707070;
-    font-size : 19px;
+    font-size : 1.188rem;
 `;
 
 export const commentInfo = styled.div`
     display : flex;
     align-items : center;
-    margin-bottom : 10px;
+    margin-bottom : 0.625rem;
 `;
 
 export const div = styled.div`
-    margin : 10px 0px 0px 20px;
+    margin : 0.625rem 0 0 1.25rem;
     width : ${props => props.input ? '100%' : '' };
 `
