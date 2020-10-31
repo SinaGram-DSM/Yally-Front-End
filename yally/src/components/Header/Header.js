@@ -70,7 +70,7 @@ const Header = (baseUrl) => {
     }
 
     return(
-        <div style={{backgroundColor: '#FDFDFD'}}>
+        <div style={{backgroundColor: '#FDFDFD', width : "59.88rem"}}>
         <H.HeaderContainer>
             <H.logoSection>
                 <H.logoImg src={yallyLogo}></H.logoImg>

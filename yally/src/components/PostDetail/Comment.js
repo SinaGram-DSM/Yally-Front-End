@@ -1,19 +1,41 @@
 import React from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import * as C from '../../assets/style/PostDetail/Comment'
+import * as P from "../../assets/style/Main/PostItmes"
+import { deleteIcon } from '../../assets/img'
+import axios from 'axios'
 
-const Comment = () => {
+const Comment = ({id, baseUrl, src, sound, nickname, date, content, userImg, deleteButtonStyle}) => {
+    let soundStyle;
+    const config = {
+        headers : { 'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8'}
+    }
+
+    if(sound == null)
+    {
+        soundStyle = 'none';
+    }
+
+    const onRemoveComment = async () => {
+        await axios.delete(baseUrl + "post/comment/" + id, config)
+        setTimeout(function() {
+            window.location.reload();
+          }, 300);
+    }
+
     return (
             <S.mainContainer detailPost>
             <S.mainSection small>
                 <C.commentBox>
-                <S.profileImg></S.profileImg>
+                <S.profileImg src={src + userImg}></S.profileImg>
                     <C.div>
                         <C.commentInfo>
-                            <C.commentWriter>뫙뫙</C.commentWriter>
-                            <C.commentDate>2019년 1월 1일 00:04</C.commentDate>
+                            <C.commentWriter>{nickname}</C.commentWriter>
+                            <C.commentDate>{date}</C.commentDate>
+                            <P.Icon comment src={deleteIcon} style={{display : deleteButtonStyle}} onClick={onRemoveComment}></P.Icon>
                         </C.commentInfo>
-                        <C.contents>이렇게 쓰면 댓글이 된다네요</C.contents>
+                        <audio src={src + sound} style={{display : soundStyle}} controls></audio>
+                        <C.contents>{content}</C.contents>
                     </C.div>
                 </C.commentBox>
             </S.mainSection>

@@ -1,18 +1,14 @@
 import styled from 'styled-components';
 
-
 export const HeaderContainer = styled.div`
-    width: 53%;
     display: flex;
-    margin: 0px 392px 0px 392px;
-    position: relative;
+    justify-content : space-between;
+    position : relative;
 `
 
 export const logoSection = styled.section`
     width: 20%;
     margin-top: 10px;
-
-
 `
 
 export const logoImg = styled.img`
@@ -49,8 +45,8 @@ export const inputBox = styled.input.attrs({
 
 export const imgContainer = styled.div`
    margin: 10px 0px 0px 13px;
-   display: inline-block;
-
+   display: flex;
+   align-items : center;
 `
 export const searchIcon = styled.img`
    width: 30px;
@@ -60,7 +56,7 @@ export const searchIcon = styled.img`
 `
 
 export const moreBtn = styled.img`
-   margin: 0px 0px 30px 10px;
+   margin: 0 0 0 1rem;
    width: 12px;
    height: 10px;
    vertical-align: middle;
