@@ -1,48 +1,97 @@
 import React from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import * as P from "../../assets/style/Main/PostItmes"
-import { playButton, yallyOff, repl, deleteIcon } from '../../assets/img'
+import { repl, deleteIcon } from '../../assets/img'
+import axios from 'axios';
+import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom"
+import yallyOn from '../../assets/img/yallyOn.png'
+import yallyOff from '../../assets/img/yallyOff.png'
+import AudioPlayer from '../Main/AudioPlayer'
 
-const PostItem = () => {
+const DetailPost = ({baseUrl, id, src, date, nickname, isYally, yallyNum, isComment, content, sound, isMine, userImg, audioImg}) => {
+     let deleteButtonStyle = "";
+    let yallyButton = "";
+    const history = useHistory();
+    const config = {
+        headers : { 'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8'}
+    }
+
+    if(isYally === true)
+    {
+        yallyButton = yallyOn;
+    }
+    else
+    {
+        yallyButton = yallyOff;
+    }
+
+    const onYally = () => {
+        if(isYally === false)
+        {
+            axios.get(baseUrl + "post/yally/" + id, config)
+            setTimeout(function() {
+                window.location.reload();
+              }, 300);
+        }
+        else
+        {
+            axios.delete(baseUrl + "post/yally/" +  id, config)
+            setTimeout(function() {
+                window.location.reload();
+              }, 300);
+        }
+    }
+
+    const onRemovePost = async () => {
+        await axios.delete(baseUrl + "post/" + id, config)
+        history.push({
+            pathname: "/timeLine"
+        })
+    }
+
     return (
             <P.div>
                 <P.postInfoContainer>
-                    <S.profileImg>
-                    </S.profileImg>
+                    <S.profileImg src={src + userImg}></S.profileImg>
                     <P.postInfoBox>
-                        <P.postNameInfo>대충어떤닉네임</P.postNameInfo>
+                        <P.div>
+                        <P.postNameInfo>{nickname}</P.postNameInfo>
                         <P.playInfoBox>
-                            <P.postDateInfo>2020년 1월 1일 00:00</P.postDateInfo>
-                            <P.Icon src={deleteIcon} delete></P.Icon>
+                            <P.postDateInfo>{date}</P.postDateInfo>
+                            <P.Icon delete src={deleteIcon} style={{display : deleteButtonStyle}} onClick={onRemovePost}></P.Icon>
                         </P.playInfoBox>
-                        
+                        </P.div> 
+                        <Link to="/timeline" style={{textDecoration : "none"}}><P.reactionCount>메인으로</P.reactionCount></Link>
                     </P.postInfoBox>
-                    
                </P.postInfoContainer>
-                <P.postSection>
-                    <P.postArticle>
-                        <P.postWritten>글 작성 어쩌구저쩌구~~ #첫게시물 #LIKE #얄리</P.postWritten>
-                        <P.playInfoBox>
-                            <P.Icon src={playButton}></P.Icon>
-                        </P.playInfoBox>
-                        
-                    </P.postArticle>
-                    
+
+               <P.postSection>
+                    <P.audioContainer>
+                        <P.audioImg src={src + audioImg}></P.audioImg>
+                        <P.postInfoContainer post>
+                            <P.postArticle>
+                                <P.postWritten>{content}</P.postWritten>
+                                <P.playInfoBox>
+                                    <AudioPlayer audio={src + sound}></AudioPlayer>
+                                </P.playInfoBox>
+                            </P.postArticle>
+                        </P.postInfoContainer>
+                    </P.audioContainer>
                 </P.postSection>
                 
                 <P.reactionContainer detailPost>
                     <P.reactionBox>
-                        <P.reactionIcon src={yallyOff}></P.reactionIcon>
-                        <P.reactionCount>19개</P.reactionCount>
+                        <P.reactionIcon src={yallyButton} onClick={onYally}></P.reactionIcon>
+                        <P.reactionCount>{yallyNum}</P.reactionCount>
                     </P.reactionBox>
                     <P.reactionBox>
                         <P.reactionIcon src={repl}></P.reactionIcon>
-                        <P.reactionCount>21개</P.reactionCount>
+                        <P.reactionCount>{isComment}</P.reactionCount>
                     </P.reactionBox>
                 </P.reactionContainer>   
-                
             </P.div>
     );
 };
 
-export default PostItem;
+export default DetailPost;

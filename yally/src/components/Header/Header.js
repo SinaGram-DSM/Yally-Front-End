@@ -63,16 +63,21 @@ const Header = (baseUrl) => {
         if(menu.style.display=='none') menu.style.display='block';
         else menu.style.display='none';
     }
+    
+    const inputFocus = () => {
+        let input = document.getElementById('inputBox');
+        input.style.visibility = 'visible';
+    }
 
     return(
-        <div style={{backgroundColor: '#FDFDFD'}}>
+        <div style={{backgroundColor: '#FDFDFD', width : "59.88rem"}}>
         <H.HeaderContainer>
             <H.logoSection>
                 <H.logoImg src={yallyLogo}></H.logoImg>
             </H.logoSection>
-            <H.inputContainer>
+            <H.inputContainer onClick={inputFocus}>
                 <H.inputBoxContainer>
-                <H.inputBox onChange={valueChange}></H.inputBox>
+                <H.inputBox onChange={valueChange} id="inputBox" mouseOver></H.inputBox>
                 </H.inputBoxContainer>
             </H.inputContainer>
             <Router><Link to={searchUrl}><H.searchIcon src={search} onClick={searchBtn} /></Link></Router>
@@ -85,8 +90,8 @@ const Header = (baseUrl) => {
                 <H.textContainer>
                     <H.menuText name>데인 드한</H.menuText>
                     <H.menuText email>dehaan@hansome.kr</H.menuText>
-                    <H.menuText setting>계정 설정</H.menuText>
-                    <H.menuText logout>로그아웃</H.menuText>
+                   <Router><Link to ="profile/settings" style={{textDecoration: "none"}}> <H.menuText setting>계정 설정</H.menuText></Link></Router>
+                    <Router><Link to ="/login" style={{textDecoration: "none"}}><H.menuText logout>로그아웃</H.menuText></Link></Router>
                 </H.textContainer>
             </H.menuBox>
         </H.HeaderContainer>    
