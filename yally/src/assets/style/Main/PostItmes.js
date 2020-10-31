@@ -76,6 +76,9 @@ export const Icon = styled.img`
     cursor : pointer;
 `;
 
+export const playIcon = styled.img`
+`;
+
 export const playInfoBox = styled.div`
     display: flex;
     justify-content: center;
