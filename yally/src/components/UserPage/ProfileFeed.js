@@ -1,8 +1,9 @@
 import React from 'react';
 import * as F from "../../assets/style/Main/AddTimeLine";
 import * as P from "../../assets/style/Main/PostItems";
-import { playButton, yallyOff, repl } from '../../assets/img'
-const MyFeed = () => {
+import { playButton, yallyOff, repl } from '../../assets/img';
+
+const ProfileFeed = () => {
     return(
         <F.mainContainer>
         <F.mainSection feed>
@@ -39,4 +40,4 @@ const MyFeed = () => {
     )
 }
 
-export default MyFeed;
+export default ProfileFeed;

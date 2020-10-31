@@ -4,7 +4,7 @@ export const mainSection = styled.section`
     width: 100%;
     margin-top: 30px;
 `
-export const profileSection = styled.div`
+export const profileSection = styled.section`
     width: 100%;
     height: 230px; 
     padding-top:  40px;

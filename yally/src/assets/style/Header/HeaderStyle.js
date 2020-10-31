@@ -21,13 +21,16 @@ export const logoImg = styled.img`
 `
 
 export const inputContainer = styled.div`
-    margin: 20px 0px 0px 350px;
+    margin: 20px 0px 0px 280px;
 `
-
+export const inputBoxContainer = styled.div`
+`
 export const inputBox = styled.input.attrs({
     type: 'text',
     placeholder: '검색어를 입력하세요'
 })`
+   visibility:hidden;
+   background: none;
    width: 250px;
    height: 23px;
    font-size: 15px;
@@ -39,7 +42,11 @@ export const inputBox = styled.input.attrs({
        color: #D1D1D1;
        font-size: 15px;
    }
+   &:hover { 
+    visibility: visible;
+   }
 `
+
 export const imgContainer = styled.div`
    margin: 10px 0px 0px 13px;
    display: inline-block;
@@ -50,7 +57,7 @@ export const searchIcon = styled.img`
    height: 30px;
    margin-top: 17px;
    cursor: pointer;
-   `
+`
 
 export const moreBtn = styled.img`
    margin: 0px 0px 30px 10px;
@@ -62,6 +69,7 @@ export const moreBtn = styled.img`
 export const menuBox = styled.div`
    background-color: white;
    position: absolute;
+   right: 0;
    width: 150px;
    height: 220px;
    margin: 70px 0px 0px 780px;
@@ -88,4 +96,5 @@ export const menuText = styled.p`
        if(props.setting || props.logout) return 'pointer';
        else return 'none';
    }};
+   text-decoration: none;
 `
