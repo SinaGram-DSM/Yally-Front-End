@@ -3,34 +3,38 @@ import * as L from '../../assets/style/Login/LoginPage';
 import { yallyLogo } from '../../assets/img';
 import Background from '../Global/Background';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-
-const buttonActive = () => {
-    let id = document.getElementById('id');
-    let password = document.getElementById('password');
-    let button = document.getElementById('button');
-
-    if (id.value && password.value)
-        button.style.background='linear-gradient( to right, #4776E6, #8E54E9 )';
-    else
-        button.style.background='#D1D1D1';
-}
-
-const onSubmitLogin = () => {
-    const email = document.getElementById('id').value;
-    const password = document.getElementById('password').value;
-    const data = {email, password};
-    axios.post(baseUrl + 'user/auth', data)
-    .then((res) => {
-        console.log(res);
-        localStorage.setItem('accessToken', res.data.accessToken);
-        localStorage.setItem('refreshToken', res.data.refreshToken);
-    }).catch((error) => {
-        console.log(error);
-    })
-}
+import { Link, useHistory } from 'react-router-dom';
 
 const Login = ({baseUrl}) => {
+    let history = useHistory();
+    const buttonActive = () => {
+        let id = document.getElementById('id');
+        let password = document.getElementById('password');
+        let button = document.getElementById('button');
+    
+        if (id.value && password.value)
+            button.style.background='linear-gradient( to right, #4776E6, #8E54E9 )';
+        else
+            button.style.background='#D1D1D1';
+    }
+    
+    const onSubmitLogin = () => {
+        const email = document.getElementById('id').value;
+        const password = document.getElementById('password').value;
+        const data = {email, password};
+        axios.post(baseUrl + 'user/auth', data)
+        .then((res) => {
+            console.log(res);
+            localStorage.setItem('accessToken', res.data.accessToken);
+            localStorage.setItem('refreshToken', res.data.refreshToken);
+            history.push({
+                pathname : '/timeline'
+            })
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
     return (
         <L.allContainer>
             <Background modal></Background>
