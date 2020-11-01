@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { refresh } from '../../constant';
 import AddPost from "../Main/AddPost";
 import RecommendView from "../Main/RecommendView";
 import PostItem from "../Main/PostItem";
@@ -12,6 +13,7 @@ const TimeLineView = ({ src, baseUrl }) => {
   const [file, setFile] = useState();
   const [img, setImg] = useState();
   const [postId, setPostId] = useState();
+  const [notPosts, setNotPosts] = useState();
   const timelineBody = useRef(null);
 
   const setContent = (content, file, img, id) => {
@@ -54,10 +56,19 @@ const TimeLineView = ({ src, baseUrl }) => {
 
   useEffect(() => {
     axios.get(baseUrl + "timeline/" + params, config).then((res) => {
-      setPosts(res.data.posts);
-      setIsLoading(true);
-      console.log(res);
-    });
+        if(res.data.posts == '') {
+            setNotPosts("더이상 글이 없어요. 더 작성해보세요!");
+        }
+        else {
+            setPosts(res.data.posts);
+            setIsLoading(true);
+        }
+    })
+    .catch((err) => {
+        if(err.status === 403) {
+            refresh();
+        }
+    })
     window.addEventListener("scroll", infiniteScroll);
     return () => window.removeEventListener("scroll", infiniteScroll);
   }, [infiniteScroll]);
@@ -98,7 +109,7 @@ const TimeLineView = ({ src, baseUrl }) => {
           setContent={setContent}
         ></PostItem>
       ))}
-        <h2 style={{textAlign : "center", color : "#707070"}}>{isLoading? "Loading..." : ""}</h2>
+        <h2 style={{textAlign : "center", color : "#707070"}}>{isLoading? "Loading..." : ""}{notPosts}</h2>
       <Background></Background>
     </div>
   );
