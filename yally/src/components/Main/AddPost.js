@@ -5,6 +5,7 @@ import { sound, picture } from '../../assets/img';
 import AudioRecord from './AudioRecord'
 import axios from 'axios';
 import '../../assets/style/Global/global.css';
+import { refresh } from '../../constant';
 
 const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPostId}) => {
 
@@ -125,8 +126,10 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
                 }, 200);
             })
             .catch((err) => {
-                console.log(err);
                 alert('글 수정에 실패하였습니다. 오디오를 입력해주세요.');
+                if(err.status === 403) {
+                    refresh();
+                }
             })
     }
 
@@ -176,7 +179,9 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
                 }, 200);
             })
             .catch((err) => {
-                console.log(err)
+                if(err.status === 403) {
+                    refresh();
+                }
             })
         }
 
@@ -207,7 +212,9 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
                 }, 200);
             })
             .catch((err) => {
-                console.log(err)
+                if(err.status === 403) {
+                    refresh();
+                }
             })
         }
     }

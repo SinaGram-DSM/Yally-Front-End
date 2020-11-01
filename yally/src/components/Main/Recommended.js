@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import * as R from '../../assets/style/Main/Recommend';
 import axios from 'axios'
+import { refresh } from '../../constant';
 
 const Recommended = ({src, nickname, id, userImg, baseUrl, email}) => {
     const [onListen, setOnListen] = useState(false);
@@ -18,7 +19,9 @@ const Recommended = ({src, nickname, id, userImg, baseUrl, email}) => {
             setOnListen(true);
         })
         .catch((err) => {
-            console.log(err);
+            if(err.status === 403) {
+                refresh();
+            }
         })
     }
 
