@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as S from '../../assets/style/SignUp/SignUpForm';
 import * as C from '../../assets/style/SignUp/SignUpCheckForm';
 import { yallyLogo } from '../../assets/img';
+import { useHistory } from 'react-router-dom';
 import Background from '../Global/Background';
 import axios from 'axios';
 import { useLocation, Link } from "react-router-dom";
@@ -18,7 +19,7 @@ const buttonActive = () => {
 }
 
 const SignUpCheck = ({baseUrl}) => {
-
+    let history = useHistory();
     const location = useLocation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -70,6 +71,9 @@ const SignUpCheck = ({baseUrl}) => {
             console.log(res);
             const res2 = axios.post(baseUrl + "user", {email: data.email, password: data.password, nickname: data.nickname, age: parseInt(data.age)})
             console.log(res2);
+            history.push({
+                pathname: "/"
+            });
         }).catch((error) => {
             console.log(error);
             setInfo(false);            
