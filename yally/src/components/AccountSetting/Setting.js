@@ -25,7 +25,7 @@ const Setting = ({baseUrl}) => {
 
     const config = {
         headers: {
-            'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDMxMDk5NDgsIm5iZiI6MTYwMzEwOTk0OCwianRpIjoiYmQwMzJmMTgtMTA5OC00ZWVhLTgxNDUtNWJjZGU0YzMxMjUwIiwiZXhwIjoxNjExNzQ5OTQ4LCJpZGVudGl0eSI6ImFkbWluMTIzQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.-4G3ptKZhdlby3iHSlMQF68Og2v28f8xQR4OPuk7P4k',
+            'Authorization': localStorage.getItem('accessToken'),
             'Content-Type': 'multipart/form-data'
         }
     }

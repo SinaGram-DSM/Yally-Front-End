@@ -14,7 +14,7 @@ const DetailPost = ({baseUrl, id, src, date, nickname, isYally, yallyNum, isComm
     let yallyButton = "";
     const history = useHistory();
     const config = {
-        headers : { 'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8'}
+        headers : { 'Authorization' : 'Bearer ' + localStorage.getItem('accessToken')}
     }
 
     if(isYally === true)
