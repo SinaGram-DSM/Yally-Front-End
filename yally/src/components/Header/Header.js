@@ -69,6 +69,11 @@ const Header = (baseUrl) => {
         input.style.visibility = 'visible';
     }
 
+    const onLogout = () => {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+    }
+
     return(
         <div style={{backgroundColor: '#FDFDFD', width : "59.88rem"}}>
         <H.HeaderContainer>
@@ -93,7 +98,7 @@ const Header = (baseUrl) => {
                     <H.menuText name>데인 드한</H.menuText>
                     <H.menuText email>dehaan@hansome.kr</H.menuText>
                    <Link to ="/profile/settings" style={{textDecoration: "none"}}> <H.menuText setting>계정 설정</H.menuText></Link>
-                    <Link to ="/" style={{textDecoration: "none"}}><H.menuText logout>로그아웃</H.menuText></Link>
+                    <Link to ="/" style={{textDecoration: "none"}}><H.menuText onClick={onLogout} logout>로그아웃</H.menuText></Link>
                 </H.textContainer>
             </H.menuBox>
         </H.HeaderContainer>    
