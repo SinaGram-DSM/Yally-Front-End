@@ -21,7 +21,7 @@ const Header = (baseUrl) => {
     
     const config = {
         headers: {
-            'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8'
+            'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
         }
     }
 
@@ -33,7 +33,7 @@ const Header = (baseUrl) => {
         setValue(values)
         console.log(values);
         const tagSearch = () => {
-            axios.get("http://13.125.238.84:81/search/post?hashtag=" + values + "&page=1", config )
+            axios.get(baseUrl + "search/post?hashtag=" + values + "&page=1", config )
             .then((res) => {           
                 setPosts(res.data.posts)
                 console.log(res.data.posts);
@@ -47,7 +47,7 @@ const Header = (baseUrl) => {
         setValue(values)
         console.log(values);
         const userSearch = () => {
-            axios.get("http://13.125.238.84:81/search/user?nickname=" + values + "&page=1", config)
+            axios.get(baseUrl + "search/user?nickname=" + values + "&page=1", config)
             .then((res) => {
                setUsers(res.data.users)
                console.log(res.data.users);
@@ -69,12 +69,19 @@ const Header = (baseUrl) => {
         input.style.visibility = 'visible';
     }
 
+    const onLogout = () => {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+    }
+
     return(
         <div style={{backgroundColor: '#FDFDFD', width : "59.88rem"}}>
         <H.HeaderContainer>
+            <Link to="/timeline">
             <H.logoSection>
                 <H.logoImg src={yallyLogo}></H.logoImg>
             </H.logoSection>
+            </Link>
             <H.inputContainer onClick={inputFocus}>
                 <H.inputBoxContainer>
                 <H.inputBox onChange={valueChange} id="inputBox" mouseOver></H.inputBox>
@@ -90,8 +97,8 @@ const Header = (baseUrl) => {
                 <H.textContainer>
                     <H.menuText name>데인 드한</H.menuText>
                     <H.menuText email>dehaan@hansome.kr</H.menuText>
-                   <Router><Link to ="profile/settings" style={{textDecoration: "none"}}> <H.menuText setting>계정 설정</H.menuText></Link></Router>
-                    <Router><Link to ="/login" style={{textDecoration: "none"}}><H.menuText logout>로그아웃</H.menuText></Link></Router>
+                   <Link to ="/profile/settings" style={{textDecoration: "none"}}> <H.menuText setting>계정 설정</H.menuText></Link>
+                    <Link to ="/" style={{textDecoration: "none"}}><H.menuText onClick={onLogout} logout>로그아웃</H.menuText></Link>
                 </H.textContainer>
             </H.menuBox>
         </H.HeaderContainer>    

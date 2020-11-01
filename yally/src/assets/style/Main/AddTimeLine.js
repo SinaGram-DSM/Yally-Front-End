@@ -58,7 +58,7 @@ export const form = styled.form`
 `;
 
 export const writerInput = styled.input`
-    width: 46.06rem;
+    width: ${props => props.input ? '' : '46.06rem'};
     height: 6.25rem;
     margin-left: ${props => props.comment ? '' : '0.9375rem' };
     border: none;
