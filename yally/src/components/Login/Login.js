@@ -3,6 +3,7 @@ import * as L from '../../assets/style/Login/LoginPage';
 import { yallyLogo } from '../../assets/img';
 import Background from '../Global/Background';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const buttonActive = () => {
     let id = document.getElementById('id');
@@ -19,7 +20,7 @@ const onSubmitLogin = () => {
     const email = document.getElementById('id').value;
     const password = document.getElementById('password').value;
     const data = {email, password};
-    axios.post('http://13.125.238.84:81/user/auth', data)
+    axios.post(baseUrl + 'user/auth', data)
     .then((res) => {
         console.log(res);
         localStorage.setItem('accessToken', res.data.accessToken);
@@ -29,7 +30,7 @@ const onSubmitLogin = () => {
     })
 }
 
-const Login = () => {
+const Login = ({baseUrl}) => {
     return (
         <L.allContainer>
             <Background modal></Background>
@@ -55,8 +56,8 @@ const Login = () => {
                         <L.mainSection>
                             <L.loginButton id='button' onClick={onSubmitLogin}>로그인</L.loginButton>
                         </L.mainSection>
-                        <L.solveProblem>혹시 <L.link>비밀번호를 잊으셨나요?</L.link></L.solveProblem>
-                        <L.solveProblem>아직 <L.link>계정이 없으신가요?</L.link></L.solveProblem>
+                        <Link to="/password-reset" style={{textDecoration : "none"}}><L.solveProblem>혹시 <L.link>비밀번호를 잊으셨나요?</L.link></L.solveProblem></Link>
+                        <Link to="/sign-up" style={{textDecoration : "none"}}><L.solveProblem>아직 <L.link>계정이 없으신가요?</L.link></L.solveProblem></Link>
                     </L.mainContainer>
                 </L.mainSection>
             </L.mainContainer>

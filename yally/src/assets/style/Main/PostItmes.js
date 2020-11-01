@@ -4,54 +4,81 @@ export const div = styled.div``;
 
 export const postInfoContainer = styled.div`
     display: flex;
+    justify-content : ${props => {
+        if (props.post) return 'center';
+        else return '';
+        }};
 `;
 
 export const postNameInfo = styled.h1`
-    font-size: 25px;
+    font-size: 1.563rem;
     color: #707070;
     font-weight: 400;
-    margin : 3px 0px 0px 0px;
+    margin : 0.1875rem 0 0 0;
 `;
 
 export const postDateInfo = styled.p`
-    font-size: 20px;
+    font-size: 1.25rem
     color: #707070;
     font-weight: 200;
-    margin : 3px 0px 0px 0px;
+    margin : 0.1875rem 0 0 0;
 `;
 
 export const postInfoBox = styled.div`
-    margin : 10px 0px 50px 20px;
+    margin : 0.625rem 0 3.125rem 1.25rem;
+    display : flex;
+    justify-content : space-between;
+    width : 100%;
 `;
 
 export const postSection = styled.section`
-    width: 100%;
-    height: 400px;
-    background-color: #000000;
-    opacity: 0.5;
+    width: 53.88rem;
+    height: 25rem;
+    opacity: 0.75;
+    background-color : #000000;
     display: flex;
     align-items: center;
     justify-content: center;
 `;
 
+export const audioContainer = styled.div`
+    position : relative;
+    width : 53.88rem;
+    height : 25rem;
+`;
+
+export const audioImg = styled.img`
+    width: 53.88rem;
+    height: 25rem;
+    opacity: 0.5;
+`;
+
 export const postArticle = styled.article`
-    width: 440px;
+    position : absolute;
+    top : 30%;
+    text-align : center;
 `;
 
 export const Icon = styled.img`
     width : ${props => {
-    if (props.delete) return '20px';
-    else return '45px';
-  }};
+        if (props.delete) return '1.25rem';
+        else if (props.comment) return '0.8125rem';
+        else return '2.188rem';
+    }};
     height : ${props => {
-        if(props.delete) return '20px';
-        else return '50px';
+        if(props.delete) return '1.25rem';
+        else if (props.comment) return '0.8125rem';
+        else return '2.5rem';
     }};
     margin : ${props => {
-        if(props.delete) return '5px 0px 0px 5px';
-        else return '0px';
+        if(props.delete) return '0.3125rem 0 0 0.3125rem';
+        else if (props.comment) return '0 0 0 0.3125rem';
+        else return '0';
     }};
     cursor : pointer;
+`;
+
+export const playIcon = styled.img`
 `;
 
 export const playInfoBox = styled.div`
@@ -61,17 +88,18 @@ export const playInfoBox = styled.div`
 
 export const postWritten = styled.p`
     font-weight: 400;
-    font-size: 23px;
+    font-size: 1.438rem;
     color : #FFFFFF;
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
 `;
 
 export const reactionContainer = styled.div`
-    margin-top : 20px;
+    margin-top : 1.25rem;
     display: flex;
     align-items: center;
+    justify-content : space-between;
     padding-bottom : ${props => {
-        if (props.detailPost) return '25px';
+        if (props.detailPost) return '1.563rem';
         else return 'none';
       }};
     border-bottom : ${props => {
@@ -83,14 +111,51 @@ export const reactionContainer = styled.div`
 export const reactionBox = styled.div`
     display: flex;
     align-items: center;
-    margin-right: 35px;
+    margin-right: 2.188rem;
 `;
 
 export const reactionIcon = styled.img`
     margin-right : 5px;
+    width : 2.188rem;
+    height : 2.188rem;
+    cursor : pointer;
 `;
 
 export const reactionCount = styled.p`
     color : #707070;
     margin : 0;
+`;
+
+export const editButton = styled.button`
+    border : none;
+    color : #707070;
+    background-color : inherit;
+    font-size : 1rem;
+    cursor : pointer;
+    outline : none;
+`;
+
+export const audioTimeline = styled.div`
+    position: relative;
+    width: 28rem;
+    height: 0.01rem;
+    margin: 2rem auto;
+    border-radius: 15px;
+    background-color : #fffff7;
+`;
+
+export const audioHandle = styled.div`
+    position: absolute;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    margin-top: -4px;
+    background-color : #ffffff;
+`;
+
+export const audioDuration = styled.span`
+    color: white;
+    float: right;
+    font-size : 0.8rem;
+    margin-top: 5px;
 `;
