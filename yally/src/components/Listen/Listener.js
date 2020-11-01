@@ -6,7 +6,7 @@ import * as M from '../../assets/style/Main/AddTimeLine';
 
 const Listener = ({baseUrl, match}) => {
     let [listeners, setListeners] = useState([]);
-    // const email = this.props.match; 라우터 주소에서 이메일 가져오기
+    const email = match.match.params.email;
     const imgUrl = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/"
     const listenerValue = match.match.params.value;
     const name = match.match.params.name;
@@ -17,7 +17,7 @@ const Listener = ({baseUrl, match}) => {
     }
 
     useEffect (() => {
-        axios.get("http://13.125.238.84:81/profile/admin123@gmail.com/listener", config)
+        axios.get("http://13.125.238.84:81/profile/" + email + "/listener", config)
         .then((res) => {
             setListeners(res.data.listeners)
             

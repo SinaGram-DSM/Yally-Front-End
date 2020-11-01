@@ -5,8 +5,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import PostItem from '../Main/PostItem';
 
-const Profile = () => {
-    // const email = this.props.match;
+const Profile = (props) => {
+    const email = props.match.params.email;
     const imgUrl = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/"
     let [name, setName] = useState('');
     // let [image, setImage] = useState('');
@@ -32,7 +32,8 @@ const Profile = () => {
 
     
     useEffect (() => {
-        axios.get("http://13.125.238.84:81/profile/admin123@gmail.com", config)
+        console.log(props);
+        axios.get("http://13.125.238.84:81/profile/" + email, config)
         .then((res) => {
             setData({
                 ...data,
@@ -45,7 +46,7 @@ const Profile = () => {
             console.log(res.data.image);
         })   
         
-        axios.get("http://13.125.238.84:81/mypage/timeline/admin123@gmail.com/" + page, feedConfig)
+        axios.get("http://13.125.238.84:81/mypage/timeline/" + email +"/" + page, feedConfig)
         .then((res) => {
             setTimeLine(res.data.posts)
             setPage(page++)
@@ -65,8 +66,8 @@ const Profile = () => {
                 <M.UserName>{name}</M.UserName>   
                 <M.Email>(dehaan@hansome.kr)</M.Email>
             <M.Listen>
-                <Link to={"/profile/"+ name + "/listening/"+ data.listening} style={{textDecoration: 'none'}}><M.Listening>리스닝 {data.listening}</M.Listening></Link>
-                <Link to={"/profile/" + name + "/listener/" + data.listener} style={{textDecoration: 'none'}}><M.Listener>리스너 {data.listener}</M.Listener></Link>
+                <Link to={"/profile/"+ name + "/" + email + "/listening/"+ data.listening} style={{textDecoration: 'none'}}><M.Listening>리스닝 {data.listening}</M.Listening></Link>
+                <Link to={"/profile/" + name + "/" + email + "/listener/" + data.listener} style={{textDecoration: 'none'}}><M.Listener>리스너 {data.listener}</M.Listener></Link>
                 </M.Listen>
                 </M.ProfileData>
             </S.writerInfoBox>
