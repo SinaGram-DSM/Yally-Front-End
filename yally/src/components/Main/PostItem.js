@@ -8,6 +8,7 @@ import yallyOn from '../../assets/img/yallyOn.png';
 import yallyOff from '../../assets/img/yallyOff.png';
 import Modal from '../Global/Modal';
 import AudioPlayer from './AudioPlayer';
+import { refresh } from '../../constant';
 
 const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComment, content, sound, isMine, userImg, audioImg, setContent}) => {
     
