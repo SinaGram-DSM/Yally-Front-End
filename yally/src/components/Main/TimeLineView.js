@@ -5,6 +5,7 @@ import RecommendView from "../Main/RecommendView";
 import PostItem from "../Main/PostItem";
 import Background from "../Global/Background";
 import axios from "axios";
+import NotFound from "./NotFound";
 
 const TimeLineView = ({ src, baseUrl }) => {
   const [contents, setContents] = useState();
@@ -12,6 +13,8 @@ const TimeLineView = ({ src, baseUrl }) => {
   const [img, setImg] = useState();
   const [postId, setPostId] = useState();
   const [notPosts, setNotPosts] = useState();
+  const [notFound, setNotFound] = useState(true);
+  const [statusCode, setStatusCode] = useState();
   const timelineBody = useRef(null);
 
   const setContent = (content, file, img, id) => {
@@ -58,6 +61,7 @@ const TimeLineView = ({ src, baseUrl }) => {
             setNotPosts("더이상 글이 없어요. 더 작성해보세요!");
         }
         else {
+            setNotFound(false);
             setPosts(res.data.posts);
             setIsLoading(true);
         }
@@ -65,6 +69,9 @@ const TimeLineView = ({ src, baseUrl }) => {
     .catch((err) => {
         if(err.status === 403) {
             refresh();
+        }
+        else {
+            setStatusCode(err.status);
         }
     })
     window.addEventListener("scroll", infiniteScroll);
@@ -76,7 +83,7 @@ const TimeLineView = ({ src, baseUrl }) => {
       style={{ position: "relative", backgroundColor: "#FDFDFD" }}
       ref={timelineBody}
     >
-      <AddPost
+     { notFound ? (<NotFound status={statusCode} />) : (<div><AddPost
         src={src}
         baseUrl={baseUrl}
         editContent={contents}
@@ -104,7 +111,7 @@ const TimeLineView = ({ src, baseUrl }) => {
           setContent={setContent}
         ></PostItem>
       ))}
-        <h2 style={{textAlign : "center", color : "#707070"}}>{isLoading? "Loading..." : ""}{notPosts}</h2>
+        <h2 style={{textAlign : "center", color : "#707070"}}>{isLoading? "Loading..." : ""}{notPosts}</h2></div>)}
       <Background></Background>
     </div>
   );
