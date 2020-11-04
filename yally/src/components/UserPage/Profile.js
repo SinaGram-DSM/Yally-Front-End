@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import * as M from '../../assets/style/UserPage/PageStyle';
 import * as S from '../../assets/style/Main/AddTimeLine';
 import axios from 'axios';
@@ -17,6 +17,7 @@ const Profile = (props) => {
     });
     let [timeLine, setTimeLine] = useState([]);
     let [page, setPage] = useState(1);
+    let [isLoading, setIsLoading] = useState(false);
 
 
     
@@ -31,6 +32,27 @@ const Profile = (props) => {
     }
 
     
+  const infiniteScroll = useCallback(() => {
+    let scrollHeight = Math.max(
+      document.documentElement.scrollHeight,
+      document.body.scrollHeight
+    );
+    let scrollTop = Math.max(
+      document.documentElement.scrollTop,
+      document.body.scrollTop
+    );
+    let clientHeight = document.documentElement.clientHeight;
+
+    if (scrollTop + clientHeight === scrollHeight && isLoading === true) {
+      setTimeout(function () {
+        setTimeLine(timeLine.concat(timeLine));
+        setPage((state) => state + 1);
+        setIsLoading(false);
+        console.log(page);
+      }, 500);
+    }
+  }, [isLoading]);
+ 
     useEffect (() => {
         console.log(props);
         axios.get("http://13.125.238.84:81/profile/" + email, config)
@@ -49,10 +71,11 @@ const Profile = (props) => {
         axios.get("http://13.125.238.84:81/mypage/timeline/" + email +"/" + page, feedConfig)
         .then((res) => {
             setTimeLine(res.data.posts)
-            setPage(page++)
             console.log(res.data.posts);
         })
-    },[]);
+        window.addEventListener("scroll", infiniteScroll);
+        return () => window.removeEventListener("scroll", infiniteScroll);
+    },[infiniteScroll]);
 
     
     
@@ -66,8 +89,8 @@ const Profile = (props) => {
                 <M.UserName>{name}</M.UserName>   
                 <M.Email>(dehaan@hansome.kr)</M.Email>
             <M.Listen>
-                <Link to={"/profile/"+ name + "/" + email + "/listening/"+ data.listening} style={{textDecoration: 'none'}}><M.Listening>리스닝 {data.listening}</M.Listening></Link>
-                <Link to={"/profile/" + name + "/" + email + "/listener/" + data.listener} style={{textDecoration: 'none'}}><M.Listener>리스너 {data.listener}</M.Listener></Link>
+                <Link to={"/profile/" + email + "/listening/"+ data.listening} style={{textDecoration: 'none'}}><M.Listening>리스닝 {data.listening}</M.Listening></Link>
+                <Link to={"/profile/" + email + "/listener/" + data.listener} style={{textDecoration: 'none'}}><M.Listener>리스너 {data.listener}</M.Listener></Link>
                 </M.Listen>
                 </M.ProfileData>
             </S.writerInfoBox>
