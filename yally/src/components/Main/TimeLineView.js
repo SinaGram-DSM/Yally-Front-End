@@ -14,7 +14,7 @@ const TimeLineView = ({ src, baseUrl }) => {
   const [postId, setPostId] = useState();
   const [notPosts, setNotPosts] = useState();
   const [notFound, setNotFound] = useState(true);
-  const [statusCode, setStatusCode] = useState(404);
+  const [statusCode, setStatusCode] = useState();
   const timelineBody = useRef(null);
 
   const setContent = (content, file, img, id) => {
@@ -71,7 +71,7 @@ const TimeLineView = ({ src, baseUrl }) => {
             refresh();
         }
         else {
-            setStatusCode(err.status)
+            setStatusCode(err.status);
         }
     })
     window.addEventListener("scroll", infiniteScroll);

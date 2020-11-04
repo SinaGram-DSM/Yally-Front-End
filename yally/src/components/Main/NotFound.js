@@ -5,7 +5,7 @@ const NotFound = ({ status }) => {
   return (
     <div style={{ textAlign: "center"}}>
       <S.notFoundTitle>{status}</S.notFoundTitle>
-      <S.notFoundText>NOT FOUND</S.notFoundText>
+      <S.notFoundText>{status == null ? "LOADING..." : "NOT FOUND"}</S.notFoundText>
     </div>
   );
 };
