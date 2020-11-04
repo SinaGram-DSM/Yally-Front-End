@@ -6,10 +6,11 @@ import * as M from '../../assets/style/Main/AddTimeLine';
 
 const Listener = ({baseUrl, match}) => {
     let [listeners, setListeners] = useState([]);
+    let [name, setName] = useState("");
+    let [img, setImg] = useState("");
     const email = match.match.params.email;
     const imgUrl = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/"
     const listenerValue = match.match.params.value;
-    const name = match.match.params.name;
     const config = {
         headers: {
             'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDM0NDA5MjksIm5iZiI6MTYwMzQ0MDkyOSwianRpIjoiYWY5MThlYmItZjg3NC00YjVkLWE2NmMtNGI0Njg1ZTdmNjJjIiwiZXhwIjoxNjEyMDgwOTI5LCJpZGVudGl0eSI6ImFkbWluMTIzQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.qxlO5x1-cGIOkNsHgu53shHxjFZl-yVcAI8G7xtk4l4'
@@ -20,6 +21,8 @@ const Listener = ({baseUrl, match}) => {
         axios.get("http://13.125.238.84:81/profile/" + email + "/listener", config)
         .then((res) => {
             setListeners(res.data.listeners)
+            setImg(res.data.target.image)
+            setName(res.data.target.nickname)
             
         })
         console.log(match);
@@ -29,7 +32,7 @@ const Listener = ({baseUrl, match}) => {
         <M.mainContainer>
         <T.mainSection>
         <T.profileSection>
-        <T.profileImg></T.profileImg>
+        <T.profileImg src={imgUrl + img}/>
         <T.comment>{listenerValue}명이 {name} 님의 이야기를 듣고 있습니다.</T.comment>
         </T.profileSection>
         <T.listenSection>

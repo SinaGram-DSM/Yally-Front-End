@@ -7,10 +7,11 @@ import * as M from '../../assets/style/Main/AddTimeLine';
 const Listening = ({match}) => {
     const isListen = false; //리슨 버튼 언리스닝 리스닝 여부 확인 값
     let [listenings, setListenings] = useState([]);
+    let [name, setName] = useState("");
+    let [img, setImg] = useState("");
     const email = match.match.params.email;
     const imgUrl = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/"
     const listeningValue = match.match.params.value;
-    const name = match.match.params.name;
     
     const config = {
         headers: {
@@ -22,7 +23,8 @@ const Listening = ({match}) => {
         axios.get("http://13.125.238.84:81/profile/"+ email + "/listening", config)
         .then((res) => {
             setListenings(res.data.listenings)
-            console.log(res.data.listenings);
+            setName(res.data.target.nickname)
+            setImg(res.data.target.image)
         })
     }, [])
 
@@ -31,7 +33,7 @@ const Listening = ({match}) => {
         <M.mainContainer>
         <T.mainSection>
         <T.profileSection>
-        <T.profileImg></T.profileImg>
+        <T.profileImg src={imgUrl + img}/>
         <T.comment>{name} 님이 {listeningValue}명의 이야기를 듣고 있습니다.</T.comment>
         </T.profileSection>
         <T.listenSection>
