@@ -9,6 +9,12 @@ export const mainContainer = styled.div`
     else return "0 24.5rem 3.125rem 24.5rem";
   }};
   justify-content: center;
+  @media only screen and (max-width: 1020px) {
+    & {
+        margin : 0 4rem 2.125rem 4rem;
+        height: auto !important;
+    }
+  }
 `;
 
 export const mainSection = styled.section`
@@ -37,6 +43,12 @@ export const mainSection = styled.section`
   z-index: 1;
   display: ${(props) => (props.friends ? "flex" : "")};
   justify-content: ${(props) => (props.friends ? "space-between" : "")};
+  @media only screen and (max-width: 1020px) {
+    & {
+        width : 100%;
+        height: auto !important;
+    }
+  }
 `;
 
 export const writerInfoBox = styled.div`
@@ -83,6 +95,12 @@ export const profileImg = styled.img`
   background-color: rgb(211, 183, 183);
   box-shadow: 0 0 6px #00000016;
   cursor: ${(props) => (props.header ? "pointer" : "none")};
+  @media only screen and (max-width: 620px) {
+    & {
+      width : 3rem;
+      height : 3rem;
+    }
+  }
 `;
 
 export const buttonsContainer = styled.div`
@@ -91,6 +109,11 @@ export const buttonsContainer = styled.div`
   width: ${(props) => (props.button ? "90%" : "")};
   justify-content: ${(props) => (props.container ? "space-between" : "")};
   margin-top: ${(props) => (props.rec ? "0.9375rem" : "")};
+  @media only screen and (max-width: 620px) {
+    & {
+        justify-content : none;
+    }
+  }
 `;
 
 export const buttonBox = styled.label`
@@ -113,6 +136,13 @@ export const buttonBox = styled.label`
     background-color: #d1d1d1;
     transition: 0.3s;
   }
+  @media only screen and (max-width: 620px) {
+    & {
+    //   width: 4rem;
+    //   font-size : 0.7rem;
+    //   height : auto !important;
+    }
+  }
 `;
 export const inputFile = styled.input`
   position: absolute;
@@ -128,6 +158,13 @@ export const inputFile = styled.input`
 export const buttonIcon = styled.img`
   width: 1.25rem;
   height: 1.25rem;
+//   @media only screen and (max-width: 620px) {
+//     & {
+//       width: 20%;
+//       font-size : 0.8rem;
+//       height : 30%;
+//     }
+//   }
 `;
 
 export const previewIcon = styled.img`
@@ -156,17 +193,17 @@ export const recordText = styled.span`
 
 export const notFoundTitle = styled.h1`
   font-size: 10rem;
-  margin : 5rem auto 0rem auto;
-  background: linear-gradient(to right, #4776E6, #8E54E9);
+  margin: 5rem auto 0rem auto;
+  background: linear-gradient(to right, #4776e6, #8e54e9);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 `;
 
 export const notFoundText = styled.p`
-  font-size : 2.5rem;
-  margin : 0;
-  background: linear-gradient(to right, #4776E6, #8E54E9);
+  font-size: 2.5rem;
+  margin: 0;
+  background: linear-gradient(to right, #4776e6, #8e54e9);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
