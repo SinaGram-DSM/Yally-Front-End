@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { BrowserRouter as Router, Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import * as H from "../../assets/style/Header/HeaderStyle";
 import * as P from "../../assets/style/Main/AddTimeLine";
@@ -10,13 +10,19 @@ import { yallyLogo, search, moreButton } from "../../assets/img";
 import Users from "../Search/Users";
 import { useEffect } from "react";
 
-const Header = (baseUrl) => {
+const Header = ({ baseUrl }) => {
   let [value, setValue] = useState("");
   let [users, setUsers] = useState([]);
   let [posts, setPosts] = useState([]);
   let [searchUrl, setUrl] = useState("");
   let [page, setPage] = useState(1);
   let [isLoading, setIsLoading] = useState(false);
+  let [name, setName] = useState("");
+  let [img, setImg] = useState("");
+  let [email, setEmail] = useState("");
+
+  const imgSrc = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
+  const history = useHistory();
 
   const valueChange = (e) => {
     setValue(e.target.value);
@@ -24,8 +30,7 @@ const Header = (baseUrl) => {
 
   const config = {
     headers: {
-      Authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8",
+      Authorization: "Bearer " + localStorage.getItem("accessToken"),
     },
   };
 
@@ -52,25 +57,28 @@ const Header = (baseUrl) => {
   }, [isLoading]);
 
   useEffect(() => {
+    axios.get(baseUrl + "/timeline", config).then((res) => {
+      setName(res.data.info.nickname);
+      setImg(res.data.info.img);
+      setEmail(res.data.info.email);
+    });
     setIsLoading(true);
     window.addEventListener("scroll", infiniteScroll);
     return () => window.removeEventListener("scroll", infiniteScroll);
-    console.log(page);
   }, [infiniteScroll]);
 
   const searchBtn = () => {
     if (value.charAt(0) == "#") {
-      setUrl("/search/posts");
+      history.push({
+        pathname: "/search/posts",
+      });
       const values = value.substr(1);
       setValue(values);
       console.log(values);
       const tagSearch = () => {
         axios
           .get(
-            "http://13.125.238.84:81/search/post?hashtag=" +
-              values +
-              "&page=" +
-              page,
+            baseUrl + "/search/post?hashtag=" + values + "&page=" + page,
             config
           )
           .then((res) => {
@@ -80,16 +88,15 @@ const Header = (baseUrl) => {
       };
       tagSearch();
     } else if (value.charAt(0) == "@") {
-      setUrl("/search/users");
+      history.push({
+        pathname: "/search/users",
+      });
       const values = value.substr(1);
       setValue(values);
       const userSearch = () => {
         axios
           .get(
-            "http://13.125.238.84:81/search/user?nickname=" +
-              values +
-              "&page=" +
-              page,
+            baseUrl + "/search/user?nickname=" + values + "&page=" + page,
             config
           )
           .then((res) => {
@@ -126,22 +133,21 @@ const Header = (baseUrl) => {
             ></H.inputBox>
           </H.inputBoxContainer>
         </H.inputContainer>
-        <Router>
-          <Link to={searchUrl}>
-            <H.searchIcon src={search} onClick={searchBtn} />
-          </Link>
-        </Router>
+        <H.searchIcon src={search} onClick={searchBtn} />
         <H.imgContainer>
-          <P.profileImg header onClick={profileClick} />
+          <P.profileImg header onClick={profileClick} src={imgSrc + img} />
           <H.moreBtn src={moreButton} onClick={profileClick} />
         </H.imgContainer>
         <H.menuBox id="menu" style={{ display: "none" }}>
-          <P.profileImg menu />
+          <P.profileImg menu src={imgSrc + img} />
           <H.textContainer>
-            <H.menuText name>데인 드한</H.menuText>
-            <H.menuText email>dehaan@hansome.kr</H.menuText>
+            <H.menuText name>{name}</H.menuText>
+            <H.menuText email>{email}</H.menuText>
             <Router>
-              <Link to="profile/settings" style={{ textDecoration: "none" }}>
+              <Link
+                to={{ pathname: `settings`, state: { name, img } }}
+                style={{ textDecoration: "none" }}
+              >
                 <H.menuText setting>계정 설정</H.menuText>
               </Link>
             </Router>
@@ -152,11 +158,8 @@ const Header = (baseUrl) => {
             </Router>
           </H.textContainer>
         </H.menuBox>
-      </H.HeaderContainer>        <M.mainContainer user>
-         <T.mainSection>
-           <T.listenSection>
+      </H.HeaderContainer>
       {users.map((user) => (
- 
         <Users
           img={user.img}
           nickname={user.nickname}
@@ -164,10 +167,7 @@ const Header = (baseUrl) => {
           listener={user.listener}
           isListening={user.isListening}
         />
-          
-      ))}  </T.listenSection>
-      </T.mainSection>
-    </M.mainContainer>
+      ))}{" "}
       {posts.map((post) => (
         <PostItem
           email={post.user.email}
