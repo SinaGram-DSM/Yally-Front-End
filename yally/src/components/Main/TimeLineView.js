@@ -1,17 +1,20 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { refresh } from '../../constant';
 import AddPost from "../Main/AddPost";
 import RecommendView from "../Main/RecommendView";
 import PostItem from "../Main/PostItem";
 import Background from "../Global/Background";
-import Header from "../Header/Header";
 import axios from "axios";
-import * as S from "../../assets/style/Main/AddTimeLine";
+import NotFound from "./NotFound";
 
 const TimeLineView = ({ src, baseUrl }) => {
   const [contents, setContents] = useState();
   const [file, setFile] = useState();
   const [img, setImg] = useState();
   const [postId, setPostId] = useState();
+  const [notPosts, setNotPosts] = useState();
+  const [notFound, setNotFound] = useState(true);
+  const [statusCode, setStatusCode] = useState();
   const timelineBody = useRef(null);
 
   const setContent = (content, file, img, id) => {
@@ -27,7 +30,7 @@ const TimeLineView = ({ src, baseUrl }) => {
   const config = {
     headers: {
       Authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8",
+        "Bearer " + localStorage.getItem('accessToken'),
     },
   };
 
@@ -54,10 +57,23 @@ const TimeLineView = ({ src, baseUrl }) => {
 
   useEffect(() => {
     axios.get(baseUrl + "timeline/" + params, config).then((res) => {
-      setPosts(res.data.posts);
-      setIsLoading(true);
-      console.log(res);
-    });
+        if(res.data.posts == '') {
+            setNotPosts("더이상 글이 없어요. 더 작성해보세요!");
+        }
+        else {
+            setNotFound(false);
+            setPosts(res.data.posts);
+            setIsLoading(true);
+        }
+    })
+    .catch((err) => {
+        if(err.status === 403) {
+            refresh();
+        }
+        else {
+            setStatusCode(err.status);
+        }
+    })
     window.addEventListener("scroll", infiniteScroll);
     return () => window.removeEventListener("scroll", infiniteScroll);
   }, [infiniteScroll]);
@@ -67,10 +83,7 @@ const TimeLineView = ({ src, baseUrl }) => {
       style={{ position: "relative", backgroundColor: "#FDFDFD" }}
       ref={timelineBody}
     >
-    <S.mainContainer>
-        <Header></Header>
-    </S.mainContainer>
-      <AddPost
+     { notFound ? (<NotFound status={statusCode} />) : (<div><AddPost
         src={src}
         baseUrl={baseUrl}
         editContent={contents}
@@ -98,7 +111,7 @@ const TimeLineView = ({ src, baseUrl }) => {
           setContent={setContent}
         ></PostItem>
       ))}
-        <h2 style={{textAlign : "center", color : "#707070"}}>{isLoading? "Loading..." : ""}</h2>
+        <h2 style={{textAlign : "center", color : "#707070"}}>{isLoading? "Loading..." : ""}{notPosts}</h2></div>)}
       <Background></Background>
     </div>
   );

@@ -13,12 +13,12 @@ const Listener = ({baseUrl, match}) => {
     const listenerValue = match.match.params.value;
     const config = {
         headers: {
-            'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDM0NDA5MjksIm5iZiI6MTYwMzQ0MDkyOSwianRpIjoiYWY5MThlYmItZjg3NC00YjVkLWE2NmMtNGI0Njg1ZTdmNjJjIiwiZXhwIjoxNjEyMDgwOTI5LCJpZGVudGl0eSI6ImFkbWluMTIzQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.qxlO5x1-cGIOkNsHgu53shHxjFZl-yVcAI8G7xtk4l4'
+            'Authorization': localStorage.getItem('accessToken')
         }
     }
 
     useEffect (() => {
-        axios.get("http://13.125.238.84:81/profile/" + email + "/listener", config)
+        axios.get(baseUrl + "profile/" + email + "/listener", config)
         .then((res) => {
             setListeners(res.data.listeners)
             setImg(res.data.target.image)

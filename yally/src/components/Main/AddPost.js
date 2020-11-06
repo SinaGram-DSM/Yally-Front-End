@@ -1,12 +1,14 @@
-import React,{ useState } from 'react';
+import React,{ useState, useEffect } from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import * as R from '../../assets/style/Main/Recommend';
 import { sound, picture } from '../../assets/img';
 import AudioRecord from './AudioRecord'
 import axios from 'axios';
 import '../../assets/style/Global/global.css';
+import { Link } from 'react-router-dom';
+import { refresh } from '../../constant';
 
-const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPostId}) => {
+const AddPost = ({src, baseUrl, editContent, editFile, editImg, editPostId}) => {
 
     const [audioUrl, setAudioUrl] = useState();
     const [previewUrl, setPreviewUrl] = useState('');
@@ -19,10 +21,12 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
     const [isOnImg, setIsOnImg] = useState(false);
     const [content, setContent] = useState();
     const [isContent, setIsContent] = useState(false);
+    const [user, setUser] = useState({});
+    const [email, setEmail] = useState({});
     let imgPreview = null;
     let recPreview = null;
     const config = {
-        headers : { 'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8',
+        headers : { 'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
         'Content-type': 'application/x-www-form-urlencoded'
         }
     }
@@ -30,6 +34,14 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
         setAudioUrl(audio);
         setIsOnAudio(onAudio);
     }
+
+    useEffect(() => {
+        axios.get(baseUrl + "/timeline", config)
+        .then((res) => {
+            setUser(res.data.info);
+            setEmail(res.data.info.email);
+        })
+    }, [])
 
     const startTimer = () => {
         let rsec = 1;
@@ -125,8 +137,10 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
                 }, 200);
             })
             .catch((err) => {
-                console.log(err);
                 alert('글 수정에 실패하였습니다. 오디오를 입력해주세요.');
+                if(err.status === 403) {
+                    refresh();
+                }
             })
     }
 
@@ -176,7 +190,9 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
                 }, 200);
             })
             .catch((err) => {
-                console.log(err)
+                if(err.status === 403) {
+                    refresh();
+                }
             })
         }
 
@@ -207,7 +223,9 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
                 }, 200);
             })
             .catch((err) => {
-                console.log(err)
+                if(err.status === 403) {
+                    refresh();
+                }
             })
         }
     }
@@ -241,9 +259,14 @@ const AddPost = ({src, baseUrl, userImg, editContent, editFile, editImg, editPos
         <S.mainContainer>
             <S.mainSection>
                 <S.writerInfoBox>
-                    <S.profileImg src={src + userImg}></S.profileImg>
+                <Link style={{textDecoration : "none"}} to={{
+                pathname : `/profile/${user.email}`,
+                state : {
+                    email
+                }
+                }}><S.profileImg src={src + user.img}></S.profileImg></Link>
                     <S.form action="" method="post" enctype="multipart/form-data" input>
-                        <S.writerInput placeholder="이야기를 들려주세요!" type="text" name="content" onChange={onUploadContent}></S.writerInput>
+                        <S.writerInput placeholder={`${user.nickname} 님의 이야기를 들려주세요!`} type="text" name="content" onChange={onUploadContent}></S.writerInput>
                     </S.form>
                     </S.writerInfoBox>
                     <S.buttonsContainer container>

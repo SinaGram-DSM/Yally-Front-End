@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import * as P from "../../assets/style/UserPage/ProfileSetting";
 import * as M from "../../assets/style/Main/AddTimeLine";
@@ -10,7 +11,7 @@ const Setting = ({ baseUrl, props, name, img }) => {
   let [file, setFile] = useState("");
   let [image, setImage] = useState("");
 
-  const imgSrc = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
+  const imgSrc = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/"
 
   const valueReset = (e) => {
     const button = document.getElementById("complete");
@@ -40,9 +41,11 @@ const Setting = ({ baseUrl, props, name, img }) => {
     console.log(props);
   });
 
+
   const imgSetting = () => {
     const input = document.getElementById("nick");
     if (input.value == "") alert("닉네임을 설정해 주세요.");
+
 
     const file = document.getElementById("input-img");
     const form = new FormData();

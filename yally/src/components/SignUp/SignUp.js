@@ -4,6 +4,7 @@ import * as S from '../../assets/style/SignUp/SignUpForm';
 import { yallyLogo } from '../../assets/img';
 import Background from '../Global/Background';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const signUpActive = () => {
     let email = document.getElementById('email');
@@ -19,7 +20,7 @@ const signUpActive = () => {
 }
     
 
-const SignUp = () => {
+const SignUp = ({baseUrl}) => {
     let history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -95,11 +96,11 @@ const SignUp = () => {
         }
         
         console.log(data.email)
-        const res = await axios.post("http://13.125.238.84:81/user/auth-code/email", {email: data.email})
+        const res = await axios.post(baseUrl + "user/auth-code/email", {email: data.email})
         .then((res) => {
             console.log(res);
             history.push({
-                pathname: "/SignUpCheck",
+                pathname: "/sign-up-check",
                 state: {
                     email: email,
                     nickname: nickname,
@@ -118,7 +119,6 @@ const SignUp = () => {
     let passwordStyle = passwordError ? "visible" : "hidden";
     return (
         <S.allContainer>
-            <Background modal></Background>
             <S.mainContainer>
                 <S.logo src={yallyLogo}></S.logo>
                 <S.mainSection>
@@ -154,10 +154,12 @@ const SignUp = () => {
                         <S.mainSection>
                             <S.signUpButton id='button' onClick={onSubmitEmail} disabled={!(email&&nickname&&age&&password)}>다음으로 </S.signUpButton>
                         </S.mainSection>
-                        <S.back><S.link>로그인 페이지로 돌아가기</S.link></S.back>
+                        <Link to="/" style={{textDecoration : "none"}}><S.back><S.link>로그인 페이지로 돌아가기</S.link></S.back></Link>
+                        {/* <Background></Background> */}
                     </S.mainContainer>
                 </S.mainSection>
             </S.mainContainer>
+            
         </S.allContainer>
     );
 };

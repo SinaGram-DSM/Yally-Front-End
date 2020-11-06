@@ -4,7 +4,7 @@ import * as T from '../../assets/style/UserPage/Listen';
 import * as L from '../../assets/style/UserPage/PageStyle';
 import * as M from '../../assets/style/Main/AddTimeLine';
 
-const Listening = ({match}) => {
+const Listening = ({match, baseUrl}) => {
     const isListen = false; //리슨 버튼 언리스닝 리스닝 여부 확인 값
     let [listenings, setListenings] = useState([]);
     let [name, setName] = useState("");
@@ -15,12 +15,12 @@ const Listening = ({match}) => {
     
     const config = {
         headers: {
-            'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8'
+            'Authorization': localStorage.getItem('accessToken')
         }
     }
 
     useEffect(() => {
-        axios.get("http://13.125.238.84:81/profile/"+ email + "/listening", config)
+        axios.get(baseUrl + "profile/"+ email + "/listening", config)
         .then((res) => {
             setListenings(res.data.listenings)
             setName(res.data.target.nickname)

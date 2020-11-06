@@ -44,6 +44,7 @@ export const input = styled.input`
     width: 300px;
     height: 30px;
     border: 0;
+    color: #717171;
     placeholder: #D1D1D1;
     border-bottom: 2px solid #D1D1D1;
     margin-bottom: 40px;

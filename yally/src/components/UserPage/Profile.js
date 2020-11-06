@@ -5,8 +5,10 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import PostItem from '../Main/PostItem';
 
-const Profile = (props) => {
+
+const Profile = ({props, baseUrl}) => {
     const email = props.match.params.email;
+
     const imgUrl = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/"
     let [name, setName] = useState('');
     // let [image, setImage] = useState('');
@@ -23,12 +25,12 @@ const Profile = (props) => {
     
     const config = {
         headers : {
-            'Authorization' : 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8'}
+            'Authorization' : localStorage.getItem('accessToken')}
     }
     
     const feedConfig = {
         headers : {
-            'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8'}
+            'Authorization' : 'Bearer ' + localStorage.getItem('accessToken')}
     }
 
     
@@ -54,8 +56,8 @@ const Profile = (props) => {
   }, [isLoading]);
  
     useEffect (() => {
-        console.log(props);
-        axios.get("http://13.125.238.84:81/profile/" + email, config)
+        axios.get(baseUrl + "profile/" + email, config)
+
         .then((res) => {
             setData({
                 ...data,
@@ -68,7 +70,7 @@ const Profile = (props) => {
             console.log(res.data.image);
         })   
         
-        axios.get("http://13.125.238.84:81/mypage/timeline/" + email +"/" + page, feedConfig)
+        axios.get(baseUrl + "mypage/timeline/" + email + "/" + page, feedConfig)
         .then((res) => {
             setTimeLine(res.data.posts)
             console.log(res.data.posts);

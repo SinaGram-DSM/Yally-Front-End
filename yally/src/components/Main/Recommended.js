@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import * as R from '../../assets/style/Main/Recommend';
 import axios from 'axios'
+import { refresh } from '../../constant';
 
 const Recommended = ({src, nickname, id, userImg, baseUrl, email}) => {
     const [onListen, setOnListen] = useState(false);
 
     const onListening = () => {
         const config = {
-            headers : { 'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDEzNTAyNzUsIm5iZiI6MTYwMTM1MDI3NSwianRpIjoiNjM1ZTk3OWItNjczZC00ZmI5LTg3MmEtZDE2MjdjNGQyYTBlIiwiZXhwIjoxNjA5OTkwMjc1LCJpZGVudGl0eSI6ImFkbWluQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.3fLkBFWZ9N0Cq0xGEXZzVeKjNvkqkVdREsMOJwbtzy8'}
+            headers : { 'Authorization' : 'Bearer ' + localStorage.getItem('accessToken')}
         };
         const data = { "listeningEmail" : email };
 
@@ -18,7 +19,9 @@ const Recommended = ({src, nickname, id, userImg, baseUrl, email}) => {
             setOnListen(true);
         })
         .catch((err) => {
-            console.log(err);
+            if(err.status === 403) {
+                refresh();
+            }
         })
     }
 

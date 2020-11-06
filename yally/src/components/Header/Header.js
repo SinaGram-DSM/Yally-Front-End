@@ -24,15 +24,24 @@ const Header = ({ baseUrl }) => {
   const imgSrc = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
   const history = useHistory();
 
-  const valueChange = (e) => {
-    setValue(e.target.value);
-  };
+
+    const valueChange = (e) => {
+        setValue(e.target.value)
+    }
+    
+    const config = {
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+        }
+    }
+
 
   const config = {
     headers: {
       Authorization: "Bearer " + localStorage.getItem("accessToken"),
     },
   };
+
 
   const infiniteScroll = useCallback(() => {
     let scrollHeight = Math.max(
@@ -117,6 +126,10 @@ const Header = ({ baseUrl }) => {
     let input = document.getElementById("inputBox");
     input.style.visibility = "visible";
   };
+    const onLogout = () => {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+    }
 
   return (
     <div style={{ backgroundColor: "#FDFDFD", width: "59.88rem" }}>
@@ -153,7 +166,7 @@ const Header = ({ baseUrl }) => {
             </Router>
             <Router>
               <Link to="/login" style={{ textDecoration: "none" }}>
-                <H.menuText logout>로그아웃</H.menuText>
+                <H.menuText logout  onClick={onLogout}>로그아웃</H.menuText>
               </Link>
             </Router>
           </H.textContainer>
