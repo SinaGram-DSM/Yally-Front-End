@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 
+
+
 export const settingContainer =  styled.div`
     display: flex;
-    margin: 0px 392px 0px 392px;
+    margin: 0 auto;
     z-index: 1;
 `
 
@@ -33,8 +35,9 @@ export const headerBorder = styled.div`
 
 
 export const profileSection = styled.section`
-    width: 34%;
-    margin: 60px 0px 50px 110px;   
+     width: auto;
+    margin: 55px 0px 50px 85px;
+ 
 `
 export const imgInput = styled.input.attrs({
     type: 'file',

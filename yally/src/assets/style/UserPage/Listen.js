@@ -16,7 +16,6 @@ export const profileImg = styled.img`
     height: 130px;
     border: none;
     border-radius: 100%;
-    background-color: #F4D06F;
 `
 
 export const comment = styled.p`
