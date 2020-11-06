@@ -3,11 +3,14 @@ import * as P from "../../assets/style/UserPage/ProfileSetting";
 import * as M from "../../assets/style/Main/AddTimeLine";
 import axios from "axios";
 import { profileEdit } from "../../assets/img";
+import { useEffect } from "react";
 
-const Setting = ({ baseUrl }) => {
-  let [nickname, setNickName] = useState("데인드한"); //name 서버에서 받아온 nick
+const Setting = ({ baseUrl, props, name, img }) => {
+  let [nickname, setNickName] = useState("");
   let [file, setFile] = useState("");
-  let [img, setImg] = useState("");
+  let [image, setImage] = useState("");
+
+  const imgSrc = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
 
   const valueReset = (e) => {
     const button = document.getElementById("complete");
@@ -25,11 +28,17 @@ const Setting = ({ baseUrl }) => {
 
   const config = {
     headers: {
-      Authorization:
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MDMxMDk5NDgsIm5iZiI6MTYwMzEwOTk0OCwianRpIjoiYmQwMzJmMTgtMTA5OC00ZWVhLTgxNDUtNWJjZGU0YzMxMjUwIiwiZXhwIjoxNjExNzQ5OTQ4LCJpZGVudGl0eSI6ImFkbWluMTIzQGdtYWlsLmNvbSIsImZyZXNoIjpmYWxzZSwidHlwZSI6ImFjY2VzcyJ9.-4G3ptKZhdlby3iHSlMQF68Og2v28f8xQR4OPuk7P4k",
+      Authorization: localStorage.getItem("accessToken"),
       "Content-Type": "multipart/form-data",
     },
   };
+
+  useEffect(() => {
+    setNickName(name);
+    setImage(imgSrc + img);
+    console.log(img, name);
+    console.log(props);
+  });
 
   const imgSetting = () => {
     const input = document.getElementById("nick");
@@ -40,9 +49,8 @@ const Setting = ({ baseUrl }) => {
     form.append("image", file.files[0]);
     form.append("nickname", nickname);
 
-    console.log(config);
     axios
-      .put("http://13.125.238.84:81/profile/", form, config)
+      .put(baseUrl + "profile/", form, config)
       .then((res) => {
         console.log(res);
       })
@@ -57,44 +65,48 @@ const Setting = ({ baseUrl }) => {
     let file = e.target.files[0];
     read.onloadend = () => {
       setFile(file);
-      setImg(read.result);
+      setImage(read.result);
     };
     read.readAsDataURL(file);
   };
 
   return (
     <M.mainContainer>
-    <P.settingContainer>
-      <P.settingSection>
-        <P.topSection>
-          <P.title>Account Setting</P.title>
-          <P.headerBorder></P.headerBorder>
-        </P.topSection>
-        <P.profileSection>
-          <P.imgForm>
-            <P.imgInput id="input-img" onChange={imgChange}></P.imgInput>
-          </P.imgForm>
-          <P.imgChange>
-            <P.imgBox>
-              <P.profileChange src={profileEdit} />
-              {file !== "" ? <P.profileImge src={img} /> : <P.profileImge />}
-            </P.imgBox>
-          </P.imgChange>
-        </P.profileSection>
-        <P.nameBox>
-          <P.nickname
-            id="nick"
-            value={nickname}
-            onFocus={valueReset}
-            onChange={valueChange}
-          />
-        </P.nameBox>
-        <P.settingBtn id="complete" onClick={imgSetting}>
-          완료
-        </P.settingBtn>
-        <P.backPage>이전 페이지로 돌아가기</P.backPage>
-      </P.settingSection>
-    </P.settingContainer>
+      <P.settingContainer>
+        <P.settingSection>
+          <P.topSection>
+            <P.title>Account Setting</P.title>
+            <P.headerBorder></P.headerBorder>
+          </P.topSection>
+          <P.profileSection>
+            <P.imgForm>
+              <P.imgInput id="input-img" onChange={imgChange}></P.imgInput>
+            </P.imgForm>
+            <P.imgChange>
+              <P.imgBox>
+                <P.profileChange src={profileEdit} />
+                {file !== "" ? (
+                  <P.profileImge src={image} />
+                ) : (
+                  <P.profileImge />
+                )}
+              </P.imgBox>
+            </P.imgChange>
+          </P.profileSection>
+          <P.nameBox>
+            <P.nickname
+              id="nick"
+              value={nickname}
+              onFocus={valueReset}
+              onChange={valueChange}
+            />
+          </P.nameBox>
+          <P.settingBtn id="complete" onClick={imgSetting}>
+            완료
+          </P.settingBtn>
+          <P.backPage>이전 페이지로 돌아가기</P.backPage>
+        </P.settingSection>
+      </P.settingContainer>
     </M.mainContainer>
   );
 };
