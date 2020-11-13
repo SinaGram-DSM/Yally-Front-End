@@ -1,7 +1,6 @@
 import React from 'react';
 import * as L from '../../assets/style/Login/LoginPage';
 import { yallyLogo } from '../../assets/img';
-import Background from '../Global/Background';
 import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -36,14 +35,14 @@ const Login = ({baseUrl}) => {
     }
 
     return (
+        <L.allDiv>
         <L.allContainer>
-            <Background modal></Background>
             <L.mainContainer>
                 <L.logo src={yallyLogo}></L.logo>
                 <L.mainSection>
                     <L.mainContainer>
                         <L.mainSection>
-                            <L.mainContainer>
+                            <L.mainContainer box>
                                 <L.header>Login</L.header>
                                 <L.mainSection>
                                     <L.bar></L.bar>
@@ -66,6 +65,7 @@ const Login = ({baseUrl}) => {
                 </L.mainSection>
             </L.mainContainer>
         </L.allContainer>
+        </L.allDiv>
     );
 };
 
