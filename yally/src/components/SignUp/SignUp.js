@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import * as S from '../../assets/style/SignUp/SignUpForm';
+import * as L from '../../assets/style/Login/LoginPage';
 import { yallyLogo } from '../../assets/img';
-import Background from '../Global/Background';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -118,13 +118,14 @@ const SignUp = ({baseUrl}) => {
     let nicknameStyle = nicknameError ? "visible" : "hidden";
     let passwordStyle = passwordError ? "visible" : "hidden";
     return (
+        <L.allDiv>
         <S.allContainer>
             <S.mainContainer>
                 <S.logo src={yallyLogo}></S.logo>
                 <S.mainSection>
                     <S.mainContainer>
                         <S.mainSection>
-                            <S.mainContainer>
+                            <S.mainContainer box>
                                 <S.header>Sign Up</S.header>
                                 <S.mainSection>
                                     <S.bar></S.bar>
@@ -159,8 +160,8 @@ const SignUp = ({baseUrl}) => {
                     </S.mainContainer>
                 </S.mainSection>
             </S.mainContainer>
-            
         </S.allContainer>
+        </L.allDiv>
     );
 };
 

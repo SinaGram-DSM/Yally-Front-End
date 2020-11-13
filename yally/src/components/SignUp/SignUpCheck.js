@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import * as S from '../../assets/style/SignUp/SignUpForm';
+import * as L from '../../assets/style/Login/LoginPage';
 import * as C from '../../assets/style/SignUp/SignUpCheckForm';
 import { yallyLogo } from '../../assets/img';
 import { useHistory } from 'react-router-dom';
-import Background from '../Global/Background';
 import axios from 'axios';
 import { useLocation, Link } from "react-router-dom";
 import {help} from '../../assets/img';
@@ -85,8 +85,8 @@ const SignUpCheck = ({baseUrl}) => {
     let helpBoxStyle = helpBox ? "block" : "none";
 
     return (
+        <L.allDiv>
         <S.allContainer>
-            <Background modal></Background>
             <S.mainContainer>
                 <S.logo src={yallyLogo}></S.logo>
                 <S.mainSection>
@@ -119,6 +119,7 @@ const SignUpCheck = ({baseUrl}) => {
                 </S.mainSection> 
             </S.mainContainer>
         </S.allContainer>
+        </L.allDiv>
     );
 };
 
