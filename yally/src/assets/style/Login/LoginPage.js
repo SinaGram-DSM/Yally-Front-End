@@ -16,7 +16,6 @@ export const allDiv = styled.div`
 `;
 
 export const allContainer = styled.div`
-    // position: relative;
     height: 100vh;
     height : 100%;
     margin: 0 392px 0 392px;
