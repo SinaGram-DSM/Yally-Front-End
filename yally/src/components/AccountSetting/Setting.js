@@ -1,18 +1,17 @@
 
 import React, { useState } from "react";
+import { useHistory } from 'react-router-dom';
 import * as P from "../../assets/style/UserPage/ProfileSetting";
 import * as M from "../../assets/style/Main/AddTimeLine";
 import axios from "axios";
 import { profileEdit } from "../../assets/img";
-import { useEffect } from "react";
 
 const Setting = ({ baseUrl, props, name, img }) => {
   let [nickname, setNickName] = useState("");
   let [file, setFile] = useState("");
   let [image, setImage] = useState("");
 
-  const imgSrc = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/"
-
+  const history = new useHistory();
   const valueReset = (e) => {
     const button = document.getElementById("complete");
     e.target.value = "";
@@ -21,6 +20,7 @@ const Setting = ({ baseUrl, props, name, img }) => {
   const valueChange = (e) => {
     const button = document.getElementById("complete");
     setNickName(e.target.value);
+    console.log(e.target.value)
     if (e.target.value === "") button.style = "background: #D1D1D1";
     else
       button.style =
@@ -34,28 +34,22 @@ const Setting = ({ baseUrl, props, name, img }) => {
     },
   };
 
-  useEffect(() => {
-    setNickName(name);
-    setImage(imgSrc + img);
-    console.log(img, name);
-    console.log(props);
-  });
-
-
   const imgSetting = () => {
     const input = document.getElementById("nick");
     if (input.value === "") alert("닉네임을 설정해 주세요.");
 
-
-    const file = document.getElementById("input-img");
     const form = new FormData();
-    form.append("image", file.files[0]);
+    form.append("image", file);
     form.append("nickname", nickname);
 
     axios
       .put(baseUrl + "profile/", form, config)
       .then((res) => {
         console.log(res);
+        
+        history.push({
+          pathname : '/timeline'
+        })
       })
       .catch((error) => {
         console.log(error);
