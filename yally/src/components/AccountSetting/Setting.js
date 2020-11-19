@@ -21,7 +21,7 @@ const Setting = ({ baseUrl, props, name, img }) => {
   const valueChange = (e) => {
     const button = document.getElementById("complete");
     setNickName(e.target.value);
-    if (e.target.value == "") button.style = "background: #D1D1D1";
+    if (e.target.value === "") button.style = "background: #D1D1D1";
     else
       button.style =
         "background: linear-gradient(to right, #6E8EEA, #9B78EC); cursor: pointer";
@@ -44,7 +44,7 @@ const Setting = ({ baseUrl, props, name, img }) => {
 
   const imgSetting = () => {
     const input = document.getElementById("nick");
-    if (input.value == "") alert("닉네임을 설정해 주세요.");
+    if (input.value === "") alert("닉네임을 설정해 주세요.");
 
 
     const file = document.getElementById("input-img");

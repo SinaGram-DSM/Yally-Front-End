@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import * as P from "../../assets/style/Main/PostItmes";
-import { repl, deleteIcon, yallyLogo } from '../../assets/img';
+import { repl, deleteIcon } from '../../assets/img';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import yallyOn from '../../assets/img/yallyOn.png';
 import yallyOff from '../../assets/img/yallyOff.png';
-import Modal from '../Global/Modal';
 import AudioPlayer from './AudioPlayer';
 const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComment, content, sound, isMine, userImg, audioImg, setContent}) => {
     const [yallys, setYallys] = useState(yallyNum);
@@ -34,7 +33,7 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
                 setOnLike(yallyOn);
             })
         }
-        if(onLike == yallyOn)
+        if(onLike === yallyOn)
         {
             axios.delete(baseUrl + "post/yally/" +  id, config)
             .then(() => {
