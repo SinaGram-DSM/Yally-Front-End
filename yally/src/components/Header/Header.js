@@ -20,17 +20,15 @@ const Header = ({ baseUrl }) => {
   const imgSrc = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
   const history = useHistory();
 
+  const valueChange = (e) => {
+    setValue(e.target.value);
+  };
 
-    const valueChange = (e) => {
-        setValue(e.target.value)
-    }
-    
   const config = {
     headers: {
       Authorization: "Bearer " + localStorage.getItem("accessToken"),
     },
   };
-
 
   const infiniteScroll = useCallback(() => {
     let scrollHeight = Math.max(
@@ -115,19 +113,28 @@ const Header = ({ baseUrl }) => {
     let input = document.getElementById("inputBox");
     input.style.visibility = "visible";
   };
-    const onLogout = () => {
-        history.push({
-          pathname : '/'
-        });
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-    }
+  const onLogout = () => {
+    history.push({
+      pathname: "/",
+    });
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+  };
 
-    const onTimeline = () => {
-      history.push({
-        pathname : '/timeline'
-      });
-    }
+  const onTimeline = () => {
+    history.push({
+      pathname: "/timeline",
+    });
+  };
+  const setting = () => {
+    history.push({
+      pathname: "/settings",
+      state: {
+        name,
+        img,
+      },
+    });
+  };
 
   return (
     <div style={{ backgroundColor: "#FDFDFD", width: "59.88rem" }}>
@@ -154,19 +161,12 @@ const Header = ({ baseUrl }) => {
           <H.textContainer>
             <H.menuText name>{name}</H.menuText>
             <H.menuText email>{email}</H.menuText>
-            <Router>
-              <Link
-                to={{ pathname: `settings`, state: { name, img } }}
-                style={{ textDecoration: "none" }}
-              >
-                <H.menuText setting>계정 설정</H.menuText>
-              </Link>
-            </Router>
-            <Router>
-              <Link to="/" style={{ textDecoration: "none" }}>
-                <H.menuText logout  onClick={onLogout}>로그아웃</H.menuText>
-              </Link>
-            </Router>
+            <H.menuText setting onClick={setting}>
+              계정 설정
+            </H.menuText>
+            <H.menuText logout onClick={onLogout}>
+              로그아웃
+            </H.menuText>
           </H.textContainer>
         </H.menuBox>
       </H.HeaderContainer>
