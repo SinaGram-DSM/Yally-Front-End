@@ -1,31 +1,21 @@
 import React, { useState } from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import * as P from "../../assets/style/Main/PostItmes";
-import { repl, deleteIcon } from '../../assets/img';
+import { repl, deleteIcon, yallyLogo } from '../../assets/img';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import yallyOn from '../../assets/img/yallyOn.png';
 import yallyOff from '../../assets/img/yallyOff.png';
 import Modal from '../Global/Modal';
 import AudioPlayer from './AudioPlayer';
-import { refresh } from '../../constant';
-
 const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComment, content, sound, isMine, userImg, audioImg, setContent}) => {
+    const [yallys, setYallys] = useState(yallyNum);
     
     const src = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
-    let yallySrc = yallyOn;
-    if(isYally === true)
-    {
-        yallySrc = yallyOn;
-    }
-
-    else
-    {
-        yallySrc = yallyOff;
-    }
-
+    let yallySrc;
+    isYally ? yallySrc = yallyOn : yallySrc = yallyOff;
     const [onLike, setOnLike] = useState(yallySrc);
-
+    
     let deleteButtonStyle = "";
     const config = {
         headers : { 'Authorization' : 'Bearer ' + localStorage.getItem('accessToken')}
@@ -39,12 +29,18 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
         if(isYally === false)
         {
             axios.get(baseUrl + "post/yally/" + id, config)
-            setOnLike(yallyOn);
+            .then(() => {
+                setYallys(state => state + 1);
+                setOnLike(yallyOn);
+            })
         }
-        else
+        if(onLike == yallyOn)
         {
             axios.delete(baseUrl + "post/yally/" +  id, config)
-            setOnLike(yallyOff);
+            .then(() => {
+                setYallys(state => state - 1);
+                setOnLike(yallyOff);
+            })
         }
     }
     
@@ -103,7 +99,7 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
                     <P.postInfoContainer>
                     <P.reactionBox>
                         <P.reactionIcon src={onLike} onClick={onYally}></P.reactionIcon>
-                        <P.reactionCount>{yallyNum}</P.reactionCount>
+                        <P.reactionCount>{yallys} 개</P.reactionCount>
                     </P.reactionBox>
                     <P.reactionBox>
                         <Link style={{textDecoration : "none"}} to={{
@@ -114,7 +110,7 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
                         }}>
                         <P.reactionIcon src={repl}></P.reactionIcon>
                         </Link>
-                        <P.reactionCount>{isComment}</P.reactionCount>
+                        <P.reactionCount>{isComment} 개</P.reactionCount>
                     </P.reactionBox>
                     </P.postInfoContainer>
                     <P.editButton style={{display : isMine? "" : "none"}} onClick={onEditPost}>수정</P.editButton>

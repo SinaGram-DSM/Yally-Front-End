@@ -33,16 +33,9 @@ const TimeLineView = ({ src, baseUrl }) => {
         "Bearer " + localStorage.getItem('accessToken'),
     },
   };
-
   const infiniteScroll = useCallback(() => {
-    let scrollHeight = Math.max(
-      document.documentElement.scrollHeight,
-      document.body.scrollHeight
-    );
-    let scrollTop = Math.max(
-      document.documentElement.scrollTop,
-      document.body.scrollTop
-    );
+    let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+    let scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
     let clientHeight = document.documentElement.clientHeight;
 
     if (scrollTop + clientHeight === scrollHeight && isLoading === true) {
@@ -57,23 +50,27 @@ const TimeLineView = ({ src, baseUrl }) => {
 
   useEffect(() => {
     axios.get(baseUrl + "timeline/" + params, config).then((res) => {
-        if(res.data.posts == '') {
-            setNotPosts("더이상 글이 없어요. 더 작성해보세요!");
-        }
-        else {
-            setNotFound(false);
-            setPosts(res.data.posts);
-            setIsLoading(true);
-        }
-    })
-    .catch((err) => {
-        if(err.status === 403) {
-            refresh();
-        }
-        else {
-            setStatusCode(err.status);
-        }
-    })
+      if(res.data.posts == '') {
+        setNotPosts("더 이상 글이 없어요. 더 작성해보세요!");
+      }
+      else {
+        setNotFound(false);
+        setPosts(res.data.posts);
+        setIsLoading(true);
+      }
+      
+    }).catch((err) => {
+            if(err.status === 403) {
+                refresh();
+            }
+            else {
+              if(err.status)
+              {
+                setStatusCode(err.status);
+              }
+              else setStatusCode("ERROR");
+            }
+        })
     window.addEventListener("scroll", infiniteScroll);
     return () => window.removeEventListener("scroll", infiniteScroll);
   }, [infiniteScroll]);
@@ -83,7 +80,7 @@ const TimeLineView = ({ src, baseUrl }) => {
       style={{ position: "relative", backgroundColor: "#FDFDFD" }}
       ref={timelineBody}
     >
-     { notFound ? (<NotFound status={statusCode} />) : (<div><AddPost
+     { notFound ? (<NotFound status={statusCode}/>) : (<div><AddPost
         src={src}
         baseUrl={baseUrl}
         editContent={contents}
@@ -112,7 +109,7 @@ const TimeLineView = ({ src, baseUrl }) => {
         ></PostItem>
       ))}
         <h2 style={{textAlign : "center", color : "#707070"}}>{isLoading? "Loading..." : ""}{notPosts}</h2></div>)}
-      <Background></Background>
+        <Background></Background>
     </div>
   );
 };
