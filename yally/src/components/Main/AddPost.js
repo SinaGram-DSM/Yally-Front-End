@@ -49,7 +49,7 @@ const AddPost = ({src, baseUrl, editContent, editFile, editImg, editPostId}) => 
         let rmin = 0;
         let timer = setInterval(() => {
             setOnText(<S.buttonsContainer><S.recordingIcon></S.recordingIcon><S.recordText>{'0' + rmin + ' : ' + lsec + rsec}</S.recordText></S.buttonsContainer>);
-            setOnRecText(<S.recordText>버튼을 누르면 녹음이 종료됩니다.</S.recordText>);
+            setOnRecText(<S.recordText>음성 녹음 버튼을 한 번 더 누르면 녹음이 종료됩니다.</S.recordText>);
             rsec++;
             if(rsec > 9) 
             {
