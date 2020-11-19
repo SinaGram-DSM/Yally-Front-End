@@ -163,7 +163,7 @@ const Header = ({ baseUrl }) => {
               </Link>
             </Router>
             <Router>
-              <Link to="/login" style={{ textDecoration: "none" }}>
+              <Link to="/" style={{ textDecoration: "none" }}>
                 <H.menuText logout  onClick={onLogout}>로그아웃</H.menuText>
               </Link>
             </Router>
