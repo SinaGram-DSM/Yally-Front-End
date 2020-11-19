@@ -35,7 +35,7 @@ const AddComment = ({baseUrl, id}) => {
     }
 
     return (
-        <S.mainContainer detailPost>
+        <S.mainContainer comment>
             <S.mainSection small>
             <C.commentBox>
                 <S.writerInfoBox comment profile>
