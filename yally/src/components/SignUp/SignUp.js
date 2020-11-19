@@ -96,7 +96,7 @@ const SignUp = ({baseUrl}) => {
         }
         
         console.log(data.email)
-        const res = await axios.post(baseUrl + "user/auth-code/email", {email: data.email})
+        await axios.post(baseUrl + "user/auth-code/email", {email: data.email})
         .then((res) => {
             console.log(res);
             history.push({
