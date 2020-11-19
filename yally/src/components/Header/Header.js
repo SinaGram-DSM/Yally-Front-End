@@ -130,8 +130,8 @@ const Header = ({ baseUrl }) => {
     history.push({
       pathname: "/settings",
       state: {
-        name,
-        img,
+        name: name,
+        img: img,
       },
     });
   };
