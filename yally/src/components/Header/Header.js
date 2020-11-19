@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import * as H from "../../assets/style/Header/HeaderStyle";
 import * as P from "../../assets/style/Main/AddTimeLine";
-import * as M from "../../assets/style/Main/AddTimeLine";
-import * as T from "../../assets/style/UserPage/Listen";
 import PostItem from "../Main/PostItem";
 import { yallyLogo, search, moreButton } from "../../assets/img";
 import Users from "../Search/Users";
@@ -14,13 +12,11 @@ const Header = ({ baseUrl }) => {
   let [value, setValue] = useState("");
   let [users, setUsers] = useState([]);
   let [posts, setPosts] = useState([]);
-  let [searchUrl, setUrl] = useState("");
   let [page, setPage] = useState(1);
   let [isLoading, setIsLoading] = useState(false);
   let [name, setName] = useState("");
   let [img, setImg] = useState("");
   let [email, setEmail] = useState("");
-
   const imgSrc = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
   const history = useHistory();
 
@@ -29,13 +25,6 @@ const Header = ({ baseUrl }) => {
         setValue(e.target.value)
     }
     
-    const config = {
-        headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-        }
-    }
-
-
   const config = {
     headers: {
       Authorization: "Bearer " + localStorage.getItem("accessToken"),
@@ -77,7 +66,7 @@ const Header = ({ baseUrl }) => {
   }, [infiniteScroll]);
 
   const searchBtn = () => {
-    if (value.charAt(0) == "#") {
+    if (value.charAt(0) === "#") {
       history.push({
         pathname: "/search/posts",
       });
@@ -96,7 +85,7 @@ const Header = ({ baseUrl }) => {
           });
       };
       tagSearch();
-    } else if (value.charAt(0) == "@") {
+    } else if (value.charAt(0) === "@") {
       history.push({
         pathname: "/search/users",
       });
@@ -118,7 +107,7 @@ const Header = ({ baseUrl }) => {
 
   const profileClick = () => {
     let menu = document.getElementById("menu");
-    if (menu.style.display == "none") menu.style.display = "block";
+    if (menu.style.display === "none") menu.style.display = "block";
     else menu.style.display = "none";
   };
 
@@ -127,15 +116,24 @@ const Header = ({ baseUrl }) => {
     input.style.visibility = "visible";
   };
     const onLogout = () => {
+        history.push({
+          pathname : '/'
+        });
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+    }
+
+    const onTimeline = () => {
+      history.push({
+        pathname : '/timeline'
+      });
     }
 
   return (
     <div style={{ backgroundColor: "#FDFDFD", width: "59.88rem" }}>
       <H.HeaderContainer>
         <H.logoSection>
-          <H.logoImg src={yallyLogo}></H.logoImg>
+          <H.logoImg src={yallyLogo} onClick={onTimeline}></H.logoImg>
         </H.logoSection>
         <H.inputContainer onClick={inputFocus}>
           <H.inputBoxContainer>
