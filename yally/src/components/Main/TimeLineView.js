@@ -6,6 +6,7 @@ import PostItem from "../Main/PostItem";
 import Background from "../Global/Background";
 import axios from "axios";
 import NotFound from "./NotFound";
+import Loader from "./Loader";
 
 const TimeLineView = ({ src, baseUrl }) => {
   const [contents, setContents] = useState();
@@ -15,6 +16,7 @@ const TimeLineView = ({ src, baseUrl }) => {
   const [notPosts, setNotPosts] = useState();
   const [notFound, setNotFound] = useState(true);
   const [statusCode, setStatusCode] = useState();
+  const [isScroll, setIsScroll] = useState(false);
   const timelineBody = useRef(null);
 
   const setContent = (content, file, img, id) => {
@@ -39,6 +41,7 @@ const TimeLineView = ({ src, baseUrl }) => {
     let clientHeight = document.documentElement.clientHeight;
 
     if (scrollTop + clientHeight === scrollHeight && isLoading === true) {
+      setIsScroll(true);
       setTimeout(function () {
         setPosts(posts.concat(posts));
         setParams((state) => state + 1);
@@ -52,11 +55,13 @@ const TimeLineView = ({ src, baseUrl }) => {
     axios.get(baseUrl + "timeline/" + params, config).then((res) => {
       if(res.data.posts == '') {
         setNotPosts("더 이상 글이 없어요. 더 작성해보세요!");
+        setIsScroll(false);
       }
       else {
         setNotFound(false);
         setPosts(res.data.posts);
         setIsLoading(true);
+        setIsScroll(false);
       }
       
     }).catch((err) => {
@@ -108,7 +113,7 @@ const TimeLineView = ({ src, baseUrl }) => {
           setContent={setContent}
         ></PostItem>
       ))}
-        <h2 style={{textAlign : "center", color : "#707070"}}>{isLoading? "Loading..." : ""}{notPosts}</h2></div>)}
+        <h2 style={{textAlign : "center", color : "#707070"}}>{isScroll? <Loader></Loader> : ""}{notPosts}</h2></div>)}
         <Background></Background>
     </div>
   );
