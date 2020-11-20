@@ -30,6 +30,7 @@ const Login = ({baseUrl}) => {
                 pathname : '/timeline'
             })
         }).catch((error) => {
+            alert("로그인에 실패하셨습니다. 다시 시도해주세요.");
             console.log(error);
         })
     }
