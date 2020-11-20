@@ -1,18 +1,30 @@
 import styled from "styled-components";
 
 export const mainContainer = styled.div`
-  display: flex;
+  display: ${(props) => {
+    if (props.user) return "inline-block";
+    else return "flex";
+  }};
   margin: ${(props) => {
     if (props.small) return "0 24.5rem 0 24.5rem";
-    else if (props.detailPost) return "0";
+    else if (props.detailPost || props.user) return "0 0 0 24.5rem";
     else if (props.profile) return "0 24.5rem 0 24.5rem";
+    else if (props.comment) return "0 0 0 0";
     else return "0 24.5rem 3.125rem 24.5rem";
   }};
   justify-content: center;
+  width: ${(props) => {
+    if (props.user) return "85%";
+    else return "";
+  }};
+  margin-top: ${(props) => {
+    if (props.user) return "30px";
+    else return 0;
+  }};
   @media only screen and (max-width: 1020px) {
     & {
-        margin : 0 4rem 2.125rem 4rem;
-        height: auto !important;
+      margin: 0 4rem 2.125rem 4rem;
+      height: auto !important;
     }
   }
 `;
@@ -45,8 +57,8 @@ export const mainSection = styled.section`
   justify-content: ${(props) => (props.friends ? "space-between" : "")};
   @media only screen and (max-width: 1020px) {
     & {
-        width : 100%;
-        height: auto !important;
+      width: 100%;
+      height: auto !important;
     }
   }
 `;
@@ -97,8 +109,8 @@ export const profileImg = styled.img`
   cursor: ${(props) => (props.header ? "pointer" : "none")};
   @media only screen and (max-width: 620px) {
     & {
-      width : 3rem;
-      height : 3rem;
+      width: 3rem;
+      height: 3rem;
     }
   }
 `;
@@ -111,7 +123,7 @@ export const buttonsContainer = styled.div`
   margin-top: ${(props) => (props.rec ? "0.9375rem" : "")};
   @media only screen and (max-width: 620px) {
     & {
-        justify-content : none;
+      justify-content: none;
     }
   }
 `;
@@ -138,9 +150,9 @@ export const buttonBox = styled.label`
   }
   @media only screen and (max-width: 620px) {
     & {
-    //   width: 4rem;
-    //   font-size : 0.7rem;
-    //   height : auto !important;
+      //   width: 4rem;
+      //   font-size : 0.7rem;
+      //   height : auto !important;
     }
   }
 `;
@@ -158,13 +170,13 @@ export const inputFile = styled.input`
 export const buttonIcon = styled.img`
   width: 1.25rem;
   height: 1.25rem;
-//   @media only screen and (max-width: 620px) {
-//     & {
-//       width: 20%;
-//       font-size : 0.8rem;
-//       height : 30%;
-//     }
-//   }
+  @media only screen and (max-width: 620px) {
+    & {
+      width: 20%;
+      font-size: 0.8rem;
+      height: 30%;
+    }
+  }
 `;
 
 export const previewIcon = styled.img`

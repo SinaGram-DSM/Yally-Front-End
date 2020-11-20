@@ -24,7 +24,7 @@ const Comment = ({id, baseUrl, src, sound, nickname, date, content, userImg, del
     }
 
     return (
-            <S.mainContainer detailPost>
+            <S.mainContainer comment>
             <S.mainSection small>
                 <C.commentBox>
                 <S.profileImg src={src + userImg}></S.profileImg>

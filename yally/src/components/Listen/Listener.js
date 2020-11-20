@@ -6,10 +6,11 @@ import * as M from '../../assets/style/Main/AddTimeLine';
 
 const Listener = ({baseUrl, match}) => {
     let [listeners, setListeners] = useState([]);
-    // const email = this.props.match; 라우터 주소에서 이메일 가져오기
+    let [name, setName] = useState("");
+    let [img, setImg] = useState("");
+    const email = match.match.params.email;
     const imgUrl = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/"
     const listenerValue = match.match.params.value;
-    const name = match.match.params.name;
     const config = {
         headers: {
             'Authorization': localStorage.getItem('accessToken')
@@ -17,9 +18,11 @@ const Listener = ({baseUrl, match}) => {
     }
 
     useEffect (() => {
-        axios.get( baseUrl + "profile/admin123@gmail.com/listener", config)
+        axios.get(baseUrl + "profile/" + email + "/listener", config)
         .then((res) => {
             setListeners(res.data.listeners)
+            setImg(res.data.target.image)
+            setName(res.data.target.nickname)
             
         })
         console.log(match);
@@ -29,7 +32,7 @@ const Listener = ({baseUrl, match}) => {
         <M.mainContainer>
         <T.mainSection>
         <T.profileSection>
-        <T.profileImg></T.profileImg>
+        <T.profileImg src={imgUrl + img}/>
         <T.comment>{listenerValue}명이 {name} 님의 이야기를 듣고 있습니다.</T.comment>
         </T.profileSection>
         <T.listenSection>
