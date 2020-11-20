@@ -175,14 +175,16 @@ const Header = ({ baseUrl }) => {
         </H.menuBox>
       </H.HeaderContainer>
       {users.map((user) => (
-        <Users
-          img={user.img}
-          nickname={user.nickname}
-          listening={user.listening}
-          listener={user.listener}
-          isListening={user.isListening}
-        />
-      ))}{" "}
+        <P.mainContainer user>
+          <Users
+            img={user.img}
+            nickname={user.nickname}
+            listening={user.listening}
+            listener={user.listener}
+            isListening={user.isListening}
+          />
+        </P.mainContainer>
+      ))}
       {posts.map((post) => (
         <PostItem
           email={post.user.email}
