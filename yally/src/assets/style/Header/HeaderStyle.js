@@ -3,22 +3,32 @@ import styled from "styled-components";
 export const HeaderContainer = styled.div`
   width: 90%;
   display: flex;
-  margin: 0px 24.5rem 0px 24.5rem;
+  margin: 0 22rem 0 22rem;
   position: relative;
+  @media only screen and (max-width: 1020px) {
+    & {
+      margin: 0 auto;
+    }
+  }
 `;
 
 export const logoSection = styled.section`
   width: 20%;
-  margin-top: 10px;
+  margin-top: 0.625rem;
 `;
 
 export const logoImg = styled.img`
-  width: 100px;
+  width: 6.25rem;
   cursor: pointer;
 `;
 
 export const inputContainer = styled.div`
-  margin: 20px 0px 0px 280px;
+  margin: 1.25rem 0 0 19.38rem;
+  @media only screen and (max-width: 1020px) {
+    & {
+      margin: 0 0 2.125rem 15rem;
+    }
+  }
 `;
 export const inputBoxContainer = styled.div``;
 export const inputBox = styled.input.attrs({
@@ -44,7 +54,7 @@ export const inputBox = styled.input.attrs({
 `;
 
 export const imgContainer = styled.div`
-  margin: 10px 0px 0px 13px;
+  margin: 10px 0px 0px 20px;
   display: inline-block;
 `;
 export const searchIcon = styled.img`

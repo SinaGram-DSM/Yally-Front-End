@@ -1,31 +1,32 @@
-
-import React, { useState } from "react";
-import { useHistory } from 'react-router-dom';
+import React, { useCallback, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import * as P from "../../assets/style/UserPage/ProfileSetting";
 import * as M from "../../assets/style/Main/AddTimeLine";
 import axios from "axios";
 import { profileEdit } from "../../assets/img";
 
-const Setting = ({ baseUrl, props, name, img }) => {
-  let [nickname, setNickName] = useState("");
+const Setting = ({ baseUrl, props }) => {
+  const history = new useHistory();
+  const location = new useLocation();
+  const imgSrc = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
+  let [nickname, setNickName] = useState(location.state.name);
   let [file, setFile] = useState("");
   let [image, setImage] = useState("");
 
-  const history = new useHistory();
-  const valueReset = (e) => {
+  const inputReset = (e) => {
     const button = document.getElementById("complete");
     e.target.value = "";
     button.style = "background: #D1D1D1";
   };
-  const valueChange = (e) => {
+
+  const valueChange = useCallback((e) => {
     const button = document.getElementById("complete");
     setNickName(e.target.value);
-    console.log(e.target.value)
     if (e.target.value === "") button.style = "background: #D1D1D1";
     else
       button.style =
         "background: linear-gradient(to right, #6E8EEA, #9B78EC); cursor: pointer";
-  };
+  });
 
   const config = {
     headers: {
@@ -46,10 +47,10 @@ const Setting = ({ baseUrl, props, name, img }) => {
       .put(baseUrl + "profile/", form, config)
       .then((res) => {
         console.log(res);
-        
+
         history.push({
-          pathname : '/timeline'
-        })
+          pathname: "/timeline",
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -67,6 +68,9 @@ const Setting = ({ baseUrl, props, name, img }) => {
     read.readAsDataURL(file);
   };
 
+  const pageBack = () => {
+    history.go(-1);
+  };
   return (
     <M.mainContainer>
       <P.settingContainer>
@@ -85,7 +89,7 @@ const Setting = ({ baseUrl, props, name, img }) => {
                 {file !== "" ? (
                   <P.profileImge src={image} />
                 ) : (
-                  <P.profileImge />
+                  <P.profileImge src={imgSrc + location.state.img} />
                 )}
               </P.imgBox>
             </P.imgChange>
@@ -93,15 +97,15 @@ const Setting = ({ baseUrl, props, name, img }) => {
           <P.nameBox>
             <P.nickname
               id="nick"
-              value={nickname}
-              onFocus={valueReset}
+              onFocus={inputReset}
               onChange={valueChange}
+              value={nickname}
             />
           </P.nameBox>
           <P.settingBtn id="complete" onClick={imgSetting}>
             완료
           </P.settingBtn>
-          <P.backPage>이전 페이지로 돌아가기</P.backPage>
+          <P.backPage onClick={pageBack}>이전 페이지로 돌아가기</P.backPage>
         </P.settingSection>
       </P.settingContainer>
     </M.mainContainer>

@@ -20,6 +20,8 @@ const Header = ({ baseUrl }) => {
   const imgSrc = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
   const history = useHistory();
 
+  const menu = document.getElementById("menu");
+
   const valueChange = (e) => {
     setValue(e.target.value);
   };
@@ -104,7 +106,6 @@ const Header = ({ baseUrl }) => {
   };
 
   const profileClick = () => {
-    let menu = document.getElementById("menu");
     if (menu.style.display === "none") menu.style.display = "block";
     else menu.style.display = "none";
   };
@@ -114,6 +115,7 @@ const Header = ({ baseUrl }) => {
     input.style.visibility = "visible";
   };
   const onLogout = () => {
+    menu.style.display = "none";
     history.push({
       pathname: "/",
     });
@@ -127,6 +129,8 @@ const Header = ({ baseUrl }) => {
     });
   };
   const setting = () => {
+    menu.style.display = "none";
+    console.log(name, img);
     history.push({
       pathname: "/settings",
       state: {
