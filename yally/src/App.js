@@ -86,7 +86,7 @@ function App() {
           />
           <Route
             path="/profile/:email"
-            render={(props) => <Profile props={props} />}
+            render={(props) => <Profile props={props} baseUrl={baseUrl}/>}
           />
         </Switch>
       </Router>
