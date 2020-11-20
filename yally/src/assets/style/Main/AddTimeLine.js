@@ -220,3 +220,18 @@ export const notFoundText = styled.p`
   background-clip: text;
   color: transparent;
 `;
+
+
+export const loader = styled.div`
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #8e54e9;
+  border-radius: 50%;
+  width: 1.4rem;
+  height: 1.4rem;
+  animation: spin 2s linear infinite;
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
