@@ -1,6 +1,5 @@
 import React,{ useState, useEffect } from 'react';
 import * as C from '../../assets/style/PostDetail/Comment'
-import * as S from "../../assets/style/Main/AddTimeLine";
 import Comment from './Comment'
 import AddComment from './AddComment';
 import axios from 'axios';
@@ -16,6 +15,7 @@ const CommentView = ({src, baseUrl, id, deleteButtonStyle}) => {
         .then((res) => {
             setComment(res.data.comments)
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
          }, []);
     return (
                 <C.commentContainer>

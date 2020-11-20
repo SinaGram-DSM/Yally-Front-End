@@ -49,7 +49,7 @@ const AddPost = ({src, baseUrl, editContent, editFile, editImg, editPostId}) => 
         let rmin = 0;
         let timer = setInterval(() => {
             setOnText(<S.buttonsContainer><S.recordingIcon></S.recordingIcon><S.recordText>{'0' + rmin + ' : ' + lsec + rsec}</S.recordText></S.buttonsContainer>);
-            setOnRecText(<S.recordText>버튼을 누르면 녹음이 종료됩니다.</S.recordText>);
+            setOnRecText(<S.recordText>음성 녹음 버튼을 한 번 더 누르면 녹음이 종료됩니다.</S.recordText>);
             rsec++;
             if(rsec > 9) 
             {
@@ -106,14 +106,14 @@ const AddPost = ({src, baseUrl, editContent, editFile, editImg, editPostId}) => 
 
         let editForm = new FormData();
 
-        if(isContent == true) {
+        if(isContent === true) {
             editForm.append('content', content);
         }
         else {
             editForm.append('content', editContent);
         }
 
-        if(isOnImg == true) {
+        if(isOnImg === true) {
             editForm.append('img', imgFile);
         } 
         else {
@@ -159,13 +159,13 @@ const AddPost = ({src, baseUrl, editContent, editFile, editImg, editPostId}) => 
         hashtag = hashtag.split(' ');
         hashtagArr = hashtag;
 
-        if(audioUrl == null)
+        if(audioUrl === null)
         {
             alert('음성을 녹음하거나 업로드해주세요!');
             console.log(audioUrl)
         }
         
-        else if(typeof(audioUrl) == FileList)
+        else if(typeof(audioUrl) === FileList)
         {
             const formdata = 
             {
@@ -251,7 +251,7 @@ const AddPost = ({src, baseUrl, editContent, editFile, editImg, editPostId}) => 
     if(imgFile !== ''){
       imgPreview = <S.previewIcon src={previewUrl}></S.previewIcon>
     }
-    if(isOnAudio == true){
+    if(isOnAudio === true){
         recPreview = <S.previewIcon src={sound}></S.previewIcon>
     }
     

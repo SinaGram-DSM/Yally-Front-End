@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import * as L from './login';
+import * as L from '../Login/LoginPage';
 
 export const logo = styled(L.logo)``;
 

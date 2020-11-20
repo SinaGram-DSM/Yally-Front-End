@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import * as H from "../../assets/style/Header/HeaderStyle";
 import * as P from "../../assets/style/Main/AddTimeLine";
-import * as M from "../../assets/style/Main/AddTimeLine";
-import * as T from "../../assets/style/UserPage/Listen";
 import PostItem from "../Main/PostItem";
 import { yallyLogo, search, moreButton } from "../../assets/img";
 import Users from "../Search/Users";
@@ -14,34 +12,25 @@ const Header = ({ baseUrl }) => {
   let [value, setValue] = useState("");
   let [users, setUsers] = useState([]);
   let [posts, setPosts] = useState([]);
-  let [searchUrl, setUrl] = useState("");
   let [page, setPage] = useState(1);
   let [isLoading, setIsLoading] = useState(false);
   let [name, setName] = useState("");
   let [img, setImg] = useState("");
   let [email, setEmail] = useState("");
-
   const imgSrc = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
   const history = useHistory();
 
+  const menu = document.getElementById("menu");
 
-    const valueChange = (e) => {
-        setValue(e.target.value)
-    }
-    
-    const config = {
-        headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
-        }
-    }
-
+  const valueChange = (e) => {
+    setValue(e.target.value);
+  };
 
   const config = {
     headers: {
       Authorization: "Bearer " + localStorage.getItem("accessToken"),
     },
   };
-
 
   const infiniteScroll = useCallback(() => {
     let scrollHeight = Math.max(
@@ -77,7 +66,7 @@ const Header = ({ baseUrl }) => {
   }, [infiniteScroll]);
 
   const searchBtn = () => {
-    if (value.charAt(0) == "#") {
+    if (value.charAt(0) === "#") {
       history.push({
         pathname: "/search/posts",
       });
@@ -96,7 +85,7 @@ const Header = ({ baseUrl }) => {
           });
       };
       tagSearch();
-    } else if (value.charAt(0) == "@") {
+    } else if (value.charAt(0) === "@") {
       history.push({
         pathname: "/search/users",
       });
@@ -117,8 +106,7 @@ const Header = ({ baseUrl }) => {
   };
 
   const profileClick = () => {
-    let menu = document.getElementById("menu");
-    if (menu.style.display == "none") menu.style.display = "block";
+    if (menu.style.display === "none") menu.style.display = "block";
     else menu.style.display = "none";
   };
 
@@ -126,16 +114,37 @@ const Header = ({ baseUrl }) => {
     let input = document.getElementById("inputBox");
     input.style.visibility = "visible";
   };
-    const onLogout = () => {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-    }
+  const onLogout = () => {
+    menu.style.display = "none";
+    history.push({
+      pathname: "/",
+    });
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+  };
+
+  const onTimeline = () => {
+    history.push({
+      pathname: "/timeline",
+    });
+  };
+  const setting = () => {
+    menu.style.display = "none";
+    console.log(name, img);
+    history.push({
+      pathname: "/settings",
+      state: {
+        name: name,
+        img: img,
+      },
+    });
+  };
 
   return (
     <div style={{ backgroundColor: "#FDFDFD", width: "59.88rem" }}>
       <H.HeaderContainer>
         <H.logoSection>
-          <H.logoImg src={yallyLogo}></H.logoImg>
+          <H.logoImg src={yallyLogo} onClick={onTimeline}></H.logoImg>
         </H.logoSection>
         <H.inputContainer onClick={inputFocus}>
           <H.inputBoxContainer>
@@ -156,31 +165,26 @@ const Header = ({ baseUrl }) => {
           <H.textContainer>
             <H.menuText name>{name}</H.menuText>
             <H.menuText email>{email}</H.menuText>
-            <Router>
-              <Link
-                to={{ pathname: `settings`, state: { name, img } }}
-                style={{ textDecoration: "none" }}
-              >
-                <H.menuText setting>계정 설정</H.menuText>
-              </Link>
-            </Router>
-            <Router>
-              <Link to="/login" style={{ textDecoration: "none" }}>
-                <H.menuText logout  onClick={onLogout}>로그아웃</H.menuText>
-              </Link>
-            </Router>
+            <H.menuText setting onClick={setting}>
+              계정 설정
+            </H.menuText>
+            <H.menuText logout onClick={onLogout}>
+              로그아웃
+            </H.menuText>
           </H.textContainer>
         </H.menuBox>
       </H.HeaderContainer>
       {users.map((user) => (
-        <Users
-          img={user.img}
-          nickname={user.nickname}
-          listening={user.listening}
-          listener={user.listener}
-          isListening={user.isListening}
-        />
-      ))}{" "}
+        <P.mainContainer user>
+          <Users
+            img={user.img}
+            nickname={user.nickname}
+            listening={user.listening}
+            listener={user.listener}
+            isListening={user.isListening}
+          />
+        </P.mainContainer>
+      ))}
       {posts.map((post) => (
         <PostItem
           email={post.user.email}

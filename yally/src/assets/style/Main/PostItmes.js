@@ -18,8 +18,8 @@ export const postNameInfo = styled.h1`
 `;
 
 export const postDateInfo = styled.p`
-    font-size: 1.25rem
-    color: #707070;
+    font-size: 1.25rem;
+    color : #707070;
     font-weight: 200;
     margin : 0.1875rem 0 0 0;
 `;

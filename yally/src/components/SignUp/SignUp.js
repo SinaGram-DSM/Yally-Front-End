@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import * as S from '../../assets/style/SignUp/SignUpForm';
+import * as L from '../../assets/style/Login/LoginPage';
 import { yallyLogo } from '../../assets/img';
-import Background from '../Global/Background';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -96,7 +96,7 @@ const SignUp = ({baseUrl}) => {
         }
         
         console.log(data.email)
-        const res = await axios.post(baseUrl + "user/auth-code/email", {email: data.email})
+        await axios.post(baseUrl + "user/auth-code/email", {email: data.email})
         .then((res) => {
             console.log(res);
             history.push({
@@ -118,13 +118,14 @@ const SignUp = ({baseUrl}) => {
     let nicknameStyle = nicknameError ? "visible" : "hidden";
     let passwordStyle = passwordError ? "visible" : "hidden";
     return (
+        <L.allDiv>
         <S.allContainer>
             <S.mainContainer>
                 <S.logo src={yallyLogo}></S.logo>
                 <S.mainSection>
                     <S.mainContainer>
                         <S.mainSection>
-                            <S.mainContainer>
+                            <S.mainContainer box>
                                 <S.header>Sign Up</S.header>
                                 <S.mainSection>
                                     <S.bar></S.bar>
@@ -159,8 +160,8 @@ const SignUp = ({baseUrl}) => {
                     </S.mainContainer>
                 </S.mainSection>
             </S.mainContainer>
-            
         </S.allContainer>
+        </L.allDiv>
     );
 };
 
