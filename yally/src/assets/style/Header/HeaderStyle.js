@@ -1,14 +1,17 @@
 import styled from "styled-components";
 
-export const HeaderContainer = styled.div`
-  width: 100%;
-  display: flex;
-  position: relative;
+export const OutHeader = styled.div`
+  display: inline-block;
+  margin: 0 24.5rem 0 24.5rem;
+  justify-content: center;
   @media only screen and (max-width: 1020px) {
     & {
-      margin: 0 auto;
+      margin: 0 9rem 0 9rem;
     }
-  }
+`;
+export const HeaderContainer = styled.div`
+  display: flex;
+  position: relative;
 `;
 
 export const logoSection = styled.section`
@@ -22,11 +25,7 @@ export const logoImg = styled.img`
 `;
 
 export const inputContainer = styled.div`
-  margin: 1.1rem 1rem 0 16rem;
-  /* @media only screen and (max-width: 1020px) {
-    & {
-      margin: 1.1rem 0 2.125rem 15.5rem;
-    } */
+  margin: 1.1rem 1rem 0 15.6rem;
   }
 `;
 export const inputBoxContainer = styled.div``;
@@ -50,12 +49,13 @@ export const inputBox = styled.input.attrs({
   &:hover {
     visibility: visible;
   }
+  }
 `;
 
 export const imgContainer = styled.div`
   width: 100%;
   margin: 0.625rem 0 0 0.75rem;
-  display: inline-block;
+  display: flex;
 `;
 export const searchIcon = styled.img`
   width: 1.875rem;
@@ -65,7 +65,7 @@ export const searchIcon = styled.img`
 `;
 
 export const moreBtn = styled.img`
-  margin: 0 0 1.875rem 0.625rem;
+  margin: 1.25rem 0 1.875rem 0.625rem;
   width: 0.75rem;
   height: 0.625rem;
   vertical-align: middle;
