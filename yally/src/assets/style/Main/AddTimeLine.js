@@ -7,20 +7,14 @@ export const mainContainer = styled.div`
   }};
   margin: ${(props) => {
     if (props.small) return "0 24.5rem 0 24.5rem";
-    else if (props.detailPost || props.user) return "0 0 0 24.5rem";
+    else if (props.detailPost) return "0 0 0 24.5rem";
     else if (props.profile) return "0 24.5rem 0 24.5rem";
+    else if (props.user) return "0 24.5rem 0 24.5rem";
     else if (props.comment) return "0 0 0 0";
     else return "0 24.5rem 3.125rem 24.5rem";
   }};
   justify-content: center;
-  width: ${(props) => {
-    if (props.user) return "85%";
-    else return "";
-  }};
-  margin-top: ${(props) => {
-    if (props.user) return "30px";
-    else return 0;
-  }};
+
   @media only screen and (max-width: 1020px) {
     & {
       margin: 0 4rem 2.125rem 4rem;

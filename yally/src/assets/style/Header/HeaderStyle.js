@@ -1,9 +1,8 @@
 import styled from "styled-components";
 
 export const HeaderContainer = styled.div`
-  width: 90%;
+  width: 100%;
   display: flex;
-  margin: 0 22rem 0 22rem;
   position: relative;
   @media only screen and (max-width: 1020px) {
     & {
@@ -23,11 +22,11 @@ export const logoImg = styled.img`
 `;
 
 export const inputContainer = styled.div`
-  margin: 1.25rem 0 0 19.38rem;
-  @media only screen and (max-width: 1020px) {
+  margin: 1.1rem 1rem 0 16rem;
+  /* @media only screen and (max-width: 1020px) {
     & {
-      margin: 0 0 2.125rem 15rem;
-    }
+      margin: 1.1rem 0 2.125rem 15.5rem;
+    } */
   }
 `;
 export const inputBoxContainer = styled.div``;
@@ -37,16 +36,16 @@ export const inputBox = styled.input.attrs({
 })`
   visibility: hidden;
   background: none;
-  width: 250px;
-  height: 23px;
-  font-size: 15px;
+  width: 15.63rem;
+  height: 1.438rem;
+  font-size: 0.9375rem;
   color: #707070;
   outline: none;
   border: none;
   border-bottom: 1px solid #d1d1d1;
   ::placeholder {
     color: #d1d1d1;
-    font-size: 15px;
+    font-size: 0.9375rem;
   }
   &:hover {
     visibility: visible;
@@ -54,20 +53,21 @@ export const inputBox = styled.input.attrs({
 `;
 
 export const imgContainer = styled.div`
-  margin: 10px 0px 0px 20px;
+  width: 100%;
+  margin: 0.625rem 0 0 0.75rem;
   display: inline-block;
 `;
 export const searchIcon = styled.img`
-  width: 30px;
-  height: 30px;
-  margin-top: 17px;
+  width: 1.875rem;
+  height: 1.875rem;
+  margin-top: 1.063rem;
   cursor: pointer;
 `;
 
 export const moreBtn = styled.img`
-  margin: 0px 0px 30px 10px;
-  width: 12px;
-  height: 10px;
+  margin: 0 0 1.875rem 0.625rem;
+  width: 0.75rem;
+  height: 0.625rem;
   vertical-align: middle;
   cursor: pointer;
 `;
@@ -75,11 +75,11 @@ export const menuBox = styled.div`
   background-color: white;
   position: absolute;
   right: 0;
-  width: 150px;
-  height: 220px;
-  margin: 70px 0px 0px 780px;
+  width: 9.375rem;
+  height: 13.75rem;
+  margin: 4.375rem 0 0 48.75rem;
   border: 1px solid #00000004;
-  box-shadow: 10px 10px 20px 0px #00000016;
+  box-shadow: 0.625rem 1.25rem 1.25rem 0 #00000016;
   color: white;
   z-index: 10;
 `;
