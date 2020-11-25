@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import * as H from "../../assets/style/Header/HeaderStyle";
 import * as P from "../../assets/style/Main/AddTimeLine";
+import * as T from "../../assets/style/UserPage/Listen";
 import PostItem from "../Main/PostItem";
 import { yallyLogo, search, moreButton } from "../../assets/img";
 import Users from "../Search/Users";
@@ -81,7 +82,6 @@ const Header = ({ baseUrl }) => {
           )
           .then((res) => {
             setPosts(res.data.posts);
-            console.log(res.data);
           });
       };
       tagSearch();
@@ -99,6 +99,7 @@ const Header = ({ baseUrl }) => {
           )
           .then((res) => {
             setUsers(res.data.users);
+            console.log(res.data.users);
           });
       };
       userSearch();
@@ -141,7 +142,7 @@ const Header = ({ baseUrl }) => {
   };
 
   return (
-    <div style={{ backgroundColor: "#FDFDFD", width: "59.88rem" }}>
+    <H.OutHeader>
       <H.HeaderContainer>
         <H.logoSection>
           <H.logoImg src={yallyLogo} onClick={onTimeline}></H.logoImg>
@@ -174,17 +175,20 @@ const Header = ({ baseUrl }) => {
           </H.textContainer>
         </H.menuBox>
       </H.HeaderContainer>
-      {users.map((user) => (
-        <P.mainContainer user>
+      <T.listenSection>
+        {users.map((user) => (
           <Users
+            id={user.id}
+            email={user.email}
             img={user.img}
             nickname={user.nickname}
             listening={user.listening}
             listener={user.listener}
             isListening={user.isListening}
+            baseUrl={baseUrl}
           />
-        </P.mainContainer>
-      ))}
+        ))}
+      </T.listenSection>
       {posts.map((post) => (
         <PostItem
           email={post.user.email}
@@ -203,7 +207,7 @@ const Header = ({ baseUrl }) => {
           isMine={post.isMine}
         ></PostItem>
       ))}
-    </div>
+    </H.OutHeader>
   );
 };
 
