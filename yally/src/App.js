@@ -69,6 +69,7 @@ function App() {
             path="/sign-up-check"
             render={() => <SignUpCheck baseUrl={baseUrl} />}
           />
+         
           <Route
             exact
             path="/search/users"
@@ -87,7 +88,8 @@ function App() {
           <Route
             exact
             path="/profile/:email"
-            render={(props) => <Profile props={props} baseUrl={baseUrl} />}
+            render={(props) => <Profile props={props} baseUrl={baseUrl}/>}
+
           />
         </Switch>
       </Router>
