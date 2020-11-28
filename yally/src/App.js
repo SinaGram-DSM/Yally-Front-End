@@ -16,14 +16,14 @@ import Listener from "./components/Listen/Listener";
 import Listening from "./components/Listen/Listening";
 
 function App() {
-  const [isToken, setIsToken] = useState(localStorage.getItem('accessToken'));
+  const [isToken, setIsToken] = useState(localStorage.getItem("accessToken"));
   const baseUrl = useCallback(url);
   const src = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
 
   return (
     <div style={{ position: "relative", backgroundColor: "#FDFDFD" }}>
       <Router>
-        {isToken? <Header baseUrl={baseUrl} /> : ''}
+        {isToken ? <Header baseUrl={baseUrl} /> : ""}
         <Background />
         <Switch>
           <Route
@@ -69,12 +69,24 @@ function App() {
             path="/sign-up-check"
             render={() => <SignUpCheck baseUrl={baseUrl} />}
           />
-          <Route exact path="/search/users" render={() => <Users baseUrl={baseUrl}/>} />
-          <Route exact path="/search/posts" render={() => <PostItem baseUrl={baseUrl}/>} />
-          <Route exact path="/settings" render={() => <Setting baseUrl={baseUrl}/>} />
+          <Route
+            exact
+            path="/search/users"
+            render={() => <Users baseUrl={baseUrl} />}
+          />
+          <Route
+            exact
+            path="/search/posts"
+            render={() => <PostItem baseUrl={baseUrl} />}
+          />
+          <Route
+            exact
+            path="/settings"
+            render={() => <Setting baseUrl={baseUrl} />}
+          />
           <Route
             path="/profile/:email"
-            render={(props) => <Profile {...props} />}
+            render={(props) => <Profile props={props} baseUrl={baseUrl}/>}
           />
         </Switch>
       </Router>

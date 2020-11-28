@@ -57,6 +57,9 @@ const TimeLineView = ({ src, baseUrl }) => {
         setNotPosts("더 이상 글이 없어요. 더 작성해보세요!");
         setIsScroll(false);
       }
+      else if(posts == '' && res.data.posts == '') {
+        setNotFound(false);
+      }
       else {
         setNotFound(false);
         setPosts(res.data.posts);

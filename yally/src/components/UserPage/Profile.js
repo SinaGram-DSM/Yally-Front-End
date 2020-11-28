@@ -118,8 +118,8 @@ const Profile = ({ props, baseUrl }) => {
           sound={feed.sound}
           date={feed.createdAt}
           isYally={feed.isYally}
-          isComment={feed.commentCount}
-          yallyNum={feed.yallyCount}
+          isComment={feed.comment}
+          yallyNum={feed.yally}
           audioImg={feed.img}
         />
       ))}
