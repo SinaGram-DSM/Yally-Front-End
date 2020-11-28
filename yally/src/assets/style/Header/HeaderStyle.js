@@ -2,13 +2,15 @@ import styled from "styled-components";
 
 export const OutHeader = styled.div`
   display: inline-block;
-  margin: 0 24.5rem 0 24.5rem;
+  margin: 0 18.5rem 0 18.5rem;
   justify-content: center;
   @media only screen and (max-width: 1020px) {
     & {
       margin: 0 9rem 0 9rem;
     }
+  }
 `;
+
 export const HeaderContainer = styled.div`
   display: flex;
   position: relative;
@@ -25,7 +27,7 @@ export const logoImg = styled.img`
 `;
 
 export const inputContainer = styled.div`
-  margin: 1.1rem 1rem 0 15.6rem;
+  margin: 1.1rem 1rem 0 28rem;
   }
 `;
 export const inputBoxContainer = styled.div``;
