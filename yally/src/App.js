@@ -50,12 +50,12 @@ function App() {
           />
           <Route
             exact
-            path="/profile/:name/listener/:value/"
+            path="/profile/:email/listener/:value/"
             render={(match) => <Listener baseUrl={baseUrl} match={match} />}
           />
           <Route
             exact
-            path="/profile/:name/listening/:value/"
+            path="/profile/:email/listening/:value/"
             render={(match) => <Listening baseUrl={baseUrl} match={match} />}
           />
           <Route
@@ -69,6 +69,7 @@ function App() {
             path="/sign-up-check"
             render={() => <SignUpCheck baseUrl={baseUrl} />}
           />
+         
           <Route
             exact
             path="/search/users"
@@ -85,8 +86,10 @@ function App() {
             render={() => <Setting baseUrl={baseUrl} />}
           />
           <Route
+            exact
             path="/profile/:email"
             render={(props) => <Profile props={props} baseUrl={baseUrl}/>}
+
           />
         </Switch>
       </Router>

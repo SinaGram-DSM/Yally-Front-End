@@ -33,7 +33,7 @@ export const listenSection = styled.section`
 
 export const containerBox = styled.div`
   display: ${(props) => {
-    if (props.load) return "block";
+    if (props.load) return "inline-block";
     else return "none";
   }};
   box-shadow: 0 0 6px #00000010;
