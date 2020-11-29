@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import DetailPostView from "./components/PostDetail/DetailPostView";
 import TimeLineView from "./components/Main/TimeLineView";
 import Setting from "./components/AccountSetting/Setting";
@@ -16,7 +16,7 @@ import Listener from "./components/Listen/Listener";
 import Listening from "./components/Listen/Listening";
 
 function App() {
-  const [isToken, setIsToken] = useState(localStorage.getItem("accessToken"));
+  const [isToken] = useState(localStorage.getItem("accessToken"));
   const baseUrl = useCallback(url);
   const src = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
 
@@ -63,7 +63,9 @@ function App() {
             path="/sign-up"
             render={() => <SignUp baseUrl={baseUrl} />}
           />
-          <Route exact path="/" render={() => <Login baseUrl={baseUrl} />} />
+          <Route exact path="/" render={() => <Login baseUrl={baseUrl} />}>
+          {isToken ? <Redirect to="/timeline" /> : <TimeLineView />}
+          </Route>
           <Route
             exact
             path="/sign-up-check"
