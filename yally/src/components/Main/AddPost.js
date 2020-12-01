@@ -3,12 +3,13 @@ import * as S from "../../assets/style/Main/AddTimeLine";
 import * as R from '../../assets/style/Main/Recommend';
 import { sound, picture } from '../../assets/img';
 import AudioRecord from './AudioRecord'
-import axios from 'axios';
 import '../../assets/style/Global/global.css';
 import { Link } from 'react-router-dom';
 import { refresh } from '../../constant';
+import { getTimelineInfo } from '../../api/timeline';
+import { editPost, addPost } from '../../api/post';
 
-const AddPost = ({src, baseUrl, editContent, editFile, editImg, editPostId}) => {
+const AddPost = ({ editContent, editFile, editImg, editPostId }) => {
 
     const [audioUrl, setAudioUrl] = useState();
     const [previewUrl, setPreviewUrl] = useState('');
@@ -25,18 +26,14 @@ const AddPost = ({src, baseUrl, editContent, editFile, editImg, editPostId}) => 
     const [email, setEmail] = useState({});
     let imgPreview = null;
     let recPreview = null;
-    const config = {
-        headers : { 'Authorization' : 'Bearer ' + localStorage.getItem('accessToken'),
-        'Content-type': 'application/x-www-form-urlencoded'
-        }
-    }
+
     const setRecord = (audio, onAudio) => {
         setAudioUrl(audio);
         setIsOnAudio(onAudio);
     }
 
     useEffect(() => {
-        axios.get(baseUrl + "/timeline", config)
+        getTimelineInfo()
         .then((res) => {
             setUser(res.data.info);
             setEmail(res.data.info.email);
@@ -129,7 +126,7 @@ const AddPost = ({src, baseUrl, editContent, editFile, editImg, editPostId}) => 
         
         editForm.append('hashtag', editFormData.hashtags);
 
-        axios.post(baseUrl + "post/" + editPostId, editForm, config)
+        editPost(editPostId, editForm)
             .then((res) => {
                 console.log(res);
                 setTimeout(function() {
@@ -182,7 +179,7 @@ const AddPost = ({src, baseUrl, editContent, editFile, editImg, editPostId}) => 
                 form.append('hashtag', formdata.hashtag[i]);
             }
             
-            axios.post(baseUrl + "post", form, config)
+            addPost(form)
             .then((res) => {
                 console.log(res)
                 setTimeout(function() {
@@ -215,7 +212,7 @@ const AddPost = ({src, baseUrl, editContent, editFile, editImg, editPostId}) => 
                 form.append('hashtag', formdata.hashtag[i]);
             }
             
-            axios.post(baseUrl + "post", form, config)
+            addPost(form)
             .then((res) => {
                 console.log(res)
                 setTimeout(function() {
@@ -264,7 +261,7 @@ const AddPost = ({src, baseUrl, editContent, editFile, editImg, editPostId}) => 
                 state : {
                     email
                 }
-                }}><S.profileImg src={src + user.img}></S.profileImg></Link>
+                }}><S.profileImg src={process.env.REACT_APP_SRC_URL + user.img}></S.profileImg></Link>
                     <S.form action="" method="post" enctype="multipart/form-data" input>
                         <S.writerInput placeholder={`${user.nickname} 님의 이야기를 들려주세요!`} type="text" name="content" onChange={onUploadContent}></S.writerInput>
                     </S.form>
