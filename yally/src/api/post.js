@@ -21,11 +21,11 @@ export const editPost = (id, formData) => {
 };
 
 export const addComment = (id, formData) => {
-  return getClientAccessToken.post(`/post/comment${id}`, formData);
+  return getClientAccessToken.post(`/post/comment/${id}`, formData);
 };
 
 export const deleteComment = (id) => {
-  return getClientAccessToken.delete(`/post/comment${id}`);
+  return getClientAccessToken.delete(`/post/comment/${id}`);
 };
 
 export const onPostYally = (id) => {
