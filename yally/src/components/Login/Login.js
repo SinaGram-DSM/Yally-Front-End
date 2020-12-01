@@ -1,10 +1,10 @@
 import React from 'react';
 import * as L from '../../assets/style/Login/LoginPage';
 import { yallyLogo } from '../../assets/img';
-import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
+import { login } from "../../api/user";
 
-const Login = ({baseUrl}) => {
+const Login = () => {
     let history = useHistory();
     const buttonActive = () => {
         let id = document.getElementById('id');
@@ -20,18 +20,15 @@ const Login = ({baseUrl}) => {
     const onSubmitLogin = () => {
         const email = document.getElementById('id').value;
         const password = document.getElementById('password').value;
-        const data = {email, password};
-        axios.post(baseUrl + 'user/auth', data)
+        login(email, password)
         .then((res) => {
-            console.log(res);
             localStorage.setItem('accessToken', res.data.accessToken);
             localStorage.setItem('refreshToken', res.data.refreshToken);
             history.push({
                 pathname : '/timeline'
             })
-        }).catch((error) => {
+        }).catch(() => {
             alert("로그인에 실패하셨습니다. 다시 시도해주세요.");
-            console.log(error);
         })
     }
 
