@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { BrowserRouter as Router, Link, useHistory } from "react-router-dom";
-import axios from "axios";
+import { useHistory } from "react-router-dom";
 import * as H from "../../assets/style/Header/HeaderStyle";
 import * as P from "../../assets/style/Main/AddTimeLine";
 import * as T from "../../assets/style/UserPage/Listen";
@@ -8,6 +7,7 @@ import PostItem from "../Main/PostItem";
 import { yallyLogo, search, moreButton } from "../../assets/img";
 import Users from "../Search/Users";
 import { useEffect } from "react";
+import { getTimelineInfo } from "../../api/timeline";
 
 const Header = ({ baseUrl }) => {
   let [value, setValue] = useState("");
@@ -18,7 +18,6 @@ const Header = ({ baseUrl }) => {
   let [name, setName] = useState("");
   let [img, setImg] = useState("");
   let [email, setEmail] = useState("");
-  const imgSrc = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
   const history = useHistory();
 
   const menu = document.getElementById("menu");
@@ -26,13 +25,6 @@ const Header = ({ baseUrl }) => {
   const valueChange = (e) => {
     setValue(e.target.value);
   };
-
-  const config = {
-    headers: {
-      Authorization: "Bearer " + localStorage.getItem("accessToken"),
-    },
-  };
-
   const infiniteScroll = useCallback(() => {
     let scrollHeight = Math.max(
       document.documentElement.scrollHeight,
@@ -56,7 +48,7 @@ const Header = ({ baseUrl }) => {
   }, [isLoading]);
 
   useEffect(() => {
-    axios.get(baseUrl + "/timeline", config).then((res) => {
+    getTimelineInfo().then((res) => {
       setName(res.data.info.nickname);
       setImg(res.data.info.img);
       setEmail(res.data.info.email);
@@ -75,14 +67,9 @@ const Header = ({ baseUrl }) => {
       setValue(values);
       console.log(values);
       const tagSearch = () => {
-        axios
-          .get(
-            baseUrl + "/search/post?hashtag=" + values + "&page=" + page,
-            config
-          )
-          .then((res) => {
-            setPosts(res.data.posts);
-          });
+        tagSearch(values, page).then((res) => {
+          setPosts(res.data.posts);
+        });
       };
       tagSearch();
     } else if (value.charAt(0) === "@") {
@@ -92,15 +79,10 @@ const Header = ({ baseUrl }) => {
       const values = value.substr(1);
       setValue(values);
       const userSearch = () => {
-        axios
-          .get(
-            baseUrl + "/search/user?nickname=" + values + "&page=" + page,
-            config
-          )
-          .then((res) => {
-            setUsers(res.data.users);
-            console.log(res.data.users);
-          });
+        userSearch(values, page).then((res) => {
+          setUsers(res.data.users);
+          console.log(res.data.users);
+        });
       };
       userSearch();
     } else alert("잘못된 검색입니다.");
@@ -158,11 +140,11 @@ const Header = ({ baseUrl }) => {
         </H.inputContainer>
         <H.searchIcon src={search} onClick={searchBtn} />
         <H.imgContainer>
-          <P.profileImg header onClick={profileClick} src={imgSrc + img} />
+          <P.profileImg header onClick={profileClick} src={process.env.REACT_APP_SRC_URL + img} />
           <H.moreBtn src={moreButton} onClick={profileClick} />
         </H.imgContainer>
         <H.menuBox id="menu" style={{ display: "none" }}>
-          <P.profileImg menu src={imgSrc + img} />
+          <P.profileImg menu src={process.env.REACT_APP_SRC_URL + img} />
           <H.textContainer>
             <H.menuText name>{name}</H.menuText>
             <H.menuText email>{email}</H.menuText>
