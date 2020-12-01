@@ -1,4 +1,4 @@
-import { client } from "./client";
+import { client, getRefreshToken } from "./client";
 
 export const register = (email, password, nickname, age) => {
   return client.post("/user", { email, password, nickname, age });
@@ -23,3 +23,10 @@ export const passwordResetCode = (email) => {
 export const passwordReset = (email, code, password) => {
   return client.put("/user/auth/password", { email, code, password });
 };
+
+export const refreshToken = () => {
+    getRefreshToken.post("/user/auth/refresh")
+    .then((res) => {
+        localStorage.setItem(res.data.accessToken);
+    })
+}
