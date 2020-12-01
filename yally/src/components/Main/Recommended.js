@@ -4,7 +4,7 @@ import * as R from '../../assets/style/Main/Recommend';
 import axios from 'axios'
 import { refresh } from '../../constant';
 
-const Recommended = ({src, nickname, id, userImg, baseUrl, email}) => {
+const Recommended = ({ nickname, id, userImg, baseUrl, email}) => {
     const [onListen, setOnListen] = useState(false);
 
     const onListening = () => {
@@ -27,7 +27,7 @@ const Recommended = ({src, nickname, id, userImg, baseUrl, email}) => {
 
     return (
             <R.recommendBox style={{display : onListen? "none" : ""}}>
-                <S.profileImg src={src + userImg}></S.profileImg>
+                <S.profileImg src={process.env.REACT_APP_SRC_URL + userImg}></S.profileImg>
                 <R.userName>{nickname}</R.userName>
                 <R.ListeningButton onClick={onListening}>리스닝</R.ListeningButton>
             </R.recommendBox>
