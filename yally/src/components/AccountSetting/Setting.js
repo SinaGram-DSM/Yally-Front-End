@@ -2,13 +2,12 @@ import React, { useCallback, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import * as P from "../../assets/style/UserPage/ProfileSetting";
 import * as M from "../../assets/style/Main/AddTimeLine";
-import axios from "axios";
 import { profileEdit } from "../../assets/img";
+import { editProfile } from "../../api/Profile";
 
-const Setting = ({ baseUrl, props }) => {
+const Setting = () => {
   const history = new useHistory();
   const location = new useLocation();
-  const imgSrc = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
   let [nickname, setNickName] = useState(location.state.name);
   let [file, setFile] = useState("");
   let [image, setImage] = useState("");
@@ -27,14 +26,7 @@ const Setting = ({ baseUrl, props }) => {
       button.style =
         "background: linear-gradient(to right, #6E8EEA, #9B78EC); cursor: pointer";
   });
-
-  const config = {
-    headers: {
-      Authorization: localStorage.getItem("accessToken"),
-      "Content-Type": "multipart/form-data",
-    },
-  };
-
+  
   const imgSetting = () => {
     const input = document.getElementById("nick");
     if (input.value === "") alert("닉네임을 설정해 주세요.");
@@ -43,8 +35,7 @@ const Setting = ({ baseUrl, props }) => {
     form.append("image", file);
     form.append("nickname", nickname);
 
-    axios
-      .put(baseUrl + "profile/", form, config)
+    editProfile(form)
       .then((res) => {
         console.log(res);
 
@@ -89,7 +80,7 @@ const Setting = ({ baseUrl, props }) => {
                 {file !== "" ? (
                   <P.profileImge src={image} />
                 ) : (
-                  <P.profileImge src={imgSrc + location.state.img} />
+                  <P.profileImge src={process.env.REACT_APP_SRC_URL + location.state.img} />
                 )}
               </P.imgBox>
             </P.imgChange>
