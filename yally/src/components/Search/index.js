@@ -1,11 +1,8 @@
-import React from 'react';
+import React from "react";
+import Users from "./Users";
 
 const index = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+  return <Users></Users>;
 };
 
 export default index;

@@ -1,6 +1,6 @@
 import React from 'react';
 import ModalView from './ModalTemplate'
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 
 const Modal = () => {
 

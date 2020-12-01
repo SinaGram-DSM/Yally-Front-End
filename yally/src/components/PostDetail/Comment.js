@@ -1,24 +1,59 @@
-import React from 'react';
+import React from "react";
 import * as S from "../../assets/style/Main/AddTimeLine";
-import * as C from '../../assets/style/PostDetail/Comment'
+import * as C from "../../assets/style/PostDetail/Comment";
+import * as P from "../../assets/style/Main/PostItmes";
+import { deleteIcon } from "../../assets/img";
+import { deleteComment } from "../../api/post";
 
-const Comment = () => {
-    return (
-            <S.mainContainer detailPost>
-            <S.mainSection small>
-                <C.commentBox>
-                <S.profileImg></S.profileImg>
-                    <C.div>
-                        <C.commentInfo>
-                            <C.commentWriter>뫙뫙</C.commentWriter>
-                            <C.commentDate>2019년 1월 1일 00:04</C.commentDate>
-                        </C.commentInfo>
-                        <C.contents>이렇게 쓰면 댓글이 된다네요</C.contents>
-                    </C.div>
-                </C.commentBox>
-            </S.mainSection>
-            </S.mainContainer>
-    );
+const Comment = ({
+  id,
+  sound,
+  nickname,
+  date,
+  content,
+  userImg,
+  deleteButtonStyle,
+}) => {
+  let soundStyle;
+
+  if (sound == null) {
+    soundStyle = "none";
+  }
+
+  const onRemoveComment = async () => {
+    await deleteComment(id);
+    setTimeout(function () {
+      window.location.reload();
+    }, 300);
+  };
+
+  return (
+    <S.mainContainer comment>
+      <S.mainSection small>
+        <C.commentBox>
+          <S.profileImg src={process.env.REACT_APP_SRC_URL + userImg}></S.profileImg>
+          <C.div>
+            <C.commentInfo>
+              <C.commentWriter>{nickname}</C.commentWriter>
+              <C.commentDate>{date}</C.commentDate>
+              <P.Icon
+                comment
+                src={deleteIcon}
+                style={{ display: deleteButtonStyle }}
+                onClick={onRemoveComment}
+              ></P.Icon>
+            </C.commentInfo>
+            <audio
+              src={process.env.REACT_APP_SRC_URL + sound}
+              style={{ display: soundStyle }}
+              controls
+            ></audio>
+            <C.contents>{content}</C.contents>
+          </C.div>
+        </C.commentBox>
+      </S.mainSection>
+    </S.mainContainer>
+  );
 };
 
 export default Comment;

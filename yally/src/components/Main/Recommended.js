@@ -1,17 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
-import * as R from '../../assets/style/Main/Recommend'
+import * as R from '../../assets/style/Main/Recommend';
+import { onUserListening } from "../../api/listen";
+import { refreshToken } from "../../api/user";
 
-const Recommended = () => {
+const Recommended = ({ nickname, userImg, email}) => {
+    const [onListen, setOnListen] = useState(false);
+
+    const onListening = () => {
+        const data = { "listeningEmail" : email };
+
+        onUserListening(data.listeningEmail)
+        .then((res) => {
+            console.log(res);
+            setOnListen(true);
+        })
+        .catch((err) => {
+            if(err.status === 403) {
+                refreshToken();
+            }
+        })
+    }
+
     return (
-        <S.mainContainer>
-            <R.recommendBox>
-                <S.profileImg></S.profileImg>
-                <R.userName>뫙뫙</R.userName>
-                <R.ListeningButton>리스닝</R.ListeningButton>
+            <R.recommendBox style={{display : onListen? "none" : ""}}>
+                <S.profileImg src={process.env.REACT_APP_SRC_URL + userImg}></S.profileImg>
+                <R.userName>{nickname}</R.userName>
+                <R.ListeningButton onClick={onListening}>리스닝</R.ListeningButton>
             </R.recommendBox>
-            
-        </S.mainContainer>
     );
 };
 
