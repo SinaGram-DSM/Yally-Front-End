@@ -1,30 +1,18 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState} from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
-import DetailPostView from "./components/PostDetail/DetailPostView";
-import TimeLineView from "./components/Main/TimeLineView";
-import Setting from "./components/AccountSetting/Setting";
-import Profile from "./components/UserPage/Profile";
-import SignUp from "./components/SignUp/SignUp";
-import { url } from "./constant";
-import Login from "./components/Login/Login";
-import SignUpCheck from "./components/SignUp/SignUpCheck";
-import Users from "./components/Search/Users";
-import PostItem from "./components/Main/PostItem";
-import Header from "./components/Header/Header";
-import Background from "./components/Global/Background";
-import Listener from "./components/Listen/Listener";
-import Listening from "./components/Listen/Listening";
+import { url } from "./constant/index";
+import { DetailPostView, TimeLineView, Setting, Profile, SignUp, Login, SignUpCheck, Users, PostItem, Listener, Listening, Header } from "./components/index";
 
 function App() {
   const [isToken] = useState(localStorage.getItem("accessToken"));
+  const [a, setA] = useState(false);
   const baseUrl = useCallback(url);
   const src = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
 
   return (
     <div style={{ position: "relative", backgroundColor: "#FDFDFD" }}>
       <Router>
-        {isToken ? <Header baseUrl={baseUrl} /> : ""}
-        <Background />
+        <Header baseUrl={baseUrl} />
         <Switch>
           <Route
             exact
@@ -64,7 +52,7 @@ function App() {
             render={() => <SignUp baseUrl={baseUrl} />}
           />
           <Route exact path="/" render={() => <Login baseUrl={baseUrl} />}>
-          {isToken ? <Redirect to="/timeline" /> : <TimeLineView />}
+          {isToken ? <Redirect to="/timeline" /> : <Login baseUrl={baseUrl}/>}
           </Route>
           <Route
             exact
