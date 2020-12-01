@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { refresh } from '../../constant';
 import AddPost from "../Main/AddPost";
 import RecommendView from "../Main/RecommendView";
 import PostItem from "../Main/PostItem";
@@ -7,6 +6,7 @@ import Background from "../Global/Background";
 import NotFound from "./NotFound";
 import Loader from "./Loader";
 import { getTimeline } from "../../api/timeline";
+import { refreshToken } from "../../api/user";
 
 const TimeLineView = () => {
   const [contents, setContents] = useState();
@@ -64,7 +64,7 @@ const TimeLineView = () => {
       
     }).catch((err) => {
             if(err.status === 403) {
-                refresh();
+                refreshToken();
             }
             else {
               if(err.status)

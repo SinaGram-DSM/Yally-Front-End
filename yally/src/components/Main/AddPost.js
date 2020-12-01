@@ -5,9 +5,9 @@ import { sound, picture } from '../../assets/img';
 import AudioRecord from './AudioRecord'
 import '../../assets/style/Global/global.css';
 import { Link } from 'react-router-dom';
-import { refresh } from '../../constant';
 import { getTimelineInfo } from '../../api/timeline';
 import { editPost, addPost } from '../../api/post';
+import { refreshToken } from '../../api/user';
 
 const AddPost = ({ editContent, editFile, editImg, editPostId }) => {
 
@@ -136,7 +136,7 @@ const AddPost = ({ editContent, editFile, editImg, editPostId }) => {
             .catch((err) => {
                 alert('글 수정에 실패하였습니다. 오디오를 입력해주세요.');
                 if(err.status === 403) {
-                    refresh();
+                    refreshToken();
                 }
             })
     }
@@ -188,7 +188,7 @@ const AddPost = ({ editContent, editFile, editImg, editPostId }) => {
             })
             .catch((err) => {
                 if(err.status === 403) {
-                    refresh();
+                    refreshToken();
                 }
             })
         }
@@ -221,7 +221,7 @@ const AddPost = ({ editContent, editFile, editImg, editPostId }) => {
             })
             .catch((err) => {
                 if(err.status === 403) {
-                    refresh();
+                    refreshToken();
                 }
             })
         }

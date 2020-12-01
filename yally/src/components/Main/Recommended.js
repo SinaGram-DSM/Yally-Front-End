@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import * as R from '../../assets/style/Main/Recommend';
 import { onUserListening } from "../../api/listen";
-import { refresh } from '../../constant';
+import { refreshToken } from "../../api/user";
 
 const Recommended = ({ nickname, userImg, email}) => {
     const [onListen, setOnListen] = useState(false);
@@ -17,7 +17,7 @@ const Recommended = ({ nickname, userImg, email}) => {
         })
         .catch((err) => {
             if(err.status === 403) {
-                refresh();
+                refreshToken();
             }
         })
     }

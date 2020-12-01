@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import Recommended from './Recommended';
 import * as S from "../../assets/style/Main/AddTimeLine";
-import { refresh } from '../../constant';
 import { getFriend } from '../../api/timeline';
+import { refreshToken } from '../../api/user';
 
 const RecommendView = ({ baseUrl}) => {
     const [recommend, setRecommend] = useState([]);
@@ -14,7 +14,7 @@ const RecommendView = ({ baseUrl}) => {
         })
         .catch((err) => {
             if(err.status === 403) {
-                refresh();
+                refreshToken();
             }
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
