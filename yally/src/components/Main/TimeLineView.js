@@ -4,11 +4,11 @@ import AddPost from "../Main/AddPost";
 import RecommendView from "../Main/RecommendView";
 import PostItem from "../Main/PostItem";
 import Background from "../Global/Background";
-import axios from "axios";
 import NotFound from "./NotFound";
 import Loader from "./Loader";
+import { getTimeline } from "../../api/timeline";
 
-const TimeLineView = ({ src, baseUrl }) => {
+const TimeLineView = () => {
   const [contents, setContents] = useState();
   const [file, setFile] = useState();
   const [img, setImg] = useState();
@@ -29,12 +29,7 @@ const TimeLineView = ({ src, baseUrl }) => {
   const [posts, setPosts] = useState([]);
   const [params, setParams] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const config = {
-    headers: {
-      Authorization:
-        "Bearer " + localStorage.getItem('accessToken'),
-    },
-  };
+  
   const infiniteScroll = useCallback(() => {
     let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
     let scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
@@ -52,7 +47,7 @@ const TimeLineView = ({ src, baseUrl }) => {
   }, [isLoading]);
 
   useEffect(() => {
-    axios.get(baseUrl + "timeline/" + params, config).then((res) => {
+    getTimeline(params).then((res) => {
       if(res.data.posts === '') {
         setNotPosts("더 이상 글이 없어요. 더 작성해보세요!");
         setIsScroll(false);
@@ -89,18 +84,15 @@ const TimeLineView = ({ src, baseUrl }) => {
       ref={timelineBody}
     >
      { notFound ? (<NotFound status={statusCode}/>) : (<div><AddPost
-        src={src}
-        baseUrl={baseUrl}
         editContent={contents}
         editFile={file}
         editImg={img}
         editPostId={postId}
       ></AddPost>
-      <RecommendView src={src} baseUrl={baseUrl}></RecommendView>
+      <RecommendView />
       {posts.map((post) => (
         <PostItem
           email={post.user.email}
-          baseUrl={baseUrl}
           key={post.id}
           id={post.id}
           content={post.content}
