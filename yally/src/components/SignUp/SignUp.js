@@ -3,8 +3,8 @@ import { useHistory } from 'react-router-dom';
 import * as S from '../../assets/style/SignUp/SignUpForm';
 import * as L from '../../assets/style/Login/LoginPage';
 import { yallyLogo } from '../../assets/img';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { authCodePost } from '../../api/user';
 
 const signUpActive = () => {
     let email = document.getElementById('email');
@@ -20,7 +20,7 @@ const signUpActive = () => {
 }
     
 
-const SignUp = ({baseUrl}) => {
+const SignUp = () => {
     let history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -87,18 +87,8 @@ const SignUp = ({baseUrl}) => {
             return;
         }
 
-        const data = 
-        {
-            email : email,
-            password : password,
-            nickname : nickname,
-            age: age
-        }
-        
-        console.log(data.email)
-        await axios.post(baseUrl + "user/auth-code/email", {email: data.email})
-        .then((res) => {
-            console.log(res);
+        await authCodePost(email)
+        .then(() => {
             history.push({
                 pathname: "/sign-up-check",
                 state: {
@@ -108,8 +98,8 @@ const SignUp = ({baseUrl}) => {
                     password: password
                 }
             });
-        }).catch((error) => {
-            console.log(error);
+        }).catch(() => {
+            alert("실패하였습니다. 다시 시도하세요.")
             setEmailError(true);
         })
     }
