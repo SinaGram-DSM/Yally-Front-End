@@ -1,9 +1,9 @@
 import { getClientAccessToken } from "./client";
 
-export const onListening = (email) => {
+export const onUserListening = (email) => {
   return getClientAccessToken.post(`/user/listening/${email}`);
 };
 
-export const offListening = (email) => {
+export const offUserListening = (email) => {
   return getClientAccessToken.delete(`/user/listening/${email}`);
 };
