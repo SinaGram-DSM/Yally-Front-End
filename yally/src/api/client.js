@@ -8,10 +8,18 @@ export const client = axios.create({
   },
 });
 
-export const getClientAccessToken = axios.create({
+export const getClientBearerAccessToken = axios.create({
   baseURL: url,
   headers: {
     "Content-Type": "application/json",
     Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
   },
 });
+
+export const getClientAccessToken = axios.create({
+    baseURL: url,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("accessToken"),
+    },
+  });
