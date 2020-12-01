@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import * as R from '../../assets/style/Main/Recommend';
-import axios from 'axios'
+import { onUserListening } from "../../api/listen";
 import { refresh } from '../../constant';
 
-const Recommended = ({ nickname, id, userImg, baseUrl, email}) => {
+const Recommended = ({ nickname, userImg, email}) => {
     const [onListen, setOnListen] = useState(false);
 
     const onListening = () => {
-        const config = {
-            headers : { 'Authorization' : 'Bearer ' + localStorage.getItem('accessToken')}
-        };
         const data = { "listeningEmail" : email };
 
-        axios.post(baseUrl + 'user/listening' , data, config)
+        onUserListening(data.listeningEmail)
         .then((res) => {
             console.log(res);
             setOnListen(true);
