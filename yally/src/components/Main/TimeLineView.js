@@ -53,11 +53,11 @@ const TimeLineView = ({ src, baseUrl }) => {
 
   useEffect(() => {
     axios.get(baseUrl + "timeline/" + params, config).then((res) => {
-      if(res.data.posts == '') {
+      if(res.data.posts === '') {
         setNotPosts("더 이상 글이 없어요. 더 작성해보세요!");
         setIsScroll(false);
       }
-      else if(posts == '' && res.data.posts == '') {
+      else if(posts === '' && res.data.posts === '') {
         setNotFound(false);
       }
       else {

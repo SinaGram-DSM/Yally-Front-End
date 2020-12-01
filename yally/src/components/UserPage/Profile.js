@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import * as M from "../../assets/style/UserPage/PageStyle";
 import * as S from "../../assets/style/Main/AddTimeLine";
 import axios from "axios";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import PostItem from "../Main/PostItem";
 
 const Profile = ({ props, baseUrl }) => {
