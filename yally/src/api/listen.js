@@ -1,4 +1,4 @@
-import { getClientBearerAccessToken } from "./client";
+import { getClientBearerAccessToken, getClientAccessToken } from "./client";
 
 export const onUserListening = (email) => {
   return getClientBearerAccessToken.post(`/user/listening/${email}`);
