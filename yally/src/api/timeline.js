@@ -1,7 +1,7 @@
 import { getClientAccessToken } from "./client";
 
 export const getTimeline = (page) => {
-  return getClientAccessToken.get("/timeline/" + page);
+  return getClientAccessToken.get(`/timeline/${page}`);
 };
 
 export const getFriend = () => {
