@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 import yallyOn from "../../assets/img/yallyOn.png";
 import yallyOff from "../../assets/img/yallyOff.png";
 import AudioPlayer from "../Main/AudioPlayer";
-import { deletePost, onPostYally, offPostYally } from "../../api/post";
+import { deletePost, onPostYally, offPostYally } from "../../lib/api/post";
 
 const DetailPost = ({
   id,

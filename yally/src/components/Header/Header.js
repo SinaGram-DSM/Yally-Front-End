@@ -7,7 +7,7 @@ import PostItem from "../Main/PostItem";
 import { yallyLogo, search, moreButton } from "../../assets/img";
 import Users from "../Search/Users";
 import { useEffect } from "react";
-import { getTimelineInfo } from "../../api/timeline";
+import { getTimelineInfo } from "../../lib/api/timeline";
 
 const Header = ({ baseUrl }) => {
   let [value, setValue] = useState("");

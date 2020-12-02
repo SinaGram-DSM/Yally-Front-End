@@ -5,7 +5,7 @@ import { yallyLogo, help } from "../../assets/img";
 import Background from "../Global/Background";
 import * as L from "../../assets/style/PasswordReset/login";
 import * as R from "../../assets/style/PasswordReset/PasswordResetInputForm";
-import { passwordReset } from "../../api/user";
+import { passwordReset } from "../../lib/api/user";
 
 const PasswordResetInput = () => {
   const location = useLocation();

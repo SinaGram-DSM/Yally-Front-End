@@ -6,7 +6,7 @@ import { yallyLogo } from "../../assets/img";
 import { useHistory } from "react-router-dom";
 import { useLocation, Link } from "react-router-dom";
 import { help } from "../../assets/img";
-import { authCheck, register } from "../../api/user";
+import { authCheck, register } from "../../lib/api/user";
 
 const buttonActive = () => {
   let code = document.getElementById("code");

@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import * as P from "../../assets/style/PasswordReset/PasswordResetPage";
 import { yallyLogo } from "../../assets/img";
 import Background from "../Global/Background";
-import { passwordResetCode } from "../../api/user";
+import { passwordResetCode } from "../../lib/api/user";
 
 const PasswordReset = () => {
   let history = useHistory();

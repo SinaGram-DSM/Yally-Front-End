@@ -4,7 +4,7 @@ import * as S from '../../assets/style/SignUp/SignUpForm';
 import * as L from '../../assets/style/Login/LoginPage';
 import { yallyLogo } from '../../assets/img';
 import { Link } from 'react-router-dom';
-import { authCodePost } from '../../api/user';
+import { authCodePost } from '../../lib/api/user';
 
 const signUpActive = () => {
     let email = document.getElementById('email');

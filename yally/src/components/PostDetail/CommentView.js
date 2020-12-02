@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as C from "../../assets/style/PostDetail/Comment";
 import Comment from "./Comment";
 import AddComment from "./AddComment";
-import { getPostComment } from "../../api/post";
+import { getPostComment } from "../../lib/api/post";
 
 const CommentView = ({ id, deleteButtonStyle }) => {
   const [comment, setComment] = useState([]);

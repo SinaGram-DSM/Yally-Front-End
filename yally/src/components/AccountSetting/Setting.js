@@ -3,7 +3,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import * as P from "../../assets/style/UserPage/ProfileSetting";
 import * as M from "../../assets/style/Main/AddTimeLine";
 import { profileEdit } from "../../assets/img";
-import { editProfile } from "../../api/Profile";
+import { editProfile } from "../../lib/api/Profile";
 
 const Setting = () => {
   const history = new useHistory();
@@ -26,7 +26,7 @@ const Setting = () => {
       button.style =
         "background: linear-gradient(to right, #6E8EEA, #9B78EC); cursor: pointer";
   });
-  
+
   const imgSetting = () => {
     const input = document.getElementById("nick");
     if (input.value === "") alert("닉네임을 설정해 주세요.");
