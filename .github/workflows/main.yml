@@ -24,7 +24,10 @@ jobs:
         run: yarn install
 
       - name: Build 
-        run: yarn build
+        run: REACT_APP_BASE_URL=${BASE} REACT_APP_SRC_URL=${SRC} yarn build
+        env : 
+          BASE: ${{ secrets.REACT_APP_BASE_URL }}
+          SRC: ${{ secrets.REACT_APP_SRC_URL }}
 
       - name: Deploy to S3
         env:
