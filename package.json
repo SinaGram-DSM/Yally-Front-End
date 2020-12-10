@@ -1,0 +1,8 @@
+{
+  "name": "Yally-Front-End",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/SinaGram-DSM/Yally-Front-End.git",
+  "author": "Srim <deamoon0801@naver.com>",
+  "license": "MIT"
+}
