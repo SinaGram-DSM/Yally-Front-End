@@ -24,7 +24,7 @@ jobs:
         run: yarn install
 
       - name: Build 
-        run: REACT_APP_BASE_URL=${BASE} REACT_APP_SRC_URL=${SRC} yarn build
+        run: yarn build
         env : 
           BASE: ${{ secrets.REACT_APP_BASE_URL }}
           SRC: ${{ secrets.REACT_APP_SRC_URL }}
