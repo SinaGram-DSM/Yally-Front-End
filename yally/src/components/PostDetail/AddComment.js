@@ -3,7 +3,7 @@ import * as S from "../../assets/style/Main/AddTimeLine";
 import * as C from "../../assets/style/PostDetail/Comment";
 import * as R from "../../assets/style/Main/Recommend";
 import { sound } from "../../assets/img";
-import { addComment } from "../../api/post";
+import { addComment } from "../../lib/api/post";
 
 const AddComment = ({ id }) => {
   const onAddComment = () => {

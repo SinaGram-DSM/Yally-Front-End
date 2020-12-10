@@ -5,9 +5,9 @@ import { sound, picture } from '../../assets/img';
 import AudioRecord from './AudioRecord'
 import '../../assets/style/Global/global.css';
 import { Link } from 'react-router-dom';
-import { getTimelineInfo } from '../../api/timeline';
-import { editPost, addPost } from '../../api/post';
-import { refreshToken } from '../../api/user';
+import { getTimelineInfo } from '../../lib/api/timeline';
+import { editPost, addPost } from '../../lib/api/post';
+import { refreshToken } from '../../lib/api/user';
 
 const AddPost = ({ editContent, editFile, editImg, editPostId }) => {
 

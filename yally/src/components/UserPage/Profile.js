@@ -3,7 +3,7 @@ import * as M from "../../assets/style/UserPage/PageStyle";
 import * as S from "../../assets/style/Main/AddTimeLine";
 import { useHistory } from "react-router-dom";
 import PostItem from "../Main/PostItem";
-import { getProfile, getMypage } from "../../api/Profile";
+import { getProfile, getMypage } from "../../lib/api/Profile";
 
 const Profile = ({ props }) => {
   const email = props.match.params.email;

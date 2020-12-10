@@ -3,10 +3,11 @@ import * as S from "../../assets/style/SignUp/SignUpForm";
 import * as L from "../../assets/style/Login/LoginPage";
 import * as C from "../../assets/style/SignUp/SignUpCheckForm";
 import { yallyLogo } from "../../assets/img";
-import { useHistory } from "react-router-dom";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useHistory } from "react-router-dom";
 import { help } from "../../assets/img";
-import { authCheck, register } from "../../api/user";
+import { authCheck, register } from "../../lib/api/user";
+import { ToastContainer } from "react-toastify";
+import { ErrorToast } from "../../lib/Toast";
 
 const buttonActive = () => {
   let code = document.getElementById("code");
@@ -56,15 +57,15 @@ const SignUpCheck = () => {
   const SendCode = () => {
     const code = document.getElementById("code").value.trim();
 
-      authCheck(email, code)
+    authCheck(email, code)
       .then(() => {
-        register(email, password, nickname,parseInt(age))
+        register(email, password, nickname, parseInt(age));
         history.push({
           pathname: "/",
         });
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        ErrorToast("회원가입에 실패하였습니다. 다시 시도하세요.");
         setInfo(false);
       });
   };
@@ -74,6 +75,7 @@ const SignUpCheck = () => {
 
   return (
     <L.allDiv>
+      <ToastContainer />
       <S.allContainer>
         <S.mainContainer>
           <S.logo src={yallyLogo}></S.logo>

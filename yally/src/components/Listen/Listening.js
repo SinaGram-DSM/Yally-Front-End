@@ -3,7 +3,7 @@ import axios from "axios";
 import * as T from "../../assets/style/UserPage/Listen";
 import * as L from "../../assets/style/UserPage/PageStyle";
 import * as M from "../../assets/style/Main/AddTimeLine";
-import { getListeningList } from "../../api/listen";
+import { getListeningList } from "../../lib/api/listen";
 
 const Listening = ({ match}) => {
   const isListen = false; //리슨 버튼 언리스닝 리스닝 여부 확인 값

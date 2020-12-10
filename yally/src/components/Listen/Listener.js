@@ -3,7 +3,7 @@ import axios from "axios";
 import * as T from "../../assets/style/UserPage/Listen";
 import * as L from "../../assets/style/UserPage/PageStyle";
 import * as M from "../../assets/style/Main/AddTimeLine";
-import { getListenerList } from "../../api/listen";
+import { getListenerList } from "../../lib/api/listen";
 
 const Listener = ({ match }) => {
   let [listeners, setListeners] = useState([]);

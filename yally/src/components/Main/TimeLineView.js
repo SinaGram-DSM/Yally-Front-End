@@ -5,8 +5,9 @@ import PostItem from "../Main/PostItem";
 import Background from "../Global/Background";
 import NotFound from "./NotFound";
 import Loader from "./Loader";
-import { getTimeline } from "../../api/timeline";
-import { refreshToken } from "../../api/user";
+import { getTimeline } from "../../lib/api/timeline";
+import { refreshToken } from "../../lib/api/user";
+import { ToastContainer } from 'react-toastify';
 
 const TimeLineView = () => {
   const [contents, setContents] = useState();
@@ -83,6 +84,7 @@ const TimeLineView = () => {
       style={{ position: "relative", backgroundColor: "#FDFDFD" }}
       ref={timelineBody}
     >
+      <ToastContainer />
      { notFound ? (<NotFound status={statusCode}/>) : (<div><AddPost
         editContent={contents}
         editFile={file}
