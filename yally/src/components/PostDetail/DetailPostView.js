@@ -5,7 +5,7 @@ import Background from "../Global/Background";
 import * as P from "../../assets/style/Main/PostItmes";
 import * as S from "../../assets/style/Main/AddTimeLine";
 import { useLocation } from "react-router-dom";
-import { getDetailPost } from "../../api/post";
+import { getDetailPost } from "../../lib/api/post";
 
 const DetailPostView = ({ deleteButtonStyle }) => {
   const location = useLocation();

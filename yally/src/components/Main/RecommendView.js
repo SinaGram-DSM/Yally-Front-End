@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import Recommended from './Recommended';
 import * as S from "../../assets/style/Main/AddTimeLine";
-import { getFriend } from '../../api/timeline';
-import { refreshToken } from '../../api/user';
+import { getFriend } from '../../lib/api/timeline';
+import { refreshToken } from '../../lib/api/user';
 
 const RecommendView = ({ baseUrl}) => {
     const [recommend, setRecommend] = useState([]);

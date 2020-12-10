@@ -3,7 +3,7 @@ import * as S from "../../assets/style/Main/AddTimeLine";
 import * as C from "../../assets/style/PostDetail/Comment";
 import * as P from "../../assets/style/Main/PostItmes";
 import { deleteIcon } from "../../assets/img";
-import { deleteComment } from "../../api/post";
+import { deleteComment } from "../../lib/api/post";
 
 const Comment = ({
   id,

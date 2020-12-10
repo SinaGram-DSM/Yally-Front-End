@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import * as T from "../../assets/style/UserPage/Listen";
 import * as L from "../../assets/style/UserPage/PageStyle";
-import { onUserListening, offUserListening } from "../../api/listen";
+import { onUserListening, offUserListening } from "../../lib/api/listen";
 
 const Users = ({
   email,

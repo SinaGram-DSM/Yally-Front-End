@@ -3,7 +3,7 @@ import * as S from "../../assets/style/Main/AddTimeLine";
 import * as P from "../../assets/style/Main/PostItmes";
 import { repl, deleteIcon } from '../../assets/img';
 import { Link } from "react-router-dom";
-import { onPostYally, offPostYally, deletePost } from "../../api/post";
+import { onPostYally, offPostYally, deletePost } from "../../lib/api/post";
 import yallyOn from '../../assets/img/yallyOn.png';
 import yallyOff from '../../assets/img/yallyOff.png';
 import AudioPlayer from './AudioPlayer';
