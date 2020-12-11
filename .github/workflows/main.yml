@@ -25,6 +25,7 @@ jobs:
 
       - name: Build 
         run: yarn build
+        working-directory: ${{ secrets.WORKING_DIRECTORY }}
         env : 
           BASE: ${{ secrets.REACT_APP_BASE_URL }}
           SRC: ${{ secrets.REACT_APP_SRC_URL }}
