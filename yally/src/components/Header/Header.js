@@ -45,7 +45,7 @@ const Header = ({ baseUrl }) => {
         console.log(page);
       }, 500);
     }
-  }, [isLoading]);
+  }, [isLoading, page, posts, users]);
 
   useEffect(() => {
     getTimelineInfo().then((res) => {

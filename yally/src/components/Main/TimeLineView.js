@@ -45,7 +45,7 @@ const TimeLineView = () => {
         console.log(params);
       }, 500);
     }
-  }, [isLoading]);
+  }, [isLoading, posts, params]);
 
   useEffect(() => {
     getTimeline(params).then((res) => {
@@ -77,7 +77,7 @@ const TimeLineView = () => {
         })
     window.addEventListener("scroll", infiniteScroll);
     return () => window.removeEventListener("scroll", infiniteScroll);
-  }, [infiniteScroll]);
+  }, [infiniteScroll, posts, params]);
 
   return (
     <div

@@ -48,7 +48,7 @@ const SignUpCheck = () => {
       setAge("default");
       setPassword("default");
     }
-  }, []);
+  }, [location.state]);
 
   const onChangeCode = (e) => {
     setCode(e.target.value);

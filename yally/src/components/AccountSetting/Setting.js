@@ -25,7 +25,7 @@ const Setting = () => {
     else
       button.style =
         "background: linear-gradient(to right, #6E8EEA, #9B78EC); cursor: pointer";
-  });
+  }, []);
 
   const imgSetting = () => {
     const input = document.getElementById("nick");

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import * as T from "../../assets/style/UserPage/Listen";
 import * as L from "../../assets/style/UserPage/PageStyle";
 import * as M from "../../assets/style/Main/AddTimeLine";
@@ -22,7 +21,7 @@ const Listener = ({ match }) => {
         console.log(res.data.listeners);
       });
     console.log(match);
-  }, []);
+  }, [email, match]);
 
   return (
     <M.mainContainer>
