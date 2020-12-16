@@ -105,3 +105,9 @@ export const menuText = styled.p`
   }};
   text-decoration: none;
 `;
+
+export const container = styled.div`
+  display : flex;
+  justify-content : center;
+
+`;
