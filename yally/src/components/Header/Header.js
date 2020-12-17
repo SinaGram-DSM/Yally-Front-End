@@ -124,6 +124,7 @@ const Header = ({ baseUrl }) => {
   };
 
   return (
+    <H.container>
     <H.OutHeader>
       <H.HeaderContainer>
         <H.logoSection>
@@ -190,6 +191,7 @@ const Header = ({ baseUrl }) => {
         ></PostItem>
       ))}
     </H.OutHeader>
+    </H.container>
   );
 };
 

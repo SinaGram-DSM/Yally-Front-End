@@ -28,7 +28,6 @@ export const logoImg = styled.img`
 
 export const inputContainer = styled.div`
   margin: 1.1rem 1rem 0 28rem;
-  }
 `;
 export const inputBoxContainer = styled.div``;
 export const inputBox = styled.input.attrs({
@@ -50,7 +49,6 @@ export const inputBox = styled.input.attrs({
   }
   &:hover {
     visibility: visible;
-  }
   }
 `;
 
@@ -109,5 +107,4 @@ export const menuText = styled.p`
 export const container = styled.div`
   display : flex;
   justify-content : center;
-
 `;
