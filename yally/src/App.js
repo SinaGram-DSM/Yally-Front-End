@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
-import { DetailPostView, TimeLineView, Setting, Profile, SignUp, Login, SignUpCheck, Users, PostItem, Listener, Listening, Header, PasswordReset } from "./components/index";
+import { DetailPostView, TimeLineView, Setting, Profile, SignUp, Login, SignUpCheck, Users, PostItem, Listener, Listening, PasswordReset } from "./components/index";
 
 function App() {
   const [isToken] = useState(localStorage.getItem("accessToken"));
-
   return (
     <div style={{ position: "relative", backgroundColor: "#FDFDFD" }}>
       <Router>
-        <Header />
         <Switch>
           <Route exact path="/timeline" render={() => <TimeLineView />} />
           <Route exact path="/post/:id" render={() => (<DetailPostView/>)} />

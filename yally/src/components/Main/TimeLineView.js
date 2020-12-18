@@ -8,6 +8,7 @@ import Loader from "./Loader";
 import { getTimeline } from "../../lib/api/timeline";
 import { refreshToken } from "../../lib/api/user";
 import { ToastContainer } from 'react-toastify';
+import Header from "../Header/Header";
 
 const TimeLineView = () => {
   const [contents, setContents] = useState();
@@ -84,6 +85,7 @@ const TimeLineView = () => {
       style={{ position: "relative", backgroundColor: "#FDFDFD" }}
       ref={timelineBody}
     >
+      <Header />
       <ToastContainer />
      { notFound ? (<NotFound status={statusCode}/>) : (<div><AddPost
         editContent={contents}
