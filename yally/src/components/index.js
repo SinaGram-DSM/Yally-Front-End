@@ -11,3 +11,4 @@ export { default as Setting } from "./AccountSetting/Setting";
 export { default as Profile } from "./UserPage/index";
 export { default as Header } from "./Header/Header";
 export { default as PasswordReset } from "./PassWordReset/index";
+export { default as Modify } from "./Modify/index";
