@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from "react-router-dom";
 import * as S from "../../assets/style/Main/AddTimeLine";
 import * as P from "../../assets/style/Main/PostItmes";
 import { repl, deleteIcon } from '../../assets/img';
@@ -9,7 +10,7 @@ import yallyOff from '../../assets/img/yallyOff.png';
 import AudioPlayer from './AudioPlayer';
 const PostItem = ({email, id, date, nickname, isYally, yallyNum, isComment, content, sound, isMine, userImg, audioImg, setContent}) => {
     const [yallys, setYallys] = useState(yallyNum);
-    
+    const history = useHistory();
     let yallySrc;
     isYally ? yallySrc = yallyOn : yallySrc = yallyOff;
     const [onLike, setOnLike] = useState(yallySrc);
@@ -48,8 +49,10 @@ const PostItem = ({email, id, date, nickname, isYally, yallyNum, isComment, cont
     }
 
     const onEditPost = () => {
-        setContent(content, sound, audioImg, id);
-        window.scrollTo({top:0, left:0, behavior:'smooth'});
+        history.push({
+            pathname : `/modify/${id}`
+        })
+        // window.scrollTo({top:0, left:0, behavior:'smooth'});
     }
 
     let createdDate = date.split('-');
