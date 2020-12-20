@@ -3,22 +3,19 @@ import * as S from "../../assets/style/Main/AddTimeLine";
 import * as P from "../../assets/style/Main/PostItmes";
 import { repl, deleteIcon } from '../../assets/img';
 import { Link } from "react-router-dom";
-import axios from 'axios';
+import { onPostYally, offPostYally, deletePost } from "../../lib/api/post";
 import yallyOn from '../../assets/img/yallyOn.png';
 import yallyOff from '../../assets/img/yallyOff.png';
 import AudioPlayer from './AudioPlayer';
-const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComment, content, sound, isMine, userImg, audioImg, setContent}) => {
+const PostItem = ({email, id, date, nickname, isYally, yallyNum, isComment, content, sound, isMine, userImg, audioImg, setContent}) => {
     const [yallys, setYallys] = useState(yallyNum);
     
-    const src = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
     let yallySrc;
     isYally ? yallySrc = yallyOn : yallySrc = yallyOff;
     const [onLike, setOnLike] = useState(yallySrc);
     
     let deleteButtonStyle = "";
-    const config = {
-        headers : { 'Authorization' : 'Bearer ' + localStorage.getItem('accessToken')}
-    }
+
     if(isMine === false)
     {
         deleteButtonStyle = "none";
@@ -27,7 +24,7 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
     const onYally = () => {
         if(isYally === false)
         {
-            axios.get(baseUrl + "post/yally/" + id, config)
+            onPostYally(id)
             .then(() => {
                 setYallys(state => state + 1);
                 setOnLike(yallyOn);
@@ -35,7 +32,7 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
         }
         if(onLike === yallyOn)
         {
-            axios.delete(baseUrl + "post/yally/" +  id, config)
+            offPostYally(id)
             .then(() => {
                 setYallys(state => state - 1);
                 setOnLike(yallyOff);
@@ -44,7 +41,7 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
     }
     
     const onRemovePost = async () => {
-        await axios.delete(baseUrl + "post/" + id, config)
+        await deletePost(id)
         setTimeout(function() {
             window.location.reload();
           }, 200);
@@ -70,7 +67,7 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
                     email
                 }
                 }}>
-                    <S.profileImg src={src + userImg}></S.profileImg>
+                    <S.profileImg src={process.env.REACT_APP_SRC_URL + userImg}></S.profileImg>
                 </Link>
                     <P.postInfoBox>
                         <P.div>
@@ -83,12 +80,12 @@ const PostItem = ({email, baseUrl, id, date, nickname, isYally, yallyNum, isComm
                </P.postInfoContainer>
                 <P.postSection>
                     <P.audioContainer>
-                        <P.audioImg src={src + audioImg}></P.audioImg>
+                        <P.audioImg src={process.env.REACT_APP_SRC_URL + audioImg}></P.audioImg>
                         <P.postInfoContainer post>
                             <P.postArticle>
                                 <P.postWritten>{content}</P.postWritten>
                                 <P.playInfoBox>
-                                    <AudioPlayer audio={src + sound} type="audio/mpeg"></AudioPlayer>
+                                    <AudioPlayer audio={process.env.REACT_APP_SRC_URL + sound} type="audio/mpeg"></AudioPlayer>
                                 </P.playInfoBox>
                             </P.postArticle>
                         </P.postInfoContainer>

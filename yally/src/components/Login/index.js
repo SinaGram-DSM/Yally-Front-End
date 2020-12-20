@@ -1,8 +1,8 @@
 import React from "react";
-import Users from "./Users";
+import Login from "./Login";
 
 const index = () => {
-  return <Users></Users>;
+  return <Login></Login>;
 };
 
 export default index;

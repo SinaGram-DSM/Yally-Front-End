@@ -1,17 +1,46 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import * as T from "../../assets/style/UserPage/Listen";
 import * as L from "../../assets/style/UserPage/PageStyle";
+import { onUserListening, offUserListening } from "../../lib/api/listen";
 
-const Users = ({ img, nickname, listening, listener, isListening }) => {
+const Users = ({
+  email,
+  img,
+  nickname,
+  listening,
+  listener,
+  isListening,
+}) => {
   const url = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
+  const history = new useHistory();
+  let [isListen, setIsListen] = useState(isListening);
   let [loading, setLoading] = useState(false);
   useEffect(() => {
-    if (img != undefined) setLoading(true);
-  }, []);
+    if (img !== undefined) setLoading(true);
+    setIsListen(isListening);
+  }, [img, isListening]);
+
+  const userListening = () => {
+    onUserListening(email).then((res) => {
+      console.log(res.data);
+      if (res.data.message === "Success") setIsListen(true);
+    });
+  };
+
+  const userUnListening = () => {
+    offUserListening(email).then((res) => {
+      if (res.data.message === "Success") setIsListen(false);
+    });
+  };
+
+  const profile = () => {
+    history.push(`/profile/${email}`);
+  };
   return (
     <T.containerBox load={loading}>
       <T.itemBox>
-        <T.boxImg src={url + img} />
+        <T.boxImg src={url + img} onClick={profile} />
         <T.userBox>
           <T.name>{nickname}</T.name>
           <L.Listen list>
@@ -20,10 +49,10 @@ const Users = ({ img, nickname, listening, listener, isListening }) => {
           </L.Listen>
         </T.userBox>
       </T.itemBox>
-      {isListening ? (
-        <T.listenBtn>리스닝</T.listenBtn>
+      {isListen ? (
+        <T.unlistenBtn onClick={userUnListening}>언리스닝</T.unlistenBtn>
       ) : (
-        <T.unlistenBtn>언리스닝</T.unlistenBtn>
+        <T.listenBtn onClick={userListening}>리스닝</T.listenBtn>
       )}
     </T.containerBox>
   );

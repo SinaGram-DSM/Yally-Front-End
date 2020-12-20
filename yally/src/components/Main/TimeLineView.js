@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { refresh } from '../../constant';
 import AddPost from "../Main/AddPost";
 import RecommendView from "../Main/RecommendView";
 import PostItem from "../Main/PostItem";
 import Background from "../Global/Background";
-import axios from "axios";
 import NotFound from "./NotFound";
 import Loader from "./Loader";
+import { getTimeline } from "../../lib/api/timeline";
+import { refreshToken } from "../../lib/api/user";
+import { ToastContainer } from 'react-toastify';
+import Header from "../Header/Header";
 
-const TimeLineView = ({ src, baseUrl }) => {
+const TimeLineView = () => {
   const [contents, setContents] = useState();
   const [file, setFile] = useState();
   const [img, setImg] = useState();
@@ -29,12 +31,7 @@ const TimeLineView = ({ src, baseUrl }) => {
   const [posts, setPosts] = useState([]);
   const [params, setParams] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const config = {
-    headers: {
-      Authorization:
-        "Bearer " + localStorage.getItem('accessToken'),
-    },
-  };
+  
   const infiniteScroll = useCallback(() => {
     let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
     let scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
@@ -49,15 +46,15 @@ const TimeLineView = ({ src, baseUrl }) => {
         console.log(params);
       }, 500);
     }
-  }, [isLoading]);
+  }, [isLoading, posts, params]);
 
   useEffect(() => {
-    axios.get(baseUrl + "timeline/" + params, config).then((res) => {
-      if(res.data.posts == '') {
+    getTimeline(params).then((res) => {
+      if(res.data.posts === '') {
         setNotPosts("더 이상 글이 없어요. 더 작성해보세요!");
         setIsScroll(false);
       }
-      else if(posts == '' && res.data.posts == '') {
+      else if(posts === '' && res.data.posts === '') {
         setNotFound(false);
       }
       else {
@@ -69,7 +66,7 @@ const TimeLineView = ({ src, baseUrl }) => {
       
     }).catch((err) => {
             if(err.status === 403) {
-                refresh();
+                refreshToken();
             }
             else {
               if(err.status)
@@ -81,26 +78,25 @@ const TimeLineView = ({ src, baseUrl }) => {
         })
     window.addEventListener("scroll", infiniteScroll);
     return () => window.removeEventListener("scroll", infiniteScroll);
-  }, [infiniteScroll]);
+  }, [infiniteScroll, posts, params]);
 
   return (
     <div
       style={{ position: "relative", backgroundColor: "#FDFDFD" }}
       ref={timelineBody}
     >
+      <Header />
+      <ToastContainer />
      { notFound ? (<NotFound status={statusCode}/>) : (<div><AddPost
-        src={src}
-        baseUrl={baseUrl}
         editContent={contents}
         editFile={file}
         editImg={img}
         editPostId={postId}
       ></AddPost>
-      <RecommendView src={src} baseUrl={baseUrl}></RecommendView>
+      <RecommendView />
       {posts.map((post) => (
         <PostItem
           email={post.user.email}
-          baseUrl={baseUrl}
           key={post.id}
           id={post.id}
           content={post.content}

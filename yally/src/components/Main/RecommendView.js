@@ -1,22 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import Recommended from './Recommended';
 import * as S from "../../assets/style/Main/AddTimeLine";
-import axios from 'axios'
-import { refresh } from '../../constant';
+import { getFriend } from '../../lib/api/timeline';
+import { refreshToken } from '../../lib/api/user';
 
-const RecommendView = ({src, baseUrl}) => {
+const RecommendView = ({ baseUrl}) => {
     const [recommend, setRecommend] = useState([]);
-    const config = {
-        headers : { 'Authorization' : 'Bearer ' + localStorage.getItem('accessToken')}
-    }
+
     useEffect(() => {
-        axios.get(baseUrl + "timeline/friend", config)
+        getFriend()
         .then((res) => {
             setRecommend(res.data.friends);
         })
         .catch((err) => {
             if(err.status === 403) {
-                refresh();
+                refreshToken();
             }
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -28,7 +26,6 @@ const RecommendView = ({src, baseUrl}) => {
             {recommend.map((r) => (
                 <Recommended
                 baseUrl={baseUrl}
-                src = {src}
                 key={r.id}
                 id={r.id}
                 email={r.email}

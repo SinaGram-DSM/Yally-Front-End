@@ -1,16 +1,15 @@
 import React, { useEffect, useState, useCallback } from "react";
 import * as M from "../../assets/style/UserPage/PageStyle";
 import * as S from "../../assets/style/Main/AddTimeLine";
-import axios from "axios";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import PostItem from "../Main/PostItem";
+import { getProfile, getMypage } from "../../lib/api/Profile";
 
-const Profile = ({ props, baseUrl }) => {
+const Profile = ({ props }) => {
   const email = props.match.params.email;
   const history = useHistory();
-  const imgUrl = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
   let [name, setName] = useState("");
-  // let [image, setImage] = useState('');
+
   let [data, setData] = useState({
     img: "",
     listening: 0,
@@ -19,18 +18,6 @@ const Profile = ({ props, baseUrl }) => {
   let [timeLine, setTimeLine] = useState([]);
   let [page, setPage] = useState(1);
   let [isLoading, setIsLoading] = useState(false);
-
-  const config = {
-    headers: {
-      Authorization: localStorage.getItem("accessToken"),
-    },
-  };
-
-  const feedConfig = {
-    headers: {
-      Authorization: "Bearer " + localStorage.getItem("accessToken"),
-    },
-  };
 
   const infiniteScroll = useCallback(() => {
     let scrollHeight = Math.max(
@@ -54,27 +41,20 @@ const Profile = ({ props, baseUrl }) => {
   }, [isLoading]);
 
   useEffect(() => {
-    axios
-      .get(baseUrl + "profile/" + email, config)
-
-      .then((res) => {
-        setData({
-          ...data,
-          img: res.data.image,
-          listening: res.data.listening,
-          listener: res.data.listener,
-        });
-
-        setName(res.data.nickname);
-        console.log(res.data.image);
+    getProfile(email).then((res) => {
+      setData({
+        ...data,
+        img: res.data.image,
+        listening: res.data.listening,
+        listener: res.data.listener,
       });
 
-    axios
-      .get(baseUrl + "mypage/timeline/" + email + "/" + page, feedConfig)
-      .then((res) => {
-        setTimeLine(res.data.posts);
-        console.log(res.data.posts);
-      });
+      setName(res.data.nickname);
+    });
+
+    getMypage(email, page).then((res) => {
+      setTimeLine(res.data.posts);
+    });
     window.addEventListener("scroll", infiniteScroll);
     return () => window.removeEventListener("scroll", infiniteScroll);
   }, [infiniteScroll]);
@@ -91,7 +71,7 @@ const Profile = ({ props, baseUrl }) => {
       <S.mainContainer profile>
         <S.mainSection profile>
           <S.writerInfoBox profile>
-            <S.profileImg profile src={imgUrl + data.img}></S.profileImg>
+            <S.profileImg profile src={process.env.REACT_APP_SRC_URL + data.img}></S.profileImg>
             <M.ProfileData>
               <M.UserName>{name}</M.UserName>
               <M.Email>(dehaan@hansome.kr)</M.Email>
