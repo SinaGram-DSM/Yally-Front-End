@@ -6,10 +6,10 @@ import AudioRecord from './AudioRecord'
 import '../../assets/style/Global/global.css';
 import { Link } from 'react-router-dom';
 import { getTimelineInfo } from '../../lib/api/timeline';
-import { editPost, addPost } from '../../lib/api/post';
+import { addPost } from '../../lib/api/post';
 import { refreshToken } from '../../lib/api/user';
 
-const AddPost = ({ editContent, editFile, editImg, editPostId }) => {
+const AddPost = () => {
 
     const [audioUrl, setAudioUrl] = useState();
     const [previewUrl, setPreviewUrl] = useState('');
@@ -19,9 +19,7 @@ const AddPost = ({ editContent, editFile, editImg, editPostId }) => {
     const [start, setStart] = useState();
     const [onText, setOnText] = useState();
     const [audioStart, setAudioStart] = useState(true);
-    const [isOnImg, setIsOnImg] = useState(false);
     const [content, setContent] = useState();
-    const [isContent, setIsContent] = useState(false);
     const [user, setUser] = useState({});
     const [email, setEmail] = useState({});
     let imgPreview = null;
@@ -73,72 +71,6 @@ const AddPost = ({ editContent, editFile, editImg, editPostId }) => {
         let audioFile = document.getElementById('audioFile').files;
         setAudioUrl(audioFile[0]);
         setIsOnAudio(true);
-    }
-
-    const onEditPost = () => {
-        let editFileArr = [];
-        let editImgArr = [];
-        editFileArr.push(editFile);
-        editImgArr.push(editImg);
-        const editSound = new File([editFileArr], "sound", { lastModified: new Date().getTime(), type: 'audio/mp3' });
-        const editImgFile = new File([editImgArr], "img", { lastModified: new Date().getTime(), type: "image/jpeg" });
-
-        let editHashtagArr = [];
-        let editHashtag = '';
-        editHashtagArr = editContent.split('#');
-        for(let i = 1; i < editHashtagArr.length; i++)
-        {
-            editHashtag = editHashtagArr[i];
-        }
-            
-        editHashtag = editHashtag.split(' ');
-        editHashtagArr = editHashtag;
-
-       console.log(editSound, editImgFile)
-        const editFormData = {
-            sound : editSound,
-            content : editContent,
-            hashtags : editHashtagArr
-        };
-
-        let editForm = new FormData();
-
-        if(isContent === true) {
-            editForm.append('content', content);
-        }
-        else {
-            editForm.append('content', editContent);
-        }
-
-        if(isOnImg === true) {
-            editForm.append('img', imgFile);
-        } 
-        else {
-            editForm.append('img', editImgFile);
-        }
-
-        if(isOnAudio === true) {
-            editForm.append('sound', audioUrl);
-        }
-        else {
-            editForm.append('sound', editSound);
-        }
-        
-        editForm.append('hashtag', editFormData.hashtags);
-
-        editPost(editPostId, editForm)
-            .then((res) => {
-                console.log(res);
-                setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            })
-            .catch((err) => {
-                alert('글 수정에 실패하였습니다. 오디오를 입력해주세요.');
-                if(err.status === 403) {
-                    refreshToken();
-                }
-            })
     }
 
     const onAddPost = () => {
@@ -234,7 +166,6 @@ const AddPost = ({ editContent, editFile, editImg, editPostId }) => {
         reader.onloadend = () => {
             setPreviewUrl(reader.result);
             setImgFile(file);
-            setIsOnImg(true);
         }
         reader.readAsDataURL(file);
     }
@@ -242,7 +173,6 @@ const AddPost = ({ editContent, editFile, editImg, editPostId }) => {
     const onUploadContent = (e) => {
         e.preventDefault();
         setContent(e.target.value);
-        setIsContent(true);
     }
 
     if(imgFile !== ''){
@@ -288,8 +218,7 @@ const AddPost = ({ editContent, editFile, editImg, editPostId }) => {
                             {recPreview}
                             {imgPreview}
                         </S.buttonsContainer>
-                        <R.ListeningButton style={{display : editPostId? "" : "none"}} onClick={onEditPost}>수정</R.ListeningButton>
-                        <R.ListeningButton style={{display : editPostId? "none" : ""}} onClick={onAddPost}>업로드</R.ListeningButton>
+                        <R.ListeningButton onClick={onAddPost}>업로드</R.ListeningButton>
                     </S.buttonsContainer>
                     <S.buttonsContainer rec>
                         {onText}
