@@ -7,11 +7,11 @@ import AudioRecord from '../Main/AudioRecord'
 import '../../assets/style/Global/global.css';
 import { Link } from 'react-router-dom';
 import { getTimelineInfo } from '../../lib/api/timeline';
-import { editPost } from '../../lib/api/post';
+import { editPost, getDetailPost } from '../../lib/api/post';
 import { refreshToken } from '../../lib/api/user';
 
-const Modify = ({ editContent, editFile, editImg }) => {
-
+const Modify = () => {
+    
     const [audioUrl, setAudioUrl] = useState();
     const [previewUrl, setPreviewUrl] = useState('');
     const [imgFile, setImgFile] = useState('');
@@ -21,8 +21,8 @@ const Modify = ({ editContent, editFile, editImg }) => {
     const [onText, setOnText] = useState();
     const [audioStart, setAudioStart] = useState(true);
     const [isOnImg, setIsOnImg] = useState(false);
-    const [content, setContent] = useState();
-    const [isContent, setIsContent] = useState(false);
+    // const [content, setContent] = useState();
+    // const [isContent, setIsContent] = useState(false);
     const [user, setUser] = useState({});
     const [email, setEmail] = useState({});
     let imgPreview = null;
@@ -30,11 +30,26 @@ const Modify = ({ editContent, editFile, editImg }) => {
     const history = useHistory();
     const location = useLocation();
     const id = location.pathname.split("/");
-
     const setRecord = (audio, onAudio) => {
         setAudioUrl(audio);
         setIsOnAudio(onAudio);
     }
+
+    const [inputs, setInputs] = useState({
+        contents : "",
+        audioSrc : "",
+        imgSrc : ""
+      });
+    
+      const { contents, audioSrc, imgSrc } = inputs;
+    
+      const onChangePost = (e) => {
+        const { value, name } = e.target;
+        setInputs({
+          ...inputs,
+          [name]: value,
+        });
+      };
 
     useEffect(() => {
         getTimelineInfo()
@@ -42,8 +57,17 @@ const Modify = ({ editContent, editFile, editImg }) => {
             setUser(res.data.info);
             setEmail(res.data.info.email);
         })
-    }, [])
 
+        getDetailPost(id[2])
+        .then((res) => {
+            setInputs({
+                contents : res.data.content,
+                audioSrc : res.data.sound,
+                imgSrc : res.data.img
+            })
+        })
+    }, [])
+    
     const startTimer = () => {
         let rsec = 1;
         let lsec = 0;
@@ -80,71 +104,15 @@ const Modify = ({ editContent, editFile, editImg }) => {
     }
 
     const onEditPost = () => {
-        let editFileArr = [];
-        let editImgArr = [];
-        editFileArr.push(editFile);
-        editImgArr.push(editImg);
-        const editSound = new File([editFileArr], "sound", { lastModified: new Date().getTime(), type: 'audio/mp3' });
-        const editImgFile = new File([editImgArr], "img", { lastModified: new Date().getTime(), type: "image/jpeg" });
-
-        let editHashtagArr = [];
-        let editHashtag = '';
-        editHashtagArr = editContent.split('#');
-        for(let i = 1; i < editHashtagArr.length; i++)
-        {
-            editHashtag = editHashtagArr[i];
-        }
-            
-        editHashtag = editHashtag.split(' ');
-        editHashtagArr = editHashtag;
-
-       console.log(editSound, editImgFile)
-        const editFormData = {
-            sound : editSound,
-            content : editContent,
-            hashtags : editHashtagArr
-        };
-
-        let editForm = new FormData();
-
-        if(isContent === true) {
-            editForm.append('content', content);
-        }
-        else {
-            editForm.append('content', editContent);
-        }
-
-        if(isOnImg === true) {
-            editForm.append('img', imgFile);
-        } 
-        else {
-            editForm.append('img', editImgFile);
-        }
-
-        if(isOnAudio === true) {
-            editForm.append('sound', audioUrl);
-        }
-        else {
-            editForm.append('sound', editSound);
-        }
         
-        editForm.append('hashtag', editFormData.hashtags);
 
-        editPost(id[2], editForm)
-            .then((res) => {
-                console.log(res);
-                setTimeout(function() {
-                    history.push({
-                        pathname : "/timeline"
-                    })
-                }, 200);
-            })
-            .catch((err) => {
-                alert('글 수정에 실패하였습니다. 오디오를 입력해주세요.');
-                if(err.status === 403) {
-                    refreshToken();
-                }
-            })
+        editPost(id[2], "D")
+        .then(() => {
+            history.push("/timeline")
+        })
+        .catch((err) => {
+            if(err.status === 403) refreshToken()
+        })
     }
 
     const onUploadImg = (e) => {
@@ -157,20 +125,11 @@ const Modify = ({ editContent, editFile, editImg }) => {
             setIsOnImg(true);
         }
         reader.readAsDataURL(file);
+        
     }
-
-    const onUploadContent = (e) => {
-        e.preventDefault();
-        setContent(e.target.value);
-        setIsContent(true);
-    }
-
-    if(imgFile !== ''){
-      imgPreview = <S.previewIcon src={previewUrl}></S.previewIcon>
-    }
-    if(isOnAudio === true){
-        recPreview = <S.previewIcon src={sound}></S.previewIcon>
-    }
+    
+    imgFile ? imgPreview = <S.previewIcon src={previewUrl}></S.previewIcon> : imgPreview = <S.previewIcon src={process.env.REACT_APP_SRC_URL + imgSrc}></S.previewIcon>;
+    recPreview = <S.previewIcon src={sound}></S.previewIcon>
     
     return (
         <S.mainContainer>
@@ -183,7 +142,7 @@ const Modify = ({ editContent, editFile, editImg }) => {
                 }
                 }}><S.profileImg src={process.env.REACT_APP_SRC_URL + user.img}></S.profileImg></Link>
                     <S.form action="" method="post" enctype="multipart/form-data" input>
-                        <S.writerInput placeholder={`${user.nickname} 님의 이야기를 들려주세요!`} type="text" name="content" onChange={onUploadContent}></S.writerInput>
+                        <S.writerInput placeholder={`${user.nickname} 님의 이야기를 들려주세요!`} type="text" name="content" onChange={onChangePost} name="contents"value={contents}></S.writerInput>
                     </S.form>
                     </S.writerInfoBox>
                     <S.buttonsContainer container>
