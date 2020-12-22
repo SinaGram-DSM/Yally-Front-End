@@ -16,20 +16,21 @@ const Modify = () => {
     const [previewUrl, setPreviewUrl] = useState('');
     const [imgFile, setImgFile] = useState('');
     const [isOnAudio, setIsOnAudio] = useState(false);
+    const [isOnImg, setIsOnImg] = useState(false);
     const [onRecText, setOnRecText] = useState(null);
     const [start, setStart] = useState();
     const [onText, setOnText] = useState();
     const [audioStart, setAudioStart] = useState(true);
-    const [isOnImg, setIsOnImg] = useState(false);
-    // const [content, setContent] = useState();
-    // const [isContent, setIsContent] = useState(false);
     const [user, setUser] = useState({});
     const [email, setEmail] = useState({});
+
     let imgPreview = null;
     let recPreview = null;
+
     const history = useHistory();
     const location = useLocation();
     const id = location.pathname.split("/");
+
     const setRecord = (audio, onAudio) => {
         setAudioUrl(audio);
         setIsOnAudio(onAudio);
@@ -66,7 +67,7 @@ const Modify = () => {
                 imgSrc : res.data.img
             })
         })
-    }, [])
+    }, [id])
     
     const startTimer = () => {
         let rsec = 1;
@@ -104,14 +105,31 @@ const Modify = () => {
     }
 
     const onEditPost = () => {
-        
+        let editSound = new File([audioSrc], "soundBlob",{ lastModified: new Date().getTime(), type: audioSrc.type });
+        let editImg = new File([imgSrc], "soundBlob",{ lastModified: new Date().getTime(), type: imgSrc.type });
+        let form = new FormData();
+        let hashtagArr = [];
+        let hashtag = '';
+        hashtagArr = contents.split('#');
+        for(let i = 1; i < hashtagArr.length; i++)
+        {
+            hashtag = hashtagArr[i];
+        }
 
-        editPost(id[2], "D")
+        isOnAudio ? form.append("sound", audioUrl) : form.append("sound", editSound);
+        form.append("content", contents);
+        isOnImg ? form.append("img", imgFile) : form.append("img", editImg);
+        for(let i = 0; i < hashtag.length; i++)
+        {
+            form.append('hashtag', hashtagArr[i]);
+        }
+
+        editPost(id[2], form)
         .then(() => {
-            history.push("/timeline")
+            history.push("/timeline");
         })
         .catch((err) => {
-            if(err.status === 403) refreshToken()
+            if(err.status === 403) refreshToken();
         })
     }
 
@@ -142,7 +160,7 @@ const Modify = () => {
                 }
                 }}><S.profileImg src={process.env.REACT_APP_SRC_URL + user.img}></S.profileImg></Link>
                     <S.form action="" method="post" enctype="multipart/form-data" input>
-                        <S.writerInput placeholder={`${user.nickname} 님의 이야기를 들려주세요!`} type="text" name="content" onChange={onChangePost} name="contents"value={contents}></S.writerInput>
+                        <S.writerInput placeholder={`${user.nickname} 님의 이야기를 들려주세요!`} type="text" onChange={onChangePost} name="contents" value={contents}></S.writerInput>
                     </S.form>
                     </S.writerInfoBox>
                     <S.buttonsContainer container>
