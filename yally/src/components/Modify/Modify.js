@@ -105,8 +105,8 @@ const Modify = () => {
     }
 
     const onEditPost = () => {
-        let editSound = new File([audioSrc], "soundBlob",{ lastModified: new Date().getTime(), type: audioSrc.type });
-        let editImg = new File([imgSrc], "soundBlob",{ lastModified: new Date().getTime(), type: imgSrc.type });
+        let editSound = new File([process.env.REACT_APP_SRC_URL + audioSrc], "soundBlob",{ lastModified: new Date().getTime(), type: audioSrc.type });
+        let editImg = new File([process.env.REACT_APP_SRC_URL + imgSrc], "soundBlob",{ lastModified: new Date().getTime(), type: imgSrc.type });
         let form = new FormData();
         let hashtagArr = [];
         let hashtag = '';
