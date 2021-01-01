@@ -1,47 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useLocation } from "react-router";
-import axios from "axios";
 import * as T from "../../assets/style/UserPage/Listen";
 import * as L from "../../assets/style/UserPage/PageStyle";
+import { onUserListening, offUserListening } from "../../lib/api/listen";
 
 const Users = ({
-  id,
   email,
   img,
   nickname,
   listening,
   listener,
   isListening,
-  baseUrl,
 }) => {
   const url = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
   const history = new useHistory();
-  const location = useLocation;
   let [isListen, setIsListen] = useState(isListening);
   let [loading, setLoading] = useState(false);
   useEffect(() => {
-    if (img != undefined) setLoading(true);
+    if (img !== undefined) setLoading(true);
     setIsListen(isListening);
-  }, []);
-  const config = {
-    headers: {
-      Authorization: "Bearer " + localStorage.getItem("accessToken"),
-    },
-  };
+  }, [img, isListening]);
 
   const userListening = () => {
-    axios
-      .post(baseUrl + "user/listening/" + email, null, config)
-      .then((res) => {
-        console.log(res.data);
-        if (res.data.message == "Success") setIsListen(true);
-      });
+    onUserListening(email).then((res) => {
+      console.log(res.data);
+      if (res.data.message === "Success") setIsListen(true);
+    });
   };
 
   const userUnListening = () => {
-    axios.delete(baseUrl + "user/listening/" + email, config).then((res) => {
-      if (res.data.message == "Success") setIsListen(false);
+    offUserListening(email).then((res) => {
+      if (res.data.message === "Success") setIsListen(false);
     });
   };
 

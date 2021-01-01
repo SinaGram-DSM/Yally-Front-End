@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { BrowserRouter as Router, Link, useHistory } from "react-router-dom";
-import axios from "axios";
+import { useHistory } from "react-router-dom";
 import * as H from "../../assets/style/Header/HeaderStyle";
 import * as P from "../../assets/style/Main/AddTimeLine";
 import * as T from "../../assets/style/UserPage/Listen";
@@ -8,8 +7,11 @@ import PostItem from "../Main/PostItem";
 import { yallyLogo, search, moreButton } from "../../assets/img";
 import Users from "../Search/Users";
 import { useEffect } from "react";
+import { getTimelineInfo } from "../../lib/api/timeline";
+import { hashTagSearch, userNameSearch } from "../../lib/api/Search";
+import { WarningToast } from "../../lib/Toast";
 
-const Header = ({ baseUrl }) => {
+const Header = () => {
   let [value, setValue] = useState("");
   let [users, setUsers] = useState([]);
   let [posts, setPosts] = useState([]);
@@ -18,7 +20,6 @@ const Header = ({ baseUrl }) => {
   let [name, setName] = useState("");
   let [img, setImg] = useState("");
   let [email, setEmail] = useState("");
-  const imgSrc = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
   const history = useHistory();
 
   const menu = document.getElementById("menu");
@@ -26,13 +27,6 @@ const Header = ({ baseUrl }) => {
   const valueChange = (e) => {
     setValue(e.target.value);
   };
-
-  const config = {
-    headers: {
-      Authorization: "Bearer " + localStorage.getItem("accessToken"),
-    },
-  };
-
   const infiniteScroll = useCallback(() => {
     let scrollHeight = Math.max(
       document.documentElement.scrollHeight,
@@ -53,10 +47,10 @@ const Header = ({ baseUrl }) => {
         console.log(page);
       }, 500);
     }
-  }, [isLoading]);
+  }, [isLoading, page, posts, users]);
 
   useEffect(() => {
-    axios.get(baseUrl + "/timeline", config).then((res) => {
+    getTimelineInfo().then((res) => {
       setName(res.data.info.nickname);
       setImg(res.data.info.img);
       setEmail(res.data.info.email);
@@ -73,37 +67,19 @@ const Header = ({ baseUrl }) => {
       });
       const values = value.substr(1);
       setValue(values);
-      console.log(values);
-      const tagSearch = () => {
-        axios
-          .get(
-            baseUrl + "/search/post?hashtag=" + values + "&page=" + page,
-            config
-          )
-          .then((res) => {
-            setPosts(res.data.posts);
-          });
-      };
-      tagSearch();
+        hashTagSearch(values, page).then((res) => {
+          setPosts(res.data.posts);
+        });
     } else if (value.charAt(0) === "@") {
+      const values = value.substr(1);
+      setValue(values);
       history.push({
         pathname: "/search/users",
       });
-      const values = value.substr(1);
-      setValue(values);
-      const userSearch = () => {
-        axios
-          .get(
-            baseUrl + "/search/user?nickname=" + values + "&page=" + page,
-            config
-          )
-          .then((res) => {
-            setUsers(res.data.users);
-            console.log(res.data.users);
-          });
-      };
-      userSearch();
-    } else alert("잘못된 검색입니다.");
+        userNameSearch(values, page).then((res) => {
+          setUsers(res.data.users);
+        });
+    } else WarningToast("잘못된 검색입니다. 닉네임이나 해시태그를 검색해보세요.");
   };
 
   const profileClick = () => {
@@ -142,6 +118,7 @@ const Header = ({ baseUrl }) => {
   };
 
   return (
+    <H.container>
     <H.OutHeader>
       <H.HeaderContainer>
         <H.logoSection>
@@ -158,11 +135,11 @@ const Header = ({ baseUrl }) => {
         </H.inputContainer>
         <H.searchIcon src={search} onClick={searchBtn} />
         <H.imgContainer>
-          <P.profileImg header onClick={profileClick} src={imgSrc + img} />
+          <P.profileImg header onClick={profileClick} src={process.env.REACT_APP_SRC_URL + img} />
           <H.moreBtn src={moreButton} onClick={profileClick} />
         </H.imgContainer>
         <H.menuBox id="menu" style={{ display: "none" }}>
-          <P.profileImg menu src={imgSrc + img} />
+          <P.profileImg menu src={process.env.REACT_APP_SRC_URL + img} />
           <H.textContainer>
             <H.menuText name>{name}</H.menuText>
             <H.menuText email>{email}</H.menuText>
@@ -185,14 +162,12 @@ const Header = ({ baseUrl }) => {
             listening={user.listening}
             listener={user.listener}
             isListening={user.isListening}
-            baseUrl={baseUrl}
           />
         ))}
       </T.listenSection>
       {posts.map((post) => (
         <PostItem
           email={post.user.email}
-          baseUrl={baseUrl}
           key={post.id}
           id={post.id}
           content={post.content}
@@ -208,6 +183,7 @@ const Header = ({ baseUrl }) => {
         ></PostItem>
       ))}
     </H.OutHeader>
+    </H.container>
   );
 };
 

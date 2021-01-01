@@ -2,13 +2,13 @@ import React, { useCallback, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import * as P from "../../assets/style/UserPage/ProfileSetting";
 import * as M from "../../assets/style/Main/AddTimeLine";
-import axios from "axios";
 import { profileEdit } from "../../assets/img";
+import { editProfile } from "../../lib/api/Profile";
+import Header from "../Header/Header";
 
-const Setting = ({ baseUrl, props }) => {
+const Setting = () => {
   const history = new useHistory();
   const location = new useLocation();
-  const imgSrc = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
   let [nickname, setNickName] = useState(location.state.name);
   let [file, setFile] = useState("");
   let [image, setImage] = useState("");
@@ -26,14 +26,7 @@ const Setting = ({ baseUrl, props }) => {
     else
       button.style =
         "background: linear-gradient(to right, #6E8EEA, #9B78EC); cursor: pointer";
-  });
-
-  const config = {
-    headers: {
-      Authorization: localStorage.getItem("accessToken"),
-      "Content-Type": "multipart/form-data",
-    },
-  };
+  }, []);
 
   const imgSetting = () => {
     const input = document.getElementById("nick");
@@ -43,8 +36,7 @@ const Setting = ({ baseUrl, props }) => {
     form.append("image", file);
     form.append("nickname", nickname);
 
-    axios
-      .put(baseUrl + "profile/", form, config)
+    editProfile(form)
       .then((res) => {
         console.log(res);
 
@@ -72,6 +64,8 @@ const Setting = ({ baseUrl, props }) => {
     history.go(-1);
   };
   return (
+    <>
+    <Header />
     <M.mainContainer>
       <P.settingContainer>
         <P.settingSection>
@@ -89,7 +83,7 @@ const Setting = ({ baseUrl, props }) => {
                 {file !== "" ? (
                   <P.profileImge src={image} />
                 ) : (
-                  <P.profileImge src={imgSrc + location.state.img} />
+                  <P.profileImge src={process.env.REACT_APP_SRC_URL + location.state.img} />
                 )}
               </P.imgBox>
             </P.imgChange>
@@ -109,6 +103,7 @@ const Setting = ({ baseUrl, props }) => {
         </P.settingSection>
       </P.settingContainer>
     </M.mainContainer>
+    </>
   );
 };
 

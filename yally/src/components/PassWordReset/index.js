@@ -1,11 +1,8 @@
-import React from 'react';
+import React from "react";
+import PasswordReset from "./PassWordReset";
 
 const index = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+  return <PasswordReset></PasswordReset>;
 };
 
 export default index;

@@ -1,11 +1,8 @@
-import React from 'react';
+import React from "react";
+import Profile from "./Profile";
 
 const index = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+  return <Profile></Profile>;
 };
 
 export default index;
