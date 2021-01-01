@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
-import { DetailPostView, TimeLineView, Setting, Profile, SignUp, Login, SignUpCheck, Users, PostItem, Listener, Listening, PasswordReset, Modify } from "./components/index";
+import { DetailPostView, PasswordResetInput, TimeLineView, Setting, Profile, SignUp, Login, SignUpCheck, Users, PostItem, Listener, Listening, PasswordReset, Modify } from "./components/index";
 
 function App() {
   const [isToken] = useState(localStorage.getItem("accessToken"));
@@ -19,10 +19,11 @@ function App() {
           </Route>
           <Route exact path="/sign-up-check" render={() => <SignUpCheck />}/>
           <Route exact path="/password-reset" render={() => <PasswordReset/>}/>
+          <Route exact path="/password-reset-input" render={() => <PasswordResetInput/>}/>
           <Route exact path="/search/users" render={() => <Users />} />
           <Route exact path="/search/posts" render={() => <PostItem />} />
           <Route exact path="/settings" render={() => <Setting />} />
-          <Route exact path="/profile/:email" render={(props) => <Profile props={props} />} />
+          <Route exact path="/profile/:email" render={() => <Profile />} />
           <Route exact path="/modify/:postid" render={() => <Modify />} />
         </Switch>
       </Router>
