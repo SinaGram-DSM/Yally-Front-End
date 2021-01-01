@@ -8,8 +8,10 @@ import { yallyLogo, search, moreButton } from "../../assets/img";
 import Users from "../Search/Users";
 import { useEffect } from "react";
 import { getTimelineInfo } from "../../lib/api/timeline";
+import { hashTagSearch, userNameSearch } from "../../lib/api/Search";
+import { WarningToast } from "../../lib/Toast";
 
-const Header = ({ baseUrl }) => {
+const Header = () => {
   let [value, setValue] = useState("");
   let [users, setUsers] = useState([]);
   let [posts, setPosts] = useState([]);
@@ -65,27 +67,19 @@ const Header = ({ baseUrl }) => {
       });
       const values = value.substr(1);
       setValue(values);
-      console.log(values);
-      const tagSearch = () => {
-        tagSearch(values, page).then((res) => {
+        hashTagSearch(values, page).then((res) => {
           setPosts(res.data.posts);
         });
-      };
-      tagSearch();
     } else if (value.charAt(0) === "@") {
+      const values = value.substr(1);
+      setValue(values);
       history.push({
         pathname: "/search/users",
       });
-      const values = value.substr(1);
-      setValue(values);
-      const userSearch = () => {
-        userSearch(values, page).then((res) => {
+        userNameSearch(values, page).then((res) => {
           setUsers(res.data.users);
-          console.log(res.data.users);
         });
-      };
-      userSearch();
-    } else alert("잘못된 검색입니다.");
+    } else WarningToast("잘못된 검색입니다. 닉네임이나 해시태그를 검색해보세요.");
   };
 
   const profileClick = () => {
@@ -168,14 +162,12 @@ const Header = ({ baseUrl }) => {
             listening={user.listening}
             listener={user.listener}
             isListening={user.isListening}
-            baseUrl={baseUrl}
           />
         ))}
       </T.listenSection>
       {posts.map((post) => (
         <PostItem
           email={post.user.email}
-          baseUrl={baseUrl}
           key={post.id}
           id={post.id}
           content={post.content}
