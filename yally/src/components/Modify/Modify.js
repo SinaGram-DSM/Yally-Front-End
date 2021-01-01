@@ -1,34 +1,56 @@
 import React,{ useState, useEffect } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 import * as S from "../../assets/style/Main/AddTimeLine";
 import * as R from '../../assets/style/Main/Recommend';
 import { sound, picture } from '../../assets/img';
-import AudioRecord from './AudioRecord'
+import AudioRecord from '../Main/AudioRecord'
 import '../../assets/style/Global/global.css';
 import { Link } from 'react-router-dom';
 import { getTimelineInfo } from '../../lib/api/timeline';
-import { addPost } from '../../lib/api/post';
+import { editPost, getDetailPost } from '../../lib/api/post';
 import { refreshToken } from '../../lib/api/user';
 
-const AddPost = () => {
-
+const Modify = () => {
+    
     const [audioUrl, setAudioUrl] = useState();
     const [previewUrl, setPreviewUrl] = useState('');
     const [imgFile, setImgFile] = useState('');
     const [isOnAudio, setIsOnAudio] = useState(false);
+    const [isOnImg, setIsOnImg] = useState(false);
     const [onRecText, setOnRecText] = useState(null);
     const [start, setStart] = useState();
     const [onText, setOnText] = useState();
     const [audioStart, setAudioStart] = useState(true);
-    const [content, setContent] = useState();
     const [user, setUser] = useState({});
     const [email, setEmail] = useState({});
+
     let imgPreview = null;
     let recPreview = null;
+
+    const history = useHistory();
+    const location = useLocation();
+    const id = location.pathname.split("/");
 
     const setRecord = (audio, onAudio) => {
         setAudioUrl(audio);
         setIsOnAudio(onAudio);
     }
+
+    const [inputs, setInputs] = useState({
+        contents : "",
+        audioSrc : "",
+        imgSrc : ""
+      });
+    
+      const { contents, audioSrc, imgSrc } = inputs;
+    
+      const onChangePost = (e) => {
+        const { value, name } = e.target;
+        setInputs({
+          ...inputs,
+          [name]: value,
+        });
+      };
 
     useEffect(() => {
         getTimelineInfo()
@@ -36,8 +58,17 @@ const AddPost = () => {
             setUser(res.data.info);
             setEmail(res.data.info.email);
         })
-    }, [])
 
+        getDetailPost(id[2])
+        .then((res) => {
+            setInputs({
+                contents : res.data.content,
+                audioSrc : res.data.sound,
+                imgSrc : res.data.img
+            })
+        })
+    }, [id])
+    
     const startTimer = () => {
         let rsec = 1;
         let lsec = 0;
@@ -73,90 +104,33 @@ const AddPost = () => {
         setIsOnAudio(true);
     }
 
-    const onAddPost = () => {
-        
+    const onEditPost = () => {
+        let editSound = new File([process.env.REACT_APP_SRC_URL + audioSrc], "soundBlob",{ lastModified: new Date().getTime(), type: audioSrc.type });
+        let editImg = new File([process.env.REACT_APP_SRC_URL + imgSrc], "soundBlob",{ lastModified: new Date().getTime(), type: imgSrc.type });
+        let form = new FormData();
         let hashtagArr = [];
         let hashtag = '';
-        hashtagArr = content.split('#');
-        let form = new FormData();
-
+        hashtagArr = contents.split('#');
         for(let i = 1; i < hashtagArr.length; i++)
         {
             hashtag = hashtagArr[i];
         }
-            
-        hashtag = hashtag.split(' ');
-        hashtagArr = hashtag;
 
-        if(audioUrl === null)
+        isOnAudio ? form.append("sound", audioUrl) : form.append("sound", editSound);
+        form.append("content", contents);
+        isOnImg ? form.append("img", imgFile) : form.append("img", editImg);
+        for(let i = 0; i < hashtag.length; i++)
         {
-            alert('음성을 녹음하거나 업로드해주세요!');
-            console.log(audioUrl)
-        }
-        
-        else if(typeof(audioUrl) === FileList)
-        {
-            const formdata = 
-            {
-                sound : audioUrl,
-                content : content,
-                file : imgFile,
-                hashtag : hashtagArr
-            };
-            form.append('content', formdata.content);
-            form.append('img', formdata.file[0]);
-            form.append('sound', formdata.sound);
-            for(let i = 0; i < hashtag.length; i++)
-            {
-                form.append('hashtag', formdata.hashtag[i]);
-            }
-            
-            addPost(form)
-            .then((res) => {
-                console.log(res)
-                setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            })
-            .catch((err) => {
-                if(err.status === 403) {
-                    refreshToken();
-                }
-            })
+            form.append('hashtag', hashtagArr[i]);
         }
 
-        else
-        {
-            let sound = new File([audioUrl], "soundBlob",{ lastModified: new Date().getTime(), type: audioUrl.type });
-            
-            const formdata = 
-            {
-                sound : sound,
-                content : content,
-                file : imgFile,
-                hashtag : hashtagArr
-            };
-            form.append('content', formdata.content);
-            form.append('img', formdata.file);
-            form.append('sound', formdata.sound);
-            for(let i = 0; i < hashtag.length; i++)
-            {
-                form.append('hashtag', formdata.hashtag[i]);
-            }
-            
-            addPost(form)
-            .then((res) => {
-                console.log(res)
-                setTimeout(function() {
-                    window.location.reload();
-                }, 200);
-            })
-            .catch((err) => {
-                if(err.status === 403) {
-                    refreshToken();
-                }
-            })
-        }
+        editPost(id[2], form)
+        .then(() => {
+            history.push("/timeline");
+        })
+        .catch((err) => {
+            if(err.status === 403) refreshToken();
+        })
     }
 
     const onUploadImg = (e) => {
@@ -166,21 +140,14 @@ const AddPost = () => {
         reader.onloadend = () => {
             setPreviewUrl(reader.result);
             setImgFile(file);
+            setIsOnImg(true);
         }
         reader.readAsDataURL(file);
+        
     }
-
-    const onUploadContent = (e) => {
-        e.preventDefault();
-        setContent(e.target.value);
-    }
-
-    if(imgFile !== ''){
-      imgPreview = <S.previewIcon src={previewUrl}></S.previewIcon>
-    }
-    if(isOnAudio === true){
-        recPreview = <S.previewIcon src={sound}></S.previewIcon>
-    }
+    
+    imgFile ? imgPreview = <S.previewIcon src={previewUrl}></S.previewIcon> : imgPreview = <S.previewIcon src={process.env.REACT_APP_SRC_URL + imgSrc}></S.previewIcon>;
+    recPreview = <S.previewIcon src={sound}></S.previewIcon>
     
     return (
         <S.mainContainer>
@@ -193,7 +160,7 @@ const AddPost = () => {
                 }
                 }}><S.profileImg src={process.env.REACT_APP_SRC_URL + user.img}></S.profileImg></Link>
                     <S.form action="" method="post" enctype="multipart/form-data" input>
-                        <S.writerInput placeholder={`${user.nickname} 님의 이야기를 들려주세요!`} type="text" name="content" onChange={onUploadContent}></S.writerInput>
+                        <S.writerInput placeholder={`${user.nickname} 님의 이야기를 들려주세요!`} type="text" onChange={onChangePost} name="contents" value={contents}></S.writerInput>
                     </S.form>
                     </S.writerInfoBox>
                     <S.buttonsContainer container>
@@ -218,7 +185,7 @@ const AddPost = () => {
                             {recPreview}
                             {imgPreview}
                         </S.buttonsContainer>
-                        <R.ListeningButton onClick={onAddPost}>업로드</R.ListeningButton>
+                        <R.ListeningButton onClick={onEditPost}>수정</R.ListeningButton>
                     </S.buttonsContainer>
                     <S.buttonsContainer rec>
                         {onText}
@@ -229,4 +196,4 @@ const AddPost = () => {
     );
 };
 
-export default AddPost;
+export default Modify;

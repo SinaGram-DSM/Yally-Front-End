@@ -6,6 +6,7 @@ import * as P from "../../assets/style/Main/PostItmes";
 import * as S from "../../assets/style/Main/AddTimeLine";
 import { useLocation } from "react-router-dom";
 import { getDetailPost } from "../../lib/api/post";
+import Header from "../Header/Header";
 
 const DetailPostView = ({ deleteButtonStyle }) => {
   const location = useLocation();
@@ -24,6 +25,7 @@ const DetailPostView = ({ deleteButtonStyle }) => {
 
   return (
     <P.div>
+      <Header />
       <S.mainContainer>
         <S.mainSection>
           <DetailPost

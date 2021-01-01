@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory, Link } from "react-router-dom";
 import * as P from "../../assets/style/PasswordReset/PasswordResetPage";
 import { yallyLogo, help } from "../../assets/img";
 import Background from "../Global/Background";
+import * as S from "../../assets/style/Login/LoginPage";
 import * as L from "../../assets/style/PasswordReset/login";
 import * as R from "../../assets/style/PasswordReset/PasswordResetInputForm";
 import { passwordReset } from "../../lib/api/user";
+import { ErrorToast } from "../../lib/Toast";
 
 const PasswordResetInput = () => {
   const location = useLocation();
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [resetCode, setResetCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -21,7 +24,7 @@ const PasswordResetInput = () => {
     } else {
       setEmail("default");
     }
-  }, []);
+  }, [location.state]);
 
   const onChangeResetCode = (e) => {
     setResetCode(e.target.value);
@@ -49,16 +52,19 @@ const PasswordResetInput = () => {
     passwordReset(email, resetCode, newPassword)
       .then((res) => {
         console.log(res);
+        history.push("/");
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        ErrorToast("비밀번호 재설정에 실패하였습니다.");
+        history.push("/password-reset");
       });
-    console.log(res.data);
+    
   };
 
   let helpBoxStyle = helpBox ? "block" : "none";
 
   return (
+    <S.allDiv>
     <P.allContainer>
       <Background modal></Background>
       <P.mainContainer>
@@ -131,12 +137,13 @@ const PasswordResetInput = () => {
               </R.submitNewPassword>
             </P.mainSection>
             <P.backLogin>
-              <P.link>이메일 입력 페이지로 돌아가기</P.link>
+            <Link to="/" style={{textDecoration : "none"}}><P.link>이메일 입력 페이지로 돌아가기</P.link></Link>
             </P.backLogin>
           </P.mainContainer>
         </P.mainSection>
       </P.mainContainer>
     </P.allContainer>
+    </S.allDiv>
   );
 };
 

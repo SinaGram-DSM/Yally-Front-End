@@ -4,6 +4,7 @@ import * as P from "../../assets/style/UserPage/ProfileSetting";
 import * as M from "../../assets/style/Main/AddTimeLine";
 import { profileEdit } from "../../assets/img";
 import { editProfile } from "../../lib/api/Profile";
+import Header from "../Header/Header";
 
 const Setting = () => {
   const history = new useHistory();
@@ -25,7 +26,7 @@ const Setting = () => {
     else
       button.style =
         "background: linear-gradient(to right, #6E8EEA, #9B78EC); cursor: pointer";
-  });
+  }, []);
 
   const imgSetting = () => {
     const input = document.getElementById("nick");
@@ -63,6 +64,8 @@ const Setting = () => {
     history.go(-1);
   };
   return (
+    <>
+    <Header />
     <M.mainContainer>
       <P.settingContainer>
         <P.settingSection>
@@ -100,6 +103,7 @@ const Setting = () => {
         </P.settingSection>
       </P.settingContainer>
     </M.mainContainer>
+    </>
   );
 };
 

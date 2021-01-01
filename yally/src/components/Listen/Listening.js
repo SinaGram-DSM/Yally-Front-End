@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import * as T from "../../assets/style/UserPage/Listen";
 import * as L from "../../assets/style/UserPage/PageStyle";
 import * as M from "../../assets/style/Main/AddTimeLine";
@@ -20,7 +19,7 @@ const Listening = ({ match}) => {
       setName(res.data.target.nickname);
       setImg(res.data.target.image);
     });
-  }, []);
+  }, [email]);
 
   return (
     <M.mainContainer>

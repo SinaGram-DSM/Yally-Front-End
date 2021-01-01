@@ -17,9 +17,9 @@ const Users = ({
   let [isListen, setIsListen] = useState(isListening);
   let [loading, setLoading] = useState(false);
   useEffect(() => {
-    if (img != undefined) setLoading(true);
+    if (img !== undefined) setLoading(true);
     setIsListen(isListening);
-  }, []);
+  }, [img, isListening]);
 
   const userListening = () => {
     onUserListening(email).then((res) => {

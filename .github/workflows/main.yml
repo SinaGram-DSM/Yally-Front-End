@@ -1,0 +1,42 @@
+name: React build
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@master
+
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+
+      - name: Install dependencies
+        run: yarn install
+        working-directory: ${{ secrets.WORKING_DIRECTORY }}
+
+      - name: Build 
+        run: REACT_APP_BASE_URL=${BASE} REACT_APP_SRC_URL=${SRC} yarn build
+        working-directory: ${{ secrets.WORKING_DIRECTORY }}
+        env : 
+          BASE: ${{ secrets.REACT_APP_BASE_URL }}
+          SRC: ${{ secrets.REACT_APP_SRC_URL }}
+
+      - name: Deploy to S3
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --delete
+        env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_BUCKET_NAME }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          SOURCE_DIR: ${{ secrets.SOURCE_DIR }}
