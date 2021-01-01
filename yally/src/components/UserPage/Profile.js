@@ -1,12 +1,16 @@
 import React, { useEffect, useState, useCallback } from "react";
 import * as M from "../../assets/style/UserPage/PageStyle";
 import * as S from "../../assets/style/Main/AddTimeLine";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import PostItem from "../Main/PostItem";
 import { getProfile, getMypage } from "../../lib/api/Profile";
+import Header from "../Header/Header";
+import { ErrorToast } from "../../lib/Toast";
 
-const Profile = ({ props }) => {
-  const email = props.match.params.email;
+const Profile = () => {
+  const location = useLocation();
+  const emailSplit = location.pathname.split("/");
+  const email = emailSplit[2];
   const history = useHistory();
   let [name, setName] = useState("");
 
@@ -41,6 +45,7 @@ const Profile = ({ props }) => {
   }, [isLoading]);
 
   useEffect(() => {
+    console.log(email);
     getProfile(email).then((res) => {
       setData({
         ...data,
@@ -50,11 +55,15 @@ const Profile = ({ props }) => {
       });
 
       setName(res.data.nickname);
+    }).catch(() => {
+      ErrorToast("프로필을 불러오는데 실패하였습니다.");
     });
 
     getMypage(email, page).then((res) => {
       setTimeLine(res.data.posts);
-    });
+    }).catch(() => {
+      ErrorToast("프로필을 불러오는데 실패하였습니다.");
+    })
     window.addEventListener("scroll", infiniteScroll);
     return () => window.removeEventListener("scroll", infiniteScroll);
   }, [infiniteScroll]);
@@ -68,13 +77,14 @@ const Profile = ({ props }) => {
   };
   return (
     <div>
+      <Header></Header>
       <S.mainContainer profile>
         <S.mainSection profile>
           <S.writerInfoBox profile>
             <S.profileImg profile src={process.env.REACT_APP_SRC_URL + data.img}></S.profileImg>
             <M.ProfileData>
               <M.UserName>{name}</M.UserName>
-              <M.Email>(dehaan@hansome.kr)</M.Email>
+              <M.Email>({email})</M.Email>
               <M.Listen>
                 <M.Listening onClick={userListening}>
                   리스닝 {data.listening}
@@ -101,6 +111,7 @@ const Profile = ({ props }) => {
           isComment={feed.comment}
           yallyNum={feed.yally}
           audioImg={feed.img}
+          isMine={true}
         />
       ))}
     </div>
