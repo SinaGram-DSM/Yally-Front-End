@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
+import * as L from "../../assets/style/Login/LoginPage";
 import * as P from "../../assets/style/PasswordReset/PasswordResetPage";
 import { yallyLogo } from "../../assets/img";
 import Background from "../Global/Background";
 import { passwordResetCode } from "../../lib/api/user";
+import { ErrorToast } from "../../lib/Toast";
 
 const PasswordReset = () => {
   let history = useHistory();
@@ -27,18 +29,19 @@ const PasswordReset = () => {
     passwordResetCode(email)
       .then(() => {
         history.push({
-          pathname: "/PasswordResetInput",
+          pathname: "/password-reset-input",
           state: {
             email: email,
           },
         });
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        ErrorToast("일치하는 이메일이 없습니다.");
       });
   };
 
   return (
+    <L.allDiv>
     <P.allContainer>
       <Background modal></Background>
       <P.mainContainer>
@@ -77,12 +80,13 @@ const PasswordReset = () => {
               </P.sendResetCode>
             </P.mainSection>
             <P.backLogin>
-              <P.link>로그인 페이지로 돌아가기</P.link>
+            <Link to="/" style={{textDecoration : "none"}}><P.link>로그인 페이지로 돌아가기</P.link></Link>
             </P.backLogin>
           </P.mainContainer>
         </P.mainSection>
       </P.mainContainer>
     </P.allContainer>
+    </L.allDiv>
   );
 };
 
