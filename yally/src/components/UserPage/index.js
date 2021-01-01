@@ -1,5 +1,5 @@
 import React from "react";
-import { Profile } from "../../assets/style/UserPage/PageStyle";
+import Profile from "./Profile";
 
 const index = () => {
   return <Profile></Profile>;
