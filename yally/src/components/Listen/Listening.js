@@ -12,7 +12,6 @@ const Listening = ({ match }) => {
   let [name, setName] = useState("");
   let [img, setImg] = useState("");
   const email = match.match.params.email;
-  const imgUrl = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
   const listeningValue = match.match.params.value;
 
   useEffect(() => {
@@ -29,7 +28,7 @@ const Listening = ({ match }) => {
       <M.mainContainer>
         <T.mainSection>
           <T.profileSection>
-            <T.profileImg src={imgUrl + img} />
+            <T.profileImg src={process.env.REACT_APP_BASE_URL + img} />
             <T.comment>
               {name} 님이 {listeningValue}명의 이야기를 듣고 있습니다.
             </T.comment>
@@ -38,7 +37,9 @@ const Listening = ({ match }) => {
             {listenings.map((listening) => (
               <T.containerBox>
                 <T.itemBox>
-                  <T.boxImg src={imgUrl + listening.image} />
+                  <T.boxImg
+                    src={process.env.REACT_APP_BASE_URL + listening.image}
+                  />
                   <T.userBox>
                     <T.name>{listening.nickname}</T.name>
                     <L.Listen list>

@@ -11,7 +11,6 @@ const Listener = ({ match }) => {
   let [name, setName] = useState("");
   let [img, setImg] = useState("");
   const email = match.match.params.email;
-  const imgUrl = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";
   const listenerValue = match.match.params.value;
 
   useEffect(() => {
@@ -30,7 +29,7 @@ const Listener = ({ match }) => {
       <M.mainContainer>
         <T.mainSection>
           <T.profileSection>
-            <T.profileImg src={imgUrl + img} />
+            <T.profileImg src={process.env.REACT_APP_BASE_URL + img} />
             <T.comment>
               {listenerValue}명이 {name} 님의 이야기를 듣고 있습니다.
             </T.comment>
@@ -39,7 +38,9 @@ const Listener = ({ match }) => {
             {listeners.map((listener) => (
               <T.containerBox>
                 <T.itemBox>
-                  <T.boxImg src={imgUrl + listener.image} />
+                  <T.boxImg
+                    src={process.env.REACT_APP_BASE_URL + listener.image}
+                  />
                   <T.userBox>
                     <T.name>{listener.nickname}</T.name>
                     <L.Listen list>
