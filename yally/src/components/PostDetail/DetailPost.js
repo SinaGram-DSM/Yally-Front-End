@@ -26,6 +26,8 @@ const DetailPost = ({
   let yallyButton = "";
   const history = useHistory();
 
+  if(isMine === false) deleteButtonStyle = "none";
+
   if (isYally === true) {
     yallyButton = yallyOn;
   } else {
@@ -47,6 +49,7 @@ const DetailPost = ({
   };
 
   const onRemovePost = async () => {
+    if(!window.confirm(`게시물을 삭제하시겠습니까?`)) return
     await deletePost(id);
     history.push({
       pathname: "/timeLine",
