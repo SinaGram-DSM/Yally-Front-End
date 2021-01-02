@@ -20,6 +20,7 @@ const Header = () => {
   let [name, setName] = useState("");
   let [img, setImg] = useState("");
   let [email, setEmail] = useState("");
+  let [isSearch, setIsSearch] = useState(false);
   const history = useHistory();
 
   const menu = document.getElementById("menu");
@@ -27,6 +28,7 @@ const Header = () => {
   const valueChange = (e) => {
     setValue(e.target.value);
   };
+
   const infiniteScroll = useCallback(() => {
     let scrollHeight = Math.max(
       document.documentElement.scrollHeight,
@@ -44,7 +46,6 @@ const Header = () => {
         setUsers(users.concat(users));
         setPage((state) => state + 1);
         setIsLoading(false);
-        console.log(page);
       }, 500);
     }
   }, [isLoading, page, posts, users]);
@@ -58,28 +59,23 @@ const Header = () => {
     setIsLoading(true);
     window.addEventListener("scroll", infiniteScroll);
     return () => window.removeEventListener("scroll", infiniteScroll);
-  }, [infiniteScroll]);
+  }, [infiniteScroll, isSearch]);
 
   const searchBtn = () => {
     if (value.charAt(0) === "#") {
-      history.push({
-        pathname: "/search/posts",
-      });
       const values = value.substr(1);
       setValue(values);
-        hashTagSearch(values, page).then((res) => {
-          setPosts(res.data.posts);
-        });
+      hashTagSearch(values, page).then((res) => {
+        setPosts(res.data.posts);
+      });
     } else if (value.charAt(0) === "@") {
       const values = value.substr(1);
       setValue(values);
-      history.push({
-        pathname: "/search/users",
+      userNameSearch(values).then((res) => {
+        setUsers(res.data.users);
       });
-        userNameSearch(values, page).then((res) => {
-          setUsers(res.data.users);
-        });
-    } else WarningToast("잘못된 검색입니다. 닉네임이나 해시태그를 검색해보세요.");
+    } else
+      WarningToast("잘못된 검색입니다. 닉네임이나 해시태그를 검색해보세요.");
   };
 
   const profileClick = () => {
@@ -90,7 +86,12 @@ const Header = () => {
   const inputFocus = () => {
     let input = document.getElementById("inputBox");
     input.style.visibility = "visible";
+    if (history.location.pathname == `/search`) {
+      setIsSearch(true);
+    }
+    history.push("/search");
   };
+
   const onLogout = () => {
     menu.style.display = "none";
     history.push({
@@ -105,9 +106,9 @@ const Header = () => {
       pathname: "/timeline",
     });
   };
+
   const setting = () => {
     menu.style.display = "none";
-    console.log(name, img);
     history.push({
       pathname: "/settings",
       state: {
@@ -119,70 +120,82 @@ const Header = () => {
 
   return (
     <H.container>
-    <H.OutHeader>
-      <H.HeaderContainer>
-        <H.logoSection>
-          <H.logoImg src={yallyLogo} onClick={onTimeline}></H.logoImg>
-        </H.logoSection>
-        <H.inputContainer onClick={inputFocus}>
-          <H.inputBoxContainer>
-            <H.inputBox
-              onChange={valueChange}
-              id="inputBox"
-              mouseOver
-            ></H.inputBox>
-          </H.inputBoxContainer>
-        </H.inputContainer>
-        <H.searchIcon src={search} onClick={searchBtn} />
-        <H.imgContainer>
-          <P.profileImg header onClick={profileClick} src={process.env.REACT_APP_SRC_URL + img} />
-          <H.moreBtn src={moreButton} onClick={profileClick} />
-        </H.imgContainer>
-        <H.menuBox id="menu" style={{ display: "none" }}>
-          <P.profileImg menu src={process.env.REACT_APP_SRC_URL + img} />
-          <H.textContainer>
-            <H.menuText name>{name}</H.menuText>
-            <H.menuText email>{email}</H.menuText>
-            <H.menuText setting onClick={setting}>
-              계정 설정
-            </H.menuText>
-            <H.menuText logout onClick={onLogout}>
-              로그아웃
-            </H.menuText>
-          </H.textContainer>
-        </H.menuBox>
-      </H.HeaderContainer>
-      <T.listenSection>
-        {users.map((user) => (
-          <Users
-            id={user.id}
-            email={user.email}
-            img={user.img}
-            nickname={user.nickname}
-            listening={user.listening}
-            listener={user.listener}
-            isListening={user.isListening}
-          />
+      <H.OutHeader>
+        <H.HeaderContainer>
+          <H.logoSection>
+            <H.logoImg src={yallyLogo} onClick={onTimeline}></H.logoImg>
+          </H.logoSection>
+          <H.inputContainer onClick={inputFocus}>
+            <H.inputBoxContainer>
+              <H.inputBox
+                isSearch={isSearch}
+                onChange={valueChange}
+                id="inputBox"
+                mouseOver
+              ></H.inputBox>
+            </H.inputBoxContainer>
+          </H.inputContainer>
+          <H.searchIcon src={search} onClick={searchBtn} />
+          <H.imgContainer>
+            <P.profileImg
+              header
+              onClick={profileClick}
+              src={
+                "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/" + img
+              }
+            />
+            <H.moreBtn src={moreButton} onClick={profileClick} />
+          </H.imgContainer>
+          <H.menuBox id="menu" style={{ display: "none" }}>
+            <P.profileImg
+              menu
+              src={
+                "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/" + img
+              }
+            />
+            <H.textContainer>
+              <H.menuText name>{name}</H.menuText>
+              <H.menuText email>{email}</H.menuText>
+              <H.menuText setting onClick={setting}>
+                계정 설정
+              </H.menuText>
+              <H.menuText logout onClick={onLogout}>
+                로그아웃
+              </H.menuText>
+            </H.textContainer>
+          </H.menuBox>
+        </H.HeaderContainer>
+        <T.listenSection>
+          {users.map((user) => (
+            <Users
+              id={user.id}
+              email={user.email}
+              img={user.img}
+              nickname={user.nickname}
+              listening={user.listening}
+              listener={user.listener}
+              isListening={user.isListening}
+            />
+          ))}
+        </T.listenSection>
+        {posts.map((post) => (
+          <PostItem
+            email={post.user.email}
+            key={post.id}
+            id={post.id}
+            content={post.content}
+            sound={post.sound}
+            date={post.createdAt}
+            nickname={post.user.nickname}
+            userImg={post.user.img}
+            audioImg={post.img}
+            isComment={post.comment}
+            isYally={post.isYally}
+            yallyNum={post.yally}
+            isMine={post.isMine}
+          ></PostItem>
         ))}
-      </T.listenSection>
-      {posts.map((post) => (
-        <PostItem
-          email={post.user.email}
-          key={post.id}
-          id={post.id}
-          content={post.content}
-          sound={post.sound}
-          date={post.createdAt}
-          nickname={post.user.nickname}
-          userImg={post.user.img}
-          audioImg={post.img}
-          isComment={post.comment}
-          isYally={post.isYally}
-          yallyNum={post.yally}
-          isMine={post.isMine}
-        ></PostItem>
-      ))}
-    </H.OutHeader>
+      </H.OutHeader>
     </H.container>
   );
 };
