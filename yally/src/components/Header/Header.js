@@ -140,19 +140,12 @@ const Header = () => {
             <P.profileImg
               header
               onClick={profileClick}
-              src={
-                "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/" + img
-              }
+              src={process.env.REACT_APP_BASE_URL + img}
             />
             <H.moreBtn src={moreButton} onClick={profileClick} />
           </H.imgContainer>
           <H.menuBox id="menu" style={{ display: "none" }}>
-            <P.profileImg
-              menu
-              src={
-                "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/" + img
-              }
-            />
+            <P.profileImg menu src={process.env.REACT_APP_BASE_URL + img} />
             <H.textContainer>
               <H.menuText name>{name}</H.menuText>
               <H.menuText email>{email}</H.menuText>
