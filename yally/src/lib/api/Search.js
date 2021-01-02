@@ -6,8 +6,6 @@ export const hashTagSearch = (values, page) => {
   );
 };
 
-export const userNameSearch = (values, page) => {
-  return getClientBearerAccessToken.get(
-    `/search/user?nickname=${values}&page=${page}`
-  );
+export const userNameSearch = (values) => {
+  return getClientBearerAccessToken.get(`/search/user?nickname=${values}`);
 };
