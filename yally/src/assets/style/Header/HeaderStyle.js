@@ -34,7 +34,10 @@ export const inputBox = styled.input.attrs({
   type: "text",
   placeholder: "검색어를 입력하세요",
 })`
-  visibility: hidden;
+  visibility: ${(props) => {
+    if (props.search) return "visible";
+    else return "hidden";
+  }};
   background: none;
   width: 15.63rem;
   height: 1.438rem;
@@ -105,6 +108,6 @@ export const menuText = styled.p`
 `;
 
 export const container = styled.div`
-  display : flex;
-  justify-content : center;
+  display: flex;
+  justify-content: center;
 `;
