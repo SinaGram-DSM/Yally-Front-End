@@ -13,7 +13,7 @@ const Profile = () => {
   const email = emailSplit[2];
   const history = useHistory();
   let [name, setName] = useState("");
-
+  let [isPost, setIsPost] = useState(true);
   let [data, setData] = useState({
     img: "",
     listening: 0,
@@ -39,31 +39,36 @@ const Profile = () => {
         setTimeLine(timeLine.concat(timeLine));
         setPage((state) => state + 1);
         setIsLoading(false);
-        console.log(page);
       }, 500);
     }
   }, [isLoading]);
 
   useEffect(() => {
-    console.log(email);
-    getProfile(email).then((res) => {
-      setData({
-        ...data,
-        img: res.data.image,
-        listening: res.data.listening,
-        listener: res.data.listener,
+    getProfile(email)
+      .then((res) => {
+        setData({
+          ...data,
+          img: res.data.image,
+          listening: res.data.listening,
+          listener: res.data.listener,
+        });
+
+        setName(res.data.nickname);
+      })
+      .catch(() => {
+        ErrorToast("프로필을 불러오는데 실패하였습니다.");
       });
 
-      setName(res.data.nickname);
-    }).catch(() => {
-      ErrorToast("프로필을 불러오는데 실패하였습니다.");
-    });
-
-    getMypage(email, page).then((res) => {
-      setTimeLine(res.data.posts);
-    }).catch(() => {
-      ErrorToast("프로필을 불러오는데 실패하였습니다.");
-    })
+    getMypage(email, page)
+      .then((res) => {
+        if (res.data.posts.length == 0) {
+          setIsPost(false);
+        }
+        setTimeLine(res.data.posts);
+      })
+      .catch(() => {
+        ErrorToast("프로필을 불러오는데 실패하였습니다.");
+      });
     window.addEventListener("scroll", infiniteScroll);
     return () => window.removeEventListener("scroll", infiniteScroll);
   }, [infiniteScroll]);
@@ -81,7 +86,10 @@ const Profile = () => {
       <S.mainContainer profile>
         <S.mainSection profile>
           <S.writerInfoBox profile>
-            <S.profileImg profile src={process.env.REACT_APP_SRC_URL + data.img}></S.profileImg>
+            <S.profileImg
+              profile
+              src={process.env.REACT_APP_BASE_URL + data.img}
+            ></S.profileImg>
             <M.ProfileData>
               <M.UserName>{name}</M.UserName>
               <M.Email>({email})</M.Email>
@@ -97,6 +105,13 @@ const Profile = () => {
           </S.writerInfoBox>
         </S.mainSection>
       </S.mainContainer>
+      {isPost ? (
+        <></>
+      ) : (
+        <M.NullBox>
+          <M.NullText>아직 작성한 글이 없습니다.</M.NullText>
+        </M.NullBox>
+      )}
       {timeLine.map((feed) => (
         <PostItem
           key={feed.id}
