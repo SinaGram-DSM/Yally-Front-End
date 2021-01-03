@@ -82,6 +82,7 @@ export const writerInput = styled.input`
   border: none;
   font-size: ${(props) => (props.comment ? "1.188rem" : "1.563rem")};
   font-weight: 300;
+  outline : none;
 `;
 
 export const profileImg = styled.img`
