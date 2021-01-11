@@ -65,44 +65,46 @@ const Setting = () => {
   };
   return (
     <>
-    <Header />
-    <M.mainContainer>
-      <P.settingContainer>
-        <P.settingSection>
-          <P.topSection>
-            <P.title>Account Setting</P.title>
-            <P.headerBorder></P.headerBorder>
-          </P.topSection>
-          <P.profileSection>
-            <P.imgForm>
-              <P.imgInput id="input-img" onChange={imgChange}></P.imgInput>
-            </P.imgForm>
-            <P.imgChange>
-              <P.imgBox>
-                <P.profileChange src={profileEdit} />
-                {file !== "" ? (
-                  <P.profileImge src={image} />
-                ) : (
-                  <P.profileImge src={process.env.REACT_APP_SRC_URL + location.state.img} />
-                )}
-              </P.imgBox>
-            </P.imgChange>
-          </P.profileSection>
-          <P.nameBox>
-            <P.nickname
-              id="nick"
-              onFocus={inputReset}
-              onChange={valueChange}
-              value={nickname}
-            />
-          </P.nameBox>
-          <P.settingBtn id="complete" onClick={imgSetting}>
-            완료
-          </P.settingBtn>
-          <P.backPage onClick={pageBack}>이전 페이지로 돌아가기</P.backPage>
-        </P.settingSection>
-      </P.settingContainer>
-    </M.mainContainer>
+      <Header />
+      <M.mainContainer>
+        <P.settingContainer>
+          <P.settingSection>
+            <P.topSection>
+              <P.title>Account Setting</P.title>
+              <P.headerBorder></P.headerBorder>
+            </P.topSection>
+            <P.profileSection>
+              <P.imgForm>
+                <P.imgInput id="input-img" onChange={imgChange}></P.imgInput>
+              </P.imgForm>
+              <P.imgChange>
+                <P.imgBox>
+                  <P.profileChange src={profileEdit} />
+                  {file !== "" ? (
+                    <P.profileImge src={image} />
+                  ) : (
+                    <P.profileImge
+                      src={process.env.REACT_APP_BASE_URL + location.state.img}
+                    />
+                  )}
+                </P.imgBox>
+              </P.imgChange>
+            </P.profileSection>
+            <P.nameBox>
+              <P.nickname
+                id="nick"
+                onFocus={inputReset}
+                onChange={valueChange}
+                value={nickname}
+              />
+            </P.nameBox>
+            <P.settingBtn id="complete" onClick={imgSetting}>
+              완료
+            </P.settingBtn>
+            <P.backPage onClick={pageBack}>이전 페이지로 돌아가기</P.backPage>
+          </P.settingSection>
+        </P.settingContainer>
+      </M.mainContainer>
     </>
   );
 };

@@ -42,6 +42,7 @@ const PostItem = ({email, id, date, nickname, isYally, yallyNum, isComment, cont
     }
     
     const onRemovePost = async () => {
+        if(!window.confirm(`게시물을 삭제하시겠습니까?`)) return
         await deletePost(id)
         setTimeout(function() {
             window.location.reload();
@@ -55,10 +56,10 @@ const PostItem = ({email, id, date, nickname, isYally, yallyNum, isComment, cont
         // window.scrollTo({top:0, left:0, behavior:'smooth'});
     }
 
-    let createdDate = date.split('-');
-    let day = createdDate[2];
-    day = day.split(' ')
-    createdDate = createdDate[0] + "년 " + createdDate[1] + "월 " +  day[0] + "일";
+    // let createdDate = date.split('-');
+    // let day = createdDate[2];
+    // day = day.split(' ')
+    // createdDate = createdDate[0] + "년 " + createdDate[1] + "월 " +  day[0] + "일";
     
     return (
         <S.mainContainer>
@@ -75,7 +76,7 @@ const PostItem = ({email, id, date, nickname, isYally, yallyNum, isComment, cont
                     <P.postInfoBox>
                         <P.div>
                         <P.postNameInfo>{nickname}</P.postNameInfo>
-                        <P.postDateInfo>{createdDate}</P.postDateInfo>
+                        <P.postDateInfo>{date}</P.postDateInfo>
                         </P.div>
                         <P.Icon delete src={deleteIcon} style={{display : isMine? "" : "none"}} onClick={onRemovePost}></P.Icon>
                         {/* <Modal text="게시물을 삭제하시겠습니까?" src={deleteIcon} ></Modal> */}
