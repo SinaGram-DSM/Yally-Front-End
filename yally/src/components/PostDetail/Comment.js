@@ -21,6 +21,7 @@ const Comment = ({
   }
 
   const onRemoveComment = async () => {
+    if(!window.confirm(`댓글을 삭제하시겠습니까?`)) return
     await deleteComment(id);
     setTimeout(function () {
       window.location.reload();
