@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import * as T from "../../assets/style/UserPage/Listen";
 import * as L from "../../assets/style/UserPage/PageStyle";
 import { onUserListening, offUserListening } from "../../lib/api/listen";
-import Header from "../Header/Header";
 
 const Users = ({ email, img, nickname, listening, listener, isListening }) => {
   const url = "https://yally-sinagram.s3.ap-northeast-2.amazonaws.com/";

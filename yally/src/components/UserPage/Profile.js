@@ -61,7 +61,7 @@ const Profile = () => {
 
     getMypage(email, page)
       .then((res) => {
-        if (res.data.posts.length == 0) {
+        if (res.data.posts.length === 0) {
           setIsPost(false);
         }
         setTimeLine(res.data.posts);
@@ -108,9 +108,9 @@ const Profile = () => {
       {isPost ? (
         <></>
       ) : (
-        <M.NullBox>
-          <M.NullText>아직 작성한 글이 없습니다.</M.NullText>
-        </M.NullBox>
+        <div>
+          <p>아직 작성한 글이 없습니다.</p>
+        </div>
       )}
       {timeLine.map((feed) => (
         <PostItem

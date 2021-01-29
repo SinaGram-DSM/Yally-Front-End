@@ -48,7 +48,7 @@ const Header = () => {
         setIsLoading(false);
       }, 500);
     }
-  }, [isLoading, page, posts, users]);
+  }, [isLoading, posts, users]);
 
   useEffect(() => {
     getTimelineInfo().then((res) => {
@@ -86,7 +86,7 @@ const Header = () => {
   const inputFocus = () => {
     let input = document.getElementById("inputBox");
     input.style.visibility = "visible";
-    if (history.location.pathname == `/search`) {
+    if (history.location.pathname === `/search`) {
       setIsSearch(true);
     }
     history.push("/search");
